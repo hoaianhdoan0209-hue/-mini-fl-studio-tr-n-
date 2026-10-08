@@ -224,12 +224,60 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
 .track-label .track-icon{text-indent:0;display:grid;place-items:center}
 @media(max-width:350px){.bottom-nav .nav-btn{font-size:12px}.bottom-nav .nav-btn b{font-size:12px}}
 
+
+/* V0.8: compact tool popover and safe, visible arrangement controls */
+.selected-strip{display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:7px;min-width:0;margin-top:7px;min-height:48px}
+.selected-strip #selectedLabel{min-width:0;font-size:12px;font-weight:700;white-space:nowrap;letter-spacing:0}
+.selected-controls{display:flex;align-items:center;gap:7px;flex-shrink:0}
+.selected-strip #editSelectedBtn{min-height:44px;height:44px;padding:8px 10px;border-radius:11px;font-size:13px;white-space:nowrap}
+.selected-strip #jumpChordBtn{margin:0;width:auto;min-height:44px;height:44px;padding:7px 10px;border-radius:11px;font-size:13px;white-space:nowrap;display:flex;align-items:center}
+.selected-strip .clip-more{position:relative;display:block;width:46px;height:46px;flex:none;margin:0;border:1px solid #48546b;border-radius:11px;background:#293144;z-index:21}
+.selected-strip .clip-more summary{display:grid;place-items:center;width:44px;height:44px;min-height:44px;padding:0;text-align:center;font-size:27px;line-height:1;color:#e9eefa;list-style:none;cursor:pointer}
+.selected-strip .clip-more summary::-webkit-details-marker{display:none}
+.selected-strip .clip-more[open] summary{border:0;color:#b6f780}
+.selected-strip .clip-more .clip-actions{display:none;position:absolute;left:auto;right:-1px;bottom:calc(100% + 9px);width:min(330px,calc(100vw - 40px));padding:9px 2px 1px;border:1px solid #4b6077;border-radius:12px;background:#252f43;box-shadow:0 14px 32px #03060bcb;z-index:30}
+.selected-strip .clip-more[open] .clip-actions{display:block}
+.selected-strip .clip-more .tools-row{margin:3px 7px 8px}
+.selected-strip .clip-more .tools-row button{font-size:12px;min-height:45px}
+.shortcut-chord{margin-top:0}
+.bpm-input button{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none}
+.bpm-input button.holding{background:#4c6548;color:#cfff9b;box-shadow:inset 0 0 0 1px #95ce75}
+@media(max-width:390px){
+  .topbar{min-height:51px;height:51px;padding:5px 13px}
+  .song-info{margin:6px 16px 6px}
+  .song-info textarea{min-height:29px;font-size:19px;margin-top:5px}
+  .transport{margin:0 13px;min-height:60px;padding:5px 9px}
+  .primary-play,.stop-btn,.loop{min-height:49px;height:49px}
+  .measure{margin-top:5px;margin-bottom:5px}
+  main{padding:3px 11px}
+  #arrangeTab{padding:11px 9px}
+  #arrangeTab .section-head{margin-bottom:5px}
+  #arrangeTab .track-label,#arrangeTab .track-grid-row{height:39px}
+  #arrangeTab .bar-cell{min-height:39px}
+  #arrangeTab .ruler,#arrangeTab .ruler-empty{height:28px}
+  #arrangeTab .selected-strip{margin-top:4px}
+  #arrangeTab .shortcut-chord{margin-top:0}
+}
+@media(max-width:350px){
+ .selected-strip #selectedLabel{font-size:11px}.selected-controls{gap:5px}.selected-strip #editSelectedBtn{font-size:11px;padding:7px 7px}.selected-strip #jumpChordBtn{font-size:11px;padding:7px 7px}.selected-strip .clip-more{width:44px}.selected-strip .clip-more summary{width:42px}
+ .transport{flex-wrap:nowrap;gap:3px;padding:5px 6px}
+ .transport .tempo{order:0;width:auto;flex:1 1 auto;min-width:0}
+ .transport .primary-play{width:42px;min-height:45px;height:45px}
+ .transport .stop-btn{width:40px;min-height:45px;height:45px}
+ .transport .loop{width:41px;min-height:45px;height:45px;font-size:19px}
+ .transport .bpm-input{gap:2px}
+ .transport .bpm-input button{width:29px;flex-basis:29px;height:38px;min-height:38px}
+ .transport .bpm-input input{width:55px!important;min-width:55px!important;max-width:55px!important;flex-basis:55px!important;font-size:20px}
+ #arrangeTab .track-label,#arrangeTab .track-grid-row{height:35px}
+ #arrangeTab .bar-cell{min-height:35px}
+}
+
 </style>
 </head>
 <body>
 <div id="app">
   <header class="topbar">
-    <div class="identity"><span class="logo">♫</span><span><strong>MINI FL</strong><small>STUDIO WEB <b>V0.7</b></small></span></div>
+    <div class="identity"><span class="logo">♫</span><span><strong>MINI FL</strong><small>STUDIO WEB <b>V0.8</b></small></span></div>
     <div class="header-actions"><button id="newBtn" class="icon-btn" aria-label="Tạo bản nhạc mới" title="Tạo mới"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button id="saveBtn" class="icon-btn" aria-label="Lưu dự án" title="Lưu dự án"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h12l4 4v14H3V3h2zm2 0v7h10V3M7 21v-8h10v8"/></svg></button><button id="loadBtn" class="icon-btn" aria-label="Mở dự án" title="Mở dự án"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8h16v-8M12 3v12m-5-5 5 5 5-5"/></svg></button></div>
   </header>
   <div id="startupNotice" class="startup-notice hidden"><strong>Trình duyệt chưa khởi động được</strong><span>Vui lòng tải lại trang bằng Safari hoặc Chrome.</span></div>
@@ -241,7 +289,7 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
 
   <section class="transport">
     <button id="playBtn" class="primary-play" aria-label="Phát"><svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5.5 19 12 9 18.5z"/></svg></button><button id="stopBtn" class="stop-btn" aria-label="Dừng"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="1"/></svg></button>
-    <div class="tempo"><span>BPM</span><div class="bpm-input"><button id="bpmDown" aria-label="Giảm BPM">−</button><input id="bpm" type="number" min="40" max="240" value="105" inputmode="numeric" /><button id="bpmUp" aria-label="Tăng BPM">+</button></div></div>
+    <div class="tempo"><span>BPM</span><div class="bpm-input"><button id="bpmDown" aria-label="Giảm BPM 1 đơn vị; giữ để giảm liên tục">−</button><input id="bpm" type="number" min="40" max="240" value="105" inputmode="numeric" /><button id="bpmUp" aria-label="Tăng BPM 1 đơn vị; giữ để tăng liên tục">+</button></div></div>
     <button id="loopBtn" class="loop active" aria-label="Lặp lại">⟳<small>LOOP</small></button>
   </section>
 
@@ -251,15 +299,19 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
     <section id="arrangeTab" class="workspace">
       <div class="section-head"><div><span class="eyebrow">01 / ARRANGEMENT</span><h2>Bản phối</h2></div><span class="hint" id="arrangeHint">Chạm ô nhạc để chọn</span></div>
       <div class="arrangement" id="arrangement"><div id="trackLabels" class="track-labels"></div><div class="arrange-viewport" id="arrangeViewport"><div id="ruler" class="ruler"></div><div id="arrangeGrid"></div></div></div>
-      <div class="selected-strip"><span id="selectedLabel">PIANO · Ô 01</span><button id="editSelectedBtn">✎ Sửa nốt  →</button></div>
-      <button id="jumpChordBtn" class="shortcut-chord">♫ Chèn hợp âm <span>→</span></button>
-      <details class="clip-more"><summary>⋯ Sửa ô / Xóa tất cả <span aria-hidden="true" class="details-chevron">⌄</span></summary>
-        <div class="clip-actions">
-        <div class="touch-help">Chạm để chọn ô · Vuốt ngang để xem nhịp khác.</div>
-        <div class="tools-row"><button id="copyBtn">⧉ Sao chép</button><button id="pasteBtn">↧ Dán ô</button><button id="clearBtn">✕ Xóa ô</button></div>
-        <button id="clearAllBtn" class="clear-all-btn" type="button" aria-label="Xóa toàn bộ nốt nhạc trên cả 5 track">✕ Xóa toàn bộ 5 track <span>Không xóa tên bài hoặc BPM</span></button>
+      <div class="selected-strip">
+        <span id="selectedLabel">PIANO · Ô 01</span>
+        <div class="selected-controls">
+          <button id="jumpChordBtn" class="shortcut-chord">♫ Hợp âm</button>
+          <button id="editSelectedBtn">✎ Nốt</button>
+          <details class="clip-more"><summary aria-label="Mở công cụ sửa, xóa ô và xóa toàn bộ" title="Sửa / Xóa" role="button">⋯</summary>
+            <div class="clip-actions">
+              <div class="tools-row"><button id="copyBtn">⧉ Sao chép</button><button id="pasteBtn">↧ Dán ô</button><button id="clearBtn">✕ Xóa ô</button></div>
+              <button id="clearAllBtn" class="clear-all-btn" type="button" aria-label="Xóa toàn bộ nốt nhạc trên cả 5 track">✕ Xóa toàn bộ 5 track <span>Giữ tên bài và BPM</span></button>
+            </div>
+          </details>
         </div>
-      </details>
+      </div>
     </section>
 
     <section id="pianoTab" class="workspace hidden">
@@ -283,7 +335,7 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
     </section>
 
     <button class="export" id="exportBtn"><span>↧</span><div><b>XUẤT NHẠC WAV</b><small>Âm thanh PCM · Phát được trên điện thoại</small></div><strong>→</strong></button>
-    <div class="footer">MINI FL STUDIO  V0.7 · OFFLINE · PHÁT ÂM THANH THẬT</div>
+    <div class="footer">MINI FL STUDIO  V0.8 · OFFLINE · PHÁT ÂM THANH THẬT</div>
     </section>
   </main>
   <nav class="bottom-nav" aria-label="Điều hướng"><button class="nav-btn selected" data-tab="arrange"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="1.8"/><path d="M3.5 9.3h17M3.5 14.7h17M9.2 4v16M14.8 4v16"/></svg><b>Bản phối</b></button><button class="nav-btn" data-tab="piano"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5.5l11-2V16"/><path d="M9 8.5l11-2"/><ellipse cx="6.2" cy="18.3" rx="3.3" ry="2.2" transform="rotate(-18 6.2 18.3)"/><ellipse cx="17.2" cy="16.2" rx="3.3" ry="2.2" transform="rotate(-18 17.2 16.2)"/></svg><b>Piano Roll</b></button><button class="nav-btn" data-tab="tools"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16M4 12h16"/><circle cx="9" cy="7" r="2.3"/><circle cx="16" cy="12" r="2.3"/><circle cx="10" cy="17" r="2.3"/></svg><b>Công cụ</b></button></nav>
@@ -420,7 +472,7 @@ function updateRollPitch(p){
     el.style.left=`${n.step*40+2}px`;el.style.width=`${Math.max(6,n.length*40-3)}px`;cells.appendChild(el);
   }
 }
-function selectTab(name){if(!['arrange','piano','tools'].includes(name))name='arrange';activeTab=name;document.body.dataset.activeTab=name;
+function selectTab(name){document.querySelector('.clip-more')?.removeAttribute('open');if(!['arrange','piano','tools'].includes(name))name='arrange';activeTab=name;document.body.dataset.activeTab=name;
   for(const t of ['arrange','piano','tools']){$(t==='arrange'?'arrangeTab':t==='piano'?'pianoTab':'toolsTab').classList.toggle('hidden',t!==name);}
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('selected',b.dataset.tab===name));if(name==='piano')renderRoll();window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -506,6 +558,7 @@ function init(){
   document.body.dataset.activeTab='arrange';updateMeta();renderArrangement();renderChordPreview();
   document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>selectTab(b.dataset.tab)));
   $('editSelectedBtn').addEventListener('click',()=>selectTab('piano'));
+  document.addEventListener('pointerdown',e=>{const menu=document.querySelector('.clip-more');if(menu?.open&&!menu.contains(e.target))menu.open=false;});
   $('backToArrange').addEventListener('click',()=>selectTab('arrange'));
   $('rollTrack').addEventListener('change',e=>{track=Number(e.target.value);renderRoll();renderArrangement();updateSelected();});
   $('prevBar').addEventListener('click',()=>{bar=(bar+15)%16;renderRoll();renderArrangement();});
@@ -528,8 +581,34 @@ function init(){
   });
   $('playBtn').addEventListener('click',()=>playing?stopPlaying():startPlaying());$('stopBtn').addEventListener('click',stopPlaying);
   $('loopBtn').addEventListener('click',()=>{loop=!loop;$('loopBtn').classList.toggle('active',loop);toast(loop?'Đã bật phát lặp':'Đã tắt phát lặp');});
-  const changeBpm=v=>{const n=Math.min(240,Math.max(40,Math.round(Number(v)||120)));song.bpm=n;$('bpm').value=n;autoSave();if(playing)startPlaying();};
-  $('bpmDown').addEventListener('click',()=>changeBpm(song.bpm-5));$('bpmUp').addEventListener('click',()=>changeBpm(song.bpm+5));$('bpm').addEventListener('change',e=>changeBpm(e.target.value));
+  const changeBpm=(v,restart=true)=>{const n=Math.min(240,Math.max(40,Math.round(Number(v)||120)));if(n===song.bpm){$('bpm').value=n;return false;}song.bpm=n;$('bpm').value=n;autoSave();if(restart&&playing)startPlaying();return true;};
+  // One BPM on press; after 380ms, repeat while pressed. Stop immediately on release or interruption.
+  const attachBpmHold=(id,delta)=>{
+    const button=$(id);let holdDelay=null,repeat=null,changedDuringPress=false,activePointer=null;
+    const endPress=()=>{
+      if(holdDelay!==null)clearTimeout(holdDelay);if(repeat!==null)clearInterval(repeat);
+      holdDelay=null;repeat=null;activePointer=null;button.classList.remove('holding');
+      if(changedDuringPress&&playing)startPlaying();changedDuringPress=false;
+    };
+    button.addEventListener('pointerdown',e=>{
+      if(e.button!==undefined&&e.button!==0)return;
+      endPress();e.preventDefault();activePointer=e.pointerId;
+      try{button.setPointerCapture(e.pointerId);}catch(_){}
+      changedDuringPress=changeBpm(song.bpm+delta,false);
+      holdDelay=setTimeout(()=>{
+        if(activePointer===null)return;
+        button.classList.add('holding');
+        repeat=setInterval(()=>{changedDuringPress=changeBpm(song.bpm+delta,false)||changedDuringPress;},75);
+      },380);
+    });
+    for(const eventName of ['pointerup','pointercancel','lostpointercapture'])button.addEventListener(eventName,endPress);
+    button.addEventListener('click',e=>{if(e.detail===0)changeBpm(song.bpm+delta);});
+    button.addEventListener('contextmenu',e=>e.preventDefault());
+    window.addEventListener('blur',endPress);
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)endPress();});
+  };
+  attachBpmHold('bpmDown',-1);attachBpmHold('bpmUp',1);
+  $('bpm').addEventListener('change',e=>changeBpm(e.target.value));
   $('songTitle').addEventListener('input',resizeSongTitle);
   $('songTitle').addEventListener('change',e=>{song.title=e.target.value.trim().replace(/\s+/g,' ').slice(0,80)||'Bản nhạc mới';e.target.value=song.title;resizeSongTitle();autoSave();});
   $('jumpChordBtn').addEventListener('click',()=>selectTab('tools'));
