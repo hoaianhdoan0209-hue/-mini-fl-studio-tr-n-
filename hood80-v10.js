@@ -47,7 +47,7 @@ function makeBeatText(){
     else if(sec==='build')pattern='1:'+BASS[i]+'(8),11:'+BASS[i]+'(2)';
     else if(sec==='verse2'&&q<4)pattern='1:'+BASS[i]+'(8),11:'+FIFTH[i]+'(2),15:'+BASS[i]+'(2)';
     else if(sec==='hook'||sec==='final')pattern='1:'+BASS[i]+'(4),6:'+BASS[i]+'(2),10:'+FIFTH[i]+'(2),13:'+BASS[i]+'(2)';
-    else pattern='1:'+BASS[i]+'(6),8:'+BASS[i]+'(2),11:'+FIFTH[i]+'(2),14:'+BASS[i]+'(2)';
+    else pattern='1:'+BASS[i]+'(4),6:'+BASS[i]+'(2),8:'+BASS[i]+'(2),11:'+FIFTH[i]+'(2),14:'+BASS[i]+'(2)';
     if(i===3&&(sec==='hook'||sec==='final'||q===7)){
       pattern += ',15:E2(2)>F2';
     }
