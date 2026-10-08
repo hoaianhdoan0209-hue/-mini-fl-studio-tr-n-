@@ -191,12 +191,31 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
 @media(max-width:390px){.transport{gap:4px;padding:8px}.transport .primary-play{width:46px;flex-basis:46px}.transport .stop-btn{width:41px;flex-basis:41px}.transport .loop{width:42px;flex-basis:42px}.bpm-input{gap:2px}.bpm-input button{width:32px;flex-basis:32px}.bpm-input input,.transport .bpm-input input{width:74px!important;min-width:74px!important;max-width:74px!important;flex-basis:74px}}
 @media(max-width:345px){.transport{flex-wrap:wrap;justify-content:space-between}.tempo{order:3;width:100%;flex:1 0 100%}.bpm-input{gap:8px}.bpm-input button{width:45px;flex-basis:45px}.bpm-input input,.transport .bpm-input input{width:88px!important;min-width:88px!important;max-width:88px!important;flex-basis:88px}.tool-workspace .panel-heading h2{font-size:16px}.bottom-nav .nav-btn{font-size:10px}}
 
+
+/* V0.6: tiny optical icon-centering improvement + clear-all affordance */
+.identity .logo{position:relative;text-indent:-2px}
+.header-actions .icon-btn svg{position:relative;left:-1px}
+.bottom-nav .nav-btn span{position:relative;left:-2px}
+.track-label .track-icon{position:relative;text-indent:-1px}
+.clip-more{position:relative;z-index:15}
+.clip-more summary{justify-content:space-between;gap:8px}
+.details-chevron{font-size:18px;line-height:1;color:#9eabc0;transition:transform .15s}
+.clip-more[open] .details-chevron{transform:rotate(180deg)}
+.clip-more .clip-actions{display:none;position:absolute;left:-1px;bottom:calc(100% + 7px);width:calc(100% + 2px);padding:8px 0 4px;border:1px solid #47546a;border-radius:12px;background:#232d3f;box-shadow:0 13px 32px #03060bc2;z-index:25}
+.clip-more[open] .clip-actions{display:block}
+.clip-more .clip-actions .touch-help{display:none}
+.clip-more .tools-row{margin:7px 8px 8px;gap:5px}
+.clip-more .tools-row button{font-size:12px;padding:6px 4px}
+.clear-all-btn{width:calc(100% - 16px);margin:0 8px 9px;border:1px solid #935960;background:#3b2933;color:#ffd6d6;border-radius:10px;min-height:50px;font-size:14px;font-weight:800;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left}
+.clear-all-btn span{font-size:10px;line-height:1.3;font-weight:550;color:#f2b8bc;text-align:right;max-width:120px}
+@media(max-width:350px){.clear-all-btn{font-size:12px}.clear-all-btn span{font-size:10px;max-width:100px}}
+
 </style>
 </head>
 <body>
 <div id="app">
   <header class="topbar">
-    <div class="identity"><span class="logo">♫</span><span><strong>MINI FL</strong><small>STUDIO WEB <b>V0.5</b></small></span></div>
+    <div class="identity"><span class="logo">♫</span><span><strong>MINI FL</strong><small>STUDIO WEB <b>V0.6</b></small></span></div>
     <div class="header-actions"><button id="newBtn" class="icon-btn" aria-label="Tạo bản nhạc mới" title="Tạo mới"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button id="saveBtn" class="icon-btn" aria-label="Lưu dự án" title="Lưu dự án"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h12l4 4v14H3V3h2zm2 0v7h10V3M7 21v-8h10v8"/></svg></button><button id="loadBtn" class="icon-btn" aria-label="Mở dự án" title="Mở dự án"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8h16v-8M12 3v12m-5-5 5 5 5-5"/></svg></button></div>
   </header>
   <div id="startupNotice" class="startup-notice hidden"><strong>Trình duyệt chưa khởi động được</strong><span>Vui lòng tải lại trang bằng Safari hoặc Chrome.</span></div>
@@ -220,9 +239,12 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
       <div class="arrangement" id="arrangement"><div id="trackLabels" class="track-labels"></div><div class="arrange-viewport" id="arrangeViewport"><div id="ruler" class="ruler"></div><div id="arrangeGrid"></div></div></div>
       <div class="selected-strip"><span id="selectedLabel">PIANO · Ô 01</span><button id="editSelectedBtn">✎ Sửa nốt  →</button></div>
       <button id="jumpChordBtn" class="shortcut-chord">♫ Chèn hợp âm <span>→</span></button>
-      <details class="clip-more"><summary>⋯ Sao chép / Dán / Xóa ô</summary>
+      <details class="clip-more"><summary>⋯ Sửa ô / Xóa tất cả <span aria-hidden="true" class="details-chevron">⌄</span></summary>
+        <div class="clip-actions">
         <div class="touch-help">Chạm để chọn ô · Vuốt ngang để xem nhịp khác.</div>
         <div class="tools-row"><button id="copyBtn">⧉ Sao chép</button><button id="pasteBtn">↧ Dán ô</button><button id="clearBtn">✕ Xóa ô</button></div>
+        <button id="clearAllBtn" class="clear-all-btn" type="button" aria-label="Xóa toàn bộ nốt nhạc trên cả 5 track">✕ Xóa toàn bộ 5 track <span>Không xóa tên bài hoặc BPM</span></button>
+        </div>
       </details>
     </section>
 
@@ -254,7 +276,7 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
     </section>
 
     <button class="export" id="exportBtn"><span>↧</span><div><b>XUẤT NHẠC WAV</b><small>Âm thanh PCM · Phát được trên điện thoại</small></div><strong>→</strong></button>
-    <div class="footer">MINI FL STUDIO  V0.5 · OFFLINE · PHÁT ÂM THANH THẬT</div>
+    <div class="footer">MINI FL STUDIO  V0.6 · OFFLINE · PHÁT ÂM THANH THẬT</div>
     </section>
   </main>
   <nav class="bottom-nav" aria-label="Điều hướng"><button class="nav-btn selected" data-tab="arrange"><span>▦</span><b>Bản phối</b></button><button class="nav-btn" data-tab="piano"><span>♫</span><b>Piano Roll</b></button><button class="nav-btn" data-tab="keys"><span>♩</span><b>Phím đàn</b></button><button class="nav-btn" data-tab="tools"><span>♫</span><b>Công cụ</b></button></nav>
@@ -502,6 +524,15 @@ function init(){
   $('copyBtn').addEventListener('click',()=>{clipboard=clone(clip());toast('Đã sao chép ô nhạc');});
   $('pasteBtn').addEventListener('click',()=>{if(!clipboard){toast('Hãy sao chép một ô trước');return;}song.clips[String(track)][String(bar)]=clone(clipboard);changed('Đã dán ô nhạc');});
   $('clearBtn').addEventListener('click',()=>{if(clip().length&&!confirm(`Xóa các nốt trong ${TRACKS[track].name}, ô ${bar+1}?`))return;delete song.clips[String(track)][String(bar)];changed('Đã xóa ô nhạc');});
+  $('clearAllBtn').addEventListener('click',()=>{
+    const total=Object.values(song.clips).reduce((count,bars)=>count+Object.values(bars).reduce((n,notes)=>n+notes.length,0),0);
+    if(total===0){toast('Bản phối hiện đang trống');return;}
+    if(!confirm(`XÓA TOÀN BỘ ${total} NỐT trên cả 5 track và 16 ô nhạc?\n\nTên bài và BPM được giữ nguyên. Việc xóa sẽ được tự lưu, không thể hoàn tác.`))return;
+    stopPlaying();
+    song.clips=Object.fromEntries(TRACKS.map((_,i)=>[String(i),{}]));
+    document.querySelector('.clip-more').open=false;
+    changed('Đã xóa toàn bộ '+total+' nốt nhạc');
+  });
   $('playBtn').addEventListener('click',()=>playing?stopPlaying():startPlaying());$('stopBtn').addEventListener('click',stopPlaying);
   $('loopBtn').addEventListener('click',()=>{loop=!loop;$('loopBtn').classList.toggle('active',loop);toast(loop?'Đã bật phát lặp':'Đã tắt phát lặp');});
   const changeBpm=v=>{const n=Math.min(240,Math.max(40,Math.round(Number(v)||120)));song.bpm=n;$('bpm').value=n;autoSave();if(playing)startPlaying();};
