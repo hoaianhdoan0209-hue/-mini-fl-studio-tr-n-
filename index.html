@@ -12,6 +12,7 @@
   <link rel="apple-touch-icon" href="icon-180.png" />
   <link rel="icon" type="image/png" href="icon-192.png" />
   <title>Mini FL Studio — Mobile</title>
+  <link rel="stylesheet" href="./beat-v09.css" />
   <style>:root{--bg:#10121a;--panel:#1a1e2a;--panel2:#222637;--line:#303647;--light:#eff2fb;--mute:#8491ad;--accent:#b5f763;--orange:#f5a665;--pink:#ef79ba;--blue:#6fb6ff;--purple:#b393f7;--teal:#62d1b8}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--light);font-family:Inter,Roboto,"Segoe UI",Arial,sans-serif}body{overscroll-behavior-y:contain}button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation}button:active{filter:brightness(1.17);transform:scale(.985)}button:disabled{opacity:.4;cursor:not-allowed}.hidden{display:none!important}#app{max-width:750px;margin:auto;min-height:100vh;padding-bottom:calc(88px + env(safe-area-inset-bottom))}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .topbar{height:65px;display:flex;align-items:center;justify-content:space-between;padding:0 19px;border-bottom:1px solid #272b39}.identity{display:flex;align-items:center;gap:10px}.logo{width:37px;height:37px;display:grid;place-items:center;background:var(--accent);border-radius:11px;color:#111922;font-size:25px;font-weight:900}.identity strong{font-size:17px;letter-spacing:1.5px}.identity small{display:block;font-size:8px;color:var(--mute);letter-spacing:1.7px;margin-top:4px}.identity small b{color:var(--accent);font-weight:500}.header-actions{display:flex;gap:8px}.icon-btn{width:35px;height:35px;border:1px solid #3a4153;border-radius:11px;background:#202432;color:#e4e8f5;font-size:22px;line-height:1}.song-info{margin:19px 19px 13px;display:flex;align-items:center;justify-content:space-between;gap:8px}.eyebrow{color:var(--mute);letter-spacing:1.5px;font-size:9px;font-weight:750}.song-info input{margin-top:7px;display:block;width:100%;min-width:0;background:none;color:#f3f4fa;border:0;outline:0;font-size:20px;font-weight:780;letter-spacing:-.6px}.online-dot{font-size:9px;letter-spacing:1px;color:#9fb4a2;white-space:nowrap}.online-dot i{width:6px;height:6px;display:inline-block;border-radius:100%;background:#aaf480;vertical-align:middle;margin-right:4px}
@@ -278,7 +279,7 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
 <body>
 <div id="app">
   <header class="topbar">
-    <div class="identity"><span class="logo">♫</span><span><strong>MINI FL</strong><small>STUDIO WEB <b>V0.8</b></small></span></div>
+    <div class="identity"><span class="logo">♫</span><span><strong>MINI FL</strong><small>STUDIO WEB <b>V0.9</b></small></span></div>
     <div class="header-actions"><button id="newBtn" class="icon-btn" aria-label="Tạo bản nhạc mới" title="Tạo mới"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button id="saveBtn" class="icon-btn" aria-label="Lưu dự án" title="Lưu dự án"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h12l4 4v14H3V3h2zm2 0v7h10V3M7 21v-8h10v8"/></svg></button><button id="loadBtn" class="icon-btn" aria-label="Mở dự án" title="Mở dự án"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8h16v-8M12 3v12m-5-5 5 5 5-5"/></svg></button></div>
   </header>
   <div id="startupNotice" class="startup-notice hidden"><strong>Trình duyệt chưa khởi động được</strong><span>Vui lòng tải lại trang bằng Safari hoặc Chrome.</span></div>
@@ -336,7 +337,7 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
     </section>
 
     <button class="export" id="exportBtn"><span>↧</span><div><b>XUẤT NHẠC WAV</b><small>Âm thanh PCM · Phát được trên điện thoại</small></div><strong>→</strong></button>
-    <div class="footer">MINI FL STUDIO  V0.8 · OFFLINE · PHÁT ÂM THANH THẬT</div>
+    <div class="footer">MINI FL STUDIO  V0.9 · OFFLINE · PHÁT ÂM THANH THẬT</div>
     </section>
   </main>
   <nav class="bottom-nav" aria-label="Điều hướng"><button class="nav-btn selected" data-tab="arrange"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="1.8"/><path d="M3.5 9.3h17M3.5 14.7h17M9.2 4v16M14.8 4v16"/></svg><b>Bản phối</b></button><button class="nav-btn" data-tab="piano"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5.5l11-2V16"/><path d="M9 8.5l11-2"/><ellipse cx="6.2" cy="18.3" rx="3.3" ry="2.2" transform="rotate(-18 6.2 18.3)"/><ellipse cx="17.2" cy="16.2" rx="3.3" ry="2.2" transform="rotate(-18 17.2 16.2)"/></svg><b>Piano Roll</b></button><button class="nav-btn" data-tab="tools"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16M4 12h16"/><circle cx="9" cy="7" r="2.3"/><circle cx="16" cy="12" r="2.3"/><circle cx="10" cy="17" r="2.3"/></svg><b>Công cụ</b></button></nav>
@@ -631,5 +632,6 @@ window.addEventListener('DOMContentLoaded',()=>{try{init();}catch(e){const notic
     });
   }
 </script>
+<script src="./beat-v09.js"></script>
 </body>
 </html>
