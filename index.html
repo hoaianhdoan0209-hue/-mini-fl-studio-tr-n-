@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#11131c" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -42,18 +42,104 @@ main{padding:4px 15px}.workspace,.chord-panel{background:linear-gradient(145deg,
 @media(max-width:390px){.topbar{padding:0 13px}.header-actions{gap:5px}.icon-btn{width:37px;height:39px}.song-info input{font-size:19px}.tempo{min-width:101px}.bpm-input input{font-size:19px;max-width:46px}.bpm-input button{width:30px;height:33px}.transport{padding:10px;gap:6px}.primary-play{width:50px}.stop-btn{width:44px}.loop{width:44px}.track-labels{flex-basis:87px}.track-label,.ruler-empty{padding:0 6px;gap:5px}.track-label .track-icon{width:21px;height:21px}.workspace{padding:13px 10px}.chord-panel{padding:14px 11px}.selected-strip button{padding:9px 10px}}
 @media(min-width:650px){.track-label,.track-grid-row{height:52px}.ruler{grid-template-columns:repeat(16,64px)}.track-grid-row{grid-template-columns:repeat(16,64px)}}
 
+
+/* V0.4 - Optimized for one-hand phone use, legibility and touch targets */
+:root{--mute:#b2c1d6}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-bottom:105px}
+body{overflow-x:hidden}
+button,select,input,textarea{font-family:inherit}
+button{min-height:44px}
+button:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.topbar{min-height:70px;height:auto;padding:12px 16px;gap:10px}
+.identity{min-width:0;gap:9px}
+.identity strong{font-size:17px;letter-spacing:.8px}
+.identity small{font-size:10px;letter-spacing:1px}
+.header-actions{flex-shrink:0;gap:6px}
+.header-actions .icon-btn{width:44px;height:44px;min-width:44px;min-height:44px;border-radius:13px}
+.song-info{display:block;margin:15px 18px 14px}
+.song-meta-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.eyebrow{font-size:11px;letter-spacing:1.1px}
+.online-dot{font-size:10px;letter-spacing:.5px;font-weight:850}
+.song-info textarea{display:block;width:100%;min-height:58px;margin-top:10px;padding:1px 0 0;resize:none;overflow:hidden;background:transparent;border:0;color:#f6f8ff;font-size:clamp(21px,5.7vw,26px);font-weight:820;line-height:1.22;letter-spacing:-.45px;overflow-wrap:anywhere;white-space:pre-wrap;border-radius:0}
+.transport{gap:8px;padding:11px;border-radius:17px}
+.primary-play,.stop-btn{min-height:55px}
+.bpm-input{gap:5px}
+.bpm-input button{width:39px;height:41px;min-height:41px;border-radius:10px;font-size:22px}
+.bpm-input input{font-size:24px;min-width:48px;width:51px;max-width:56px}
+.tempo>span{font-size:11px}
+.loop small{font-size:10px;letter-spacing:.4px}
+.measure span:first-child{font-size:11px;letter-spacing:.1px}
+main{padding:4px 13px}
+.workspace,.chord-panel{padding:16px 12px;border-radius:16px}
+.section-head h2,.panel-heading h2{font-size:21px}
+.hint{font-size:12px;line-height:1.35;max-width:50%}
+.track-labels{flex:0 0 103px}
+.track-label,.ruler-empty{height:56px;font-size:12px;padding:0 7px;gap:7px;white-space:nowrap}
+.track-label .track-icon{width:29px;height:29px;font-size:18px;flex-shrink:0}
+.ruler-empty{height:36px;font-size:11px}
+.ruler{height:36px;grid-template-columns:repeat(16,68px)!important;width:1088px!important}
+.ruler div{font-size:12px}
+.track-grid-row{height:56px;grid-template-columns:repeat(16,68px)!important;width:1088px!important}
+.bar-cell{padding:6px 4px;min-height:56px;touch-action:pan-x;-webkit-tap-highlight-color:rgba(181,247,99,.28)}
+.bar-cell .clip{border-radius:7px}
+.bar-cell .clip span{font-size:10px;letter-spacing:0}
+.selected-strip{gap:10px;font-size:13px;flex-wrap:wrap}
+.selected-strip button{font-size:13px;padding:12px 15px;min-height:49px;border-radius:11px;flex-shrink:0}
+.touch-help{font-size:13px;line-height:1.5;padding:12px;border-radius:11px;color:#c9d6e8}
+.tools-row{gap:7px;margin-top:12px}
+.tools-row button{font-size:12px;min-height:49px;border-radius:10px;font-weight:750;line-height:1.25}
+.shortcut-chord{margin-top:12px;width:100%;display:flex;align-items:center;justify-content:space-between;padding:14px 15px;background:#2e3d30;border:1px solid #6c9360;border-radius:11px;color:#d8ffc4;font-weight:780;font-size:14px;text-align:left}
+.shortcut-chord span{font-size:20px}
+.chord-panel{scroll-margin-top:18px}
+.chord-settings label{font-size:12px;letter-spacing:.3px}
+.chord-settings select,.roll-select select,.roll-controls select,.drum-tools select{font-size:16px;min-height:48px}
+.chord-buttons button,.wide-button{font-size:15px;min-height:52px}
+.chord-preview span:last-child{font-size:13px}
+.drum-tools{flex-wrap:wrap;gap:8px}
+.drum-tools span{font-size:12px;min-width:110px}
+.drum-tools select{width:auto;flex:1;font-size:14px}
+.drum-tools button{font-size:13px;min-height:45px}
+.help{font-size:13px;line-height:1.6}
+.roll-select select,.roll-controls select{min-width:0}
+.roll-controls label{font-size:12px;flex-wrap:wrap}
+.roll-controls select{flex-basis:100%}
+.bar-stepper button{font-size:25px;min-width:44px;min-height:48px}
+.bar-stepper span{font-size:13px}
+.roll-wrap{height:min(52vh,440px)}
+.roll-line{height:34px}
+.roll-top{height:34px;width:max-content;min-width:100%}
+.roll-top>div:first-child,.roll-pitch{width:58px;font-size:11px}
+.roll-ruler{grid-template-columns:repeat(16,40px);min-width:640px}
+.roll-ruler span{font-size:11px;padding-top:10px}
+.roll-cells{grid-template-columns:repeat(16,40px);width:640px}
+.roll-cell{min-height:34px}
+.roll-pitch{font-size:11px}
+.live-keyboard{height:200px}
+.bottom-nav{height:calc(74px + env(safe-area-inset-bottom));padding:5px 9px env(safe-area-inset-bottom);background:#121b2bfa}
+.nav-btn{font-size:13px;gap:3px;border-radius:12px}
+.nav-btn span{font-size:25px;line-height:28px}
+.nav-btn.selected{background:#293d2f;color:#beff89}
+.export b{font-size:16px}
+.export small{font-size:12px}
+.footer{font-size:10px}
+#app{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+@media(max-width:390px){.transport{gap:6px;padding:9px}.primary-play{width:50px;height:54px}.stop-btn{width:43px;height:54px}.loop{width:45px;height:54px}.bpm-input{gap:2px}.bpm-input button{width:35px;height:40px}.bpm-input input{width:44px;min-width:44px;font-size:22px}.track-labels{flex-basis:98px}.track-label{font-size:11px;padding:0 5px}}
+@media(max-width:345px){.song-meta-row{flex-wrap:wrap}.identity small{font-size:9px}.transport{flex-wrap:wrap;justify-content:space-between}.tempo{order:3;flex-basis:100%}.primary-play{width:55px}.stop-btn{width:50px}.loop{width:55px}.bpm-input button{width:45px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}button{transition:none}}
+
 </style>
 </head>
 <body>
 <div id="app">
   <header class="topbar">
-    <div class="identity"><span class="logo">♫</span><span><strong>MINI FL</strong><small>STUDIO WEB <b>V0.3</b></small></span></div>
+    <div class="identity"><span class="logo">♫</span><span><strong>MINI FL</strong><small>STUDIO WEB <b>V0.4</b></small></span></div>
     <div class="header-actions"><button id="newBtn" class="icon-btn" aria-label="Tạo bản nhạc mới" title="Tạo mới"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button id="saveBtn" class="icon-btn" aria-label="Lưu dự án" title="Lưu dự án"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h12l4 4v14H3V3h2zm2 0v7h10V3M7 21v-8h10v8"/></svg></button><button id="loadBtn" class="icon-btn" aria-label="Mở dự án" title="Mở dự án"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8h16v-8M12 3v12m-5-5 5 5 5-5"/></svg></button></div>
   </header>
+  <div id="startupNotice" class="startup-notice hidden"><strong>Trình duyệt chưa khởi động được</strong><span>Vui lòng tải lại trang bằng Safari hoặc Chrome.</span></div>
 
   <section class="song-info">
-    <div><span class="eyebrow">DỰ ÁN HIỆN TẠI</span><input id="songTitle" maxlength="80" value="Những hợp âm đầu tiên" aria-label="Tên bản nhạc" /></div>
-    <span class="online-dot" id="readyStatus"><i></i> CHƯA KHỞI ĐỘNG</span>
+    <div class="song-meta-row"><span class="eyebrow">DỰ ÁN HIỆN TẠI</span><span class="online-dot" id="readyStatus"><i></i> CHƯA KHỞI ĐỘNG</span></div>
+    <textarea id="songTitle" maxlength="80" rows="2" aria-label="Tên bản nhạc">Những hợp âm đầu tiên</textarea>
   </section>
 
   <section class="transport">
@@ -68,9 +154,10 @@ main{padding:4px 15px}.workspace,.chord-panel{background:linear-gradient(145deg,
     <section id="arrangeTab" class="workspace">
       <div class="section-head"><div><span class="eyebrow">01 / ARRANGEMENT</span><h2>Bản phối</h2></div><span class="hint" id="arrangeHint">Chạm ô nhạc để chọn</span></div>
       <div class="arrangement" id="arrangement"><div id="trackLabels" class="track-labels"></div><div class="arrange-viewport" id="arrangeViewport"><div id="ruler" class="ruler"></div><div id="arrangeGrid"></div></div></div>
-      <div class="touch-help">Chạm để chọn đoạn · Vuốt ngang để chuyển ô · Chọn <b>Sửa nốt</b> để chỉnh giai điệu</div>
+      <div class="touch-help">👆 Chạm vào ô để chọn · ↔ Vuốt ngang để xem thêm · Nhấn <b>Sửa nốt</b> để chỉnh nhạc.</div>
       <div class="selected-strip"><span id="selectedLabel">PIANO · Ô 01</span><button id="editSelectedBtn">✎ Sửa nốt  →</button></div>
       <div class="tools-row"><button id="copyBtn">⧉ Sao chép</button><button id="pasteBtn">↧ Dán ô</button><button id="clearBtn">✕ Xóa ô</button></div>
+      <button id="jumpChordBtn" class="shortcut-chord">♫ Chèn hợp âm vào ô đã chọn <span>→</span></button>
     </section>
 
     <section id="pianoTab" class="workspace hidden">
@@ -99,7 +186,7 @@ main{padding:4px 15px}.workspace,.chord-panel{background:linear-gradient(145deg,
     </section>
 
     <button class="export" id="exportBtn"><span>↧</span><div><b>XUẤT NHẠC WAV</b><small>Âm thanh PCM · Phát được trên điện thoại</small></div><strong>→</strong></button>
-    <div class="footer">MINI FL STUDIO  V0.3 · OFFLINE · PHÁT ÂM THANH THẬT</div>
+    <div class="footer">MINI FL STUDIO  V0.4 · OFFLINE · PHÁT ÂM THANH THẬT</div>
   </main>
   <nav class="bottom-nav" aria-label="Điều hướng"><button class="nav-btn selected" data-tab="arrange"><span>▦</span><b>Bản phối</b></button><button class="nav-btn" data-tab="piano"><span>♫</span><b>Piano Roll</b></button><button class="nav-btn" data-tab="keys"><span>♩</span><b>Phím đàn</b></button></nav>
   <input type="file" id="fileInput" accept=".minifl,.json,application/json" class="hidden" />
@@ -179,7 +266,8 @@ function demoSong(){
   }
   track=2;bar=0;
 }
-function updateMeta(){$('songTitle').value=song.title;$('bpm').value=song.bpm;updateSelected();updateClock(0);}
+function resizeSongTitle(){const e=$('songTitle');e.style.height='auto';e.style.height=Math.max(58,e.scrollHeight)+'px';}
+function updateMeta(){$('songTitle').value=song.title;resizeSongTitle();$('bpm').value=song.bpm;updateSelected();updateClock(0);}
 function updateSelected(){$('selectedLabel').textContent=`${TRACKS[track].name} · Ô ${String(bar+1).padStart(2,'0')}`;$('barLabel').textContent=`Ô ${String(bar+1).padStart(2,'0')}`;$('rollTrack').value=String(track);}
 function renderArrangement(){
   const labels=$('trackLabels'),grid=$('arrangeGrid'),savedScroll=$('arrangeViewport').scrollLeft;
@@ -220,18 +308,18 @@ function renderRoll(){
     }
     for(const n of ns.filter(n=>n.pitch===p)){
       const over=document.createElement('div');over.className='roll-note'+(drum?' drum':'');
-      over.style.left=`${n.step*32+2}px`;over.style.width=`${Math.max(6,n.length*32-3)}px`;cells.appendChild(over);
+      over.style.left=`${n.step*40+2}px`;over.style.width=`${Math.max(6,n.length*40-3)}px`;cells.appendChild(over);
     }
     line.appendChild(cells);container.appendChild(line);
   });
-  if(!drum&&oldScroll===0){const start=pitches.indexOf(track===1?48:track===3?72:60);wrap.scrollTop=Math.max(0,start*25-100);}else wrap.scrollTop=oldScroll;wrap.scrollLeft=oldScrollLeft;
+  if(!drum&&oldScroll===0){const start=pitches.indexOf(track===1?48:track===3?72:60);wrap.scrollTop=Math.max(0,start*34-100);}else wrap.scrollTop=oldScroll;wrap.scrollLeft=oldScrollLeft;
 }
 function updateRollPitch(p){
   const all=$('pianoRows');const row=Array.from(all.children).find(e=>Number(e.dataset.pitch)===p);if(!row)return renderRoll();
   const cells=row.querySelector('.roll-cells');cells.querySelectorAll('.roll-note').forEach(el=>el.remove());
   for(const n of clip().filter(n=>n.pitch===p)){
     const el=document.createElement('div');el.className='roll-note'+(track===0?' drum':'');
-    el.style.left=`${n.step*32+2}px`;el.style.width=`${Math.max(6,n.length*32-3)}px`;cells.appendChild(el);
+    el.style.left=`${n.step*40+2}px`;el.style.width=`${Math.max(6,n.length*40-3)}px`;cells.appendChild(el);
   }
 }
 function renderKeyboard(){
@@ -349,16 +437,18 @@ function init(){
   $('loopBtn').addEventListener('click',()=>{loop=!loop;$('loopBtn').classList.toggle('active',loop);toast(loop?'Đã bật phát lặp':'Đã tắt phát lặp');});
   const changeBpm=v=>{const n=Math.min(240,Math.max(40,Math.round(Number(v)||120)));song.bpm=n;$('bpm').value=n;autoSave();if(playing)startPlaying();};
   $('bpmDown').addEventListener('click',()=>changeBpm(song.bpm-5));$('bpmUp').addEventListener('click',()=>changeBpm(song.bpm+5));$('bpm').addEventListener('change',e=>changeBpm(e.target.value));
-  $('songTitle').addEventListener('change',e=>{song.title=e.target.value.trim().slice(0,80)||'Bản nhạc mới';autoSave();});
+  $('songTitle').addEventListener('input',resizeSongTitle);
+  $('songTitle').addEventListener('change',e=>{song.title=e.target.value.trim().replace(/\s+/g,' ').slice(0,80)||'Bản nhạc mới';e.target.value=song.title;resizeSongTitle();autoSave();});
+  $('jumpChordBtn').addEventListener('click',()=>document.querySelector('.chord-panel').scrollIntoView({behavior:'smooth',block:'start'}));
   $('saveBtn').addEventListener('click',fileSave);$('loadBtn').addEventListener('click',openFile);
   $('newBtn').addEventListener('click',()=>{if(!confirm('Tạo bài mới? Bài hiện tại đã được tự lưu trong ứng dụng; nên xuất file .minifl nếu muốn giữ lại.'))return;stopPlaying();song=blank();track=2;bar=0;autoSave();updateMeta();renderArrangement();if(activeTab==='piano')renderRoll();toast('Đã tạo bản nhạc mới');});
   $('fileInput').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;if(f.size>3*1024*1024){toast('File dự án vượt quá 3 MB');return;}receiveImportedProject(await f.text());e.target.value='';});
   $('previewBarBtn').addEventListener('click',previewBar);$('exportBtn').addEventListener('click',exportWav);
-  $('startupNotice').classList.add('hidden');$('readyStatus').classList.add('ready');$('readyStatus').innerHTML='<i></i> SẴN SÀNG';
+  $('startupNotice')?.classList.add('hidden');$('readyStatus').classList.add('ready');$('readyStatus').innerHTML='<i></i> SẴN SÀNG';
   $('arrangeHint').textContent='5 track · 16 ô nhạc';
 }
 
-window.addEventListener('DOMContentLoaded',()=>{try{init();}catch(e){const notice=$('startupNotice');notice.querySelector('strong').textContent='Không thể khởi động bản nhạc';notice.querySelector('span').textContent='Trình duyệt báo lỗi: '+e.message+' — Hãy dùng Chrome/Safari bản mới nhất.';console.error(e);}});
+window.addEventListener('DOMContentLoaded',()=>{try{init();}catch(e){const notice=$('startupNotice');if(!notice){console.error(e);return;}notice.classList.remove('hidden');notice.querySelector('strong').textContent='Không thể khởi động bản nhạc';notice.querySelector('span').textContent='Trình duyệt báo lỗi: '+e.message+' — Hãy dùng Chrome/Safari bản mới nhất.';console.error(e);}});
 </script>
 <script>
   if ('serviceWorker' in navigator) {
