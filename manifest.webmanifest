@@ -1,0 +1,25 @@
+{
+  "name": "Mini FL Studio – Làm nhạc",
+  "short_name": "Mini FL",
+  "description": "Tạo hợp âm và bản nhạc trên điện thoại, hoạt động offline sau lần mở đầu tiên.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#10121a",
+  "theme_color": "#11131c",
+  "lang": "vi",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

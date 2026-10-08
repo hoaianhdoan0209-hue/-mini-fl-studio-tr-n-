@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no" />
+  <meta name="theme-color" content="#11131c" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Mini FL" />
+  <meta name="description" content="Mini FL Studio – làm nhạc, đặt nốt và hợp âm ngay trên điện thoại." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon-180.png" />
+  <link rel="icon" type="image/png" href="icon-192.png" />
+  <title>Mini FL Studio — Mobile</title>
+  <style>:root{--bg:#10121a;--panel:#1a1e2a;--panel2:#222637;--line:#303647;--light:#eff2fb;--mute:#8491ad;--accent:#b5f763;--orange:#f5a665;--pink:#ef79ba;--blue:#6fb6ff;--purple:#b393f7;--teal:#62d1b8}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--light);font-family:Inter,Roboto,"Segoe UI",Arial,sans-serif}body{overscroll-behavior-y:contain}button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation}button:active{filter:brightness(1.17);transform:scale(.985)}button:disabled{opacity:.4;cursor:not-allowed}.hidden{display:none!important}#app{max-width:750px;margin:auto;min-height:100vh;padding-bottom:calc(88px + env(safe-area-inset-bottom))}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.topbar{height:65px;display:flex;align-items:center;justify-content:space-between;padding:0 19px;border-bottom:1px solid #272b39}.identity{display:flex;align-items:center;gap:10px}.logo{width:37px;height:37px;display:grid;place-items:center;background:var(--accent);border-radius:11px;color:#111922;font-size:25px;font-weight:900}.identity strong{font-size:17px;letter-spacing:1.5px}.identity small{display:block;font-size:8px;color:var(--mute);letter-spacing:1.7px;margin-top:4px}.identity small b{color:var(--accent);font-weight:500}.header-actions{display:flex;gap:8px}.icon-btn{width:35px;height:35px;border:1px solid #3a4153;border-radius:11px;background:#202432;color:#e4e8f5;font-size:22px;line-height:1}.song-info{margin:19px 19px 13px;display:flex;align-items:center;justify-content:space-between;gap:8px}.eyebrow{color:var(--mute);letter-spacing:1.5px;font-size:9px;font-weight:750}.song-info input{margin-top:7px;display:block;width:100%;min-width:0;background:none;color:#f3f4fa;border:0;outline:0;font-size:20px;font-weight:780;letter-spacing:-.6px}.online-dot{font-size:9px;letter-spacing:1px;color:#9fb4a2;white-space:nowrap}.online-dot i{width:6px;height:6px;display:inline-block;border-radius:100%;background:#aaf480;vertical-align:middle;margin-right:4px}
+.transport{background:#1c202c;border:1px solid #343949;margin:0 16px;padding:10px;display:flex;align-items:center;gap:9px;border-radius:15px}.primary-play{width:50px;height:50px;flex:none;border:0;background:var(--accent);color:#1b2710;font-size:23px;border-radius:11px}.primary-play.playing{background:#ffb86c}.stop-btn{border:1px solid #454b5b;border-radius:11px;background:#2a2e3e;color:#f7e2e2;font-size:22px;width:42px;height:50px;flex:none}.tempo{flex:1;min-width:0;text-align:center}.tempo>span{color:#929cb5;font-size:9px;letter-spacing:1.5px}.bpm-input{display:flex;justify-content:center;align-items:center;gap:3px;margin-top:4px}.bpm-input input{max-width:50px;min-width:0;border:0;background:transparent;color:white;font-size:21px;font-weight:750;text-align:center;appearance:textfield}.bpm-input input::-webkit-inner-spin-button{display:none}.bpm-input button{width:24px;height:27px;border:0;background:#333849;border-radius:6px;color:#d5def2;font-weight:800}.loop{background:none;color:var(--accent);font-size:24px;border:1px solid #45513d;border-radius:11px;width:49px;height:50px;flex:none}.loop:not(.active){color:#737b8d;border-color:#3a4050}.loop small{display:block;font-size:8px;letter-spacing:1px}.measure{padding:16px 20px 7px;display:flex;justify-content:space-between;color:#8e9ab1;font-size:9px;letter-spacing:1px}.measure span:last-child{color:var(--accent);font-weight:700;font-size:12px;font-variant-numeric:tabular-nums}
+main{padding:5px 16px}.workspace{background:#191d29;border:1px solid #292e3f;border-radius:15px;padding:15px 12px 13px;margin-bottom:15px}.section-head,.panel-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:16px}.section-head h2,.panel-heading h2{font-size:18px;letter-spacing:-.4px;margin:4px 0 0}.hint{color:#7c879d;font-size:10px}.arrangement{display:flex;background:#121622;border:1px solid #31384b;min-height:238px;border-radius:8px;overflow:hidden}.track-labels{flex:0 0 91px;position:relative;z-index:1;background:#1a1f2d;border-right:1px solid #384154}.track-label,.ruler-empty{height:40px;border-bottom:1px solid #303548;display:flex;align-items:center;gap:7px;padding:0 7px;font-size:10px;font-weight:760}.track-label .track-icon{display:grid;place-items:center;width:20px;height:20px;border-radius:6px;color:#1d2230;font-size:13px}.ruler-empty{height:30px;color:#5c687b;font-size:9px}.arrange-viewport{overflow-x:auto;overflow-y:hidden;flex:1;scrollbar-width:thin;scrollbar-color:#53596d #1b2130}.ruler{height:30px;display:grid;grid-template-columns:repeat(16,56px);width:896px}.ruler div{display:grid;place-items:center;font-size:10px;color:#9da5b9;background:#1d2332;border-right:1px solid #31384a}.track-grid-row{display:grid;grid-template-columns:repeat(16,56px);width:896px;height:40px;border-bottom:1px solid #303548}.bar-cell{border:0;border-right:1px solid #343a4c;background:linear-gradient(90deg,#1c2230,#202633);padding:5px 3px;position:relative}.bar-cell.selected-cell{outline:2px solid var(--accent);outline-offset:-2px;z-index:2}.bar-cell .clip{height:100%;width:100%;border-radius:4px;display:grid;align-items:center;overflow:hidden;position:relative}.bar-cell .clip span{font-size:8px;letter-spacing:-.3px;text-align:center;color:#111723;font-weight:800;z-index:1}.bar-cell .clip .clip-stripes{position:absolute;inset:0;opacity:.35;background:repeating-linear-gradient(90deg,transparent 0 5px,#fff 5px 6px)}.bar-cell .plus-placeholder{color:#596578;font-size:16px}.selected-strip{margin-top:12px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#b7c0d2;font-weight:720}.selected-strip button,.back-btn{border:1px solid #3f5041;background:#2d3b2d;color:var(--accent);padding:9px 11px;font-size:10px;border-radius:8px;font-weight:800}.tools-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:11px}.tools-row button{border:1px solid #343b4d;border-radius:8px;background:#252a39;color:#b8c5d8;padding:10px 2px;font-size:10px}
+.chord-panel{background:var(--panel);border:1px solid #303549;border-radius:15px;padding:16px 14px;margin-bottom:15px}.pill{border:1px solid #45533c;color:#b4e58f;background:#293528;font-size:9px;font-weight:850;letter-spacing:1px;padding:7px 9px;border-radius:30px}.chord-settings{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:12px}.chord-settings label{font-size:9px;letter-spacing:1px;color:#92a0b4;display:flex;flex-direction:column;gap:7px;font-weight:700}.chord-settings select,.roll-select select,.roll-controls select,.drum-tools select{background:#272d3e;border:1px solid #414a5f;color:#f0f2fa;border-radius:9px;padding:11px 8px;font-size:13px;min-width:0;width:100%}.chord-preview{border:1px dashed #5a6b4d;background:#222e27;border-radius:11px;padding:12px;display:flex;align-items:center;justify-content:space-between;margin:14px 0;color:#bdf185}.chord-preview span:first-child{font-weight:800;font-size:17px}.chord-preview span:last-child{font-size:10px;color:#aebba5}.chord-buttons{display:grid;grid-template-columns:1fr 1.4fr;gap:9px}.chord-buttons button,.wide-button{padding:14px 8px;border-radius:10px;background:#30374b;border:0;color:#e2e9f7;font-weight:800;font-size:12px}.chord-buttons .accent-button,.wide-button{background:var(--accent);color:#1c2917}.drum-tools{margin-top:16px;padding-top:14px;border-top:1px solid #343949;display:flex;align-items:center;gap:6px}.drum-tools span{font-size:9px;font-weight:850;color:#8995ae;letter-spacing:.4px;flex:1}.drum-tools select{width:90px;padding:8px 2px;font-size:11px}.drum-tools button{padding:9px 10px;border:1px solid #b38157;color:#f5bd8b;border-radius:8px;background:#3a2d2d;font-size:11px;font-weight:800}.export{border:1px solid #516b45;border-radius:14px;background:linear-gradient(105deg,#293b2c,#1d2a29);padding:15px;display:flex;align-items:center;width:100%;gap:15px;text-align:left;color:#e6f9df}.export>span{display:grid;place-items:center;width:43px;height:43px;border-radius:11px;background:#b5f763;color:#1a2712;font-size:27px}.export div{flex:1}.export b{display:block;font-size:14px;letter-spacing:.3px}.export small{display:block;margin-top:5px;color:#a2b49c;font-size:10px}.export strong{font-size:20px;color:#d0ff9a}.footer{text-align:center;font-size:8px;letter-spacing:1.2px;padding:20px 0 8px;color:#5e697e}
+.bottom-nav{height:calc(69px + env(safe-area-inset-bottom));padding:6px 10px env(safe-area-inset-bottom);position:fixed;bottom:0;left:0;right:0;margin:auto;max-width:750px;background:#171b27;border-top:1px solid #373e4f;display:grid;grid-template-columns:repeat(3,1fr);z-index:10}.nav-btn{border:0;background:transparent;color:#8b97a9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10px;font-weight:690}.nav-btn span{font-size:23px;line-height:25px}.nav-btn.selected{color:var(--accent)}
+.roll-select{display:flex;gap:12px;align-items:center;margin-bottom:12px}.roll-select select{flex:1}.bar-stepper{display:flex;align-items:center;gap:4px;background:#2a3040;border-radius:9px}.bar-stepper button{background:transparent;color:#e7eafd;border:0;padding:10px 12px;font-size:20px}.bar-stepper span{white-space:nowrap;font-size:11px;color:#e2e8ef}.roll-controls{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}.roll-controls label{display:flex;align-items:center;gap:6px;color:#939fb7;font-size:10px}.roll-controls select{padding:7px 3px;font-size:10px;flex:1}.roll-wrap{height:335px;overflow:auto;border:1px solid #363d50;border-radius:8px;background:#121622;scrollbar-color:#6e7b93 #222637}.roll-top{display:flex;position:sticky;top:0;z-index:5;height:27px;background:#272d3d}.roll-top>div:first-child{width:52px;flex:none;text-align:center;padding:6px;font-size:11px}.roll-ruler{display:grid;grid-template-columns:repeat(16,32px);min-width:512px}.roll-ruler span{text-align:center;border-left:1px solid #394159;font-size:8px;padding-top:8px;color:#8995a7}.roll-line{display:flex;height:25px;min-width:max-content;border-bottom:1px solid #272e3d}.roll-pitch{width:52px;flex:none;position:sticky;left:0;z-index:2;display:grid;place-items:center;background:#242a38;border-right:1px solid #364057;color:#afb9cd;font-size:10px;font-weight:740}.roll-line.black .roll-pitch{background:#171c28;color:#8290a5}.roll-cells{position:relative;display:grid;grid-template-columns:repeat(16,32px);width:512px}.roll-cell{border:0;border-left:1px solid #374052;background:#192233;padding:0}.roll-cell.beat{border-left:2px solid #5b6477}.roll-line.black .roll-cell{background:#171c2a}.roll-cell:active{background:#4a5c6d}.roll-note{pointer-events:none;position:absolute;top:3px;bottom:3px;border-radius:3px;background:linear-gradient(180deg,#c7fc81,#8dc856);border:1px solid #d1fcab;box-shadow:0 1px 6px #97da7740}.roll-note.drum{background:var(--orange);border-color:#ffc595}.help{font-size:11px;line-height:1.55;color:#99a5bb;margin:12px 0}.wide-button{width:100%}
+.live-keyboard{display:flex;height:180px;position:relative;margin:26px 0 12px;touch-action:manipulation;user-select:none}.key-white{height:100%;flex:1;position:relative;background:linear-gradient(#fff,#d9dce2);border:1px solid #596276;border-radius:0 0 6px 6px;display:flex;align-items:end;justify-content:center;padding-bottom:10px;color:#333a4f;font-size:9px}.key-white:active,.key-white.on{background:#b4ed82}.key-black{position:absolute;top:0;height:59%;width:4.6%;border-radius:0 0 5px 5px;background:linear-gradient(#1d2633,#060912);border:2px solid #101420;z-index:2}.key-black:active,.key-black.on{background:#8dc764}.toast{opacity:0;transform:translate(-50%,20px);pointer-events:none;position:fixed;bottom:90px;left:50%;width:max-content;max-width:90%;background:#e0f4c9;color:#25321f;border-radius:9px;padding:11px 16px;font-size:12px;font-weight:700;z-index:30;transition:opacity .2s,transform .2s;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}.busy{position:fixed;inset:0;z-index:50;background:#10131ddf;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px}.busy>div{font-size:60px;color:var(--accent);animation:rot 1.2s linear infinite}.busy small{color:#9ba9bd}.busy strong{font-size:18px}@keyframes rot{to{transform:rotate(360deg)}}@media(min-width:650px){.arrangement{min-height:250px}.track-labels{flex-basis:125px}.track-label,.track-grid-row{height:44px}.ruler{grid-template-columns:repeat(16,64px);width:1024px}.track-grid-row{grid-template-columns:repeat(16,64px);width:1024px}}
+
+/* V0.2: better touch feedback, bigger targets, natural scrolling */
+html{scroll-behavior:smooth} .bar-cell,.roll-cell{touch-action:manipulation;-webkit-tap-highlight-color:rgba(181,247,99,.24)} .bar-cell:active{background:#394c43} .roll-cell:active{background:#557448!important}.roll-wrap,.arrange-viewport{-webkit-overflow-scrolling:touch;overscroll-behavior:contain} .track-grid-row{contain:layout style} .tools-row button,.selected-strip button,.bar-stepper button,.chord-buttons button{min-height:44px}.nav-btn{min-height:51px} .header-actions .icon-btn{min-width:42px;min-height:42px}.roll-pitch{user-select:none} .touch-help{font-size:11px;line-height:1.5;color:#aab8cc;padding:9px 10px;border-radius:9px;background:#242d3d;margin-top:10px}
+
+/* V0.3 VISUAL SYSTEM */
+:root{--bg:#0e131d;--panel:#1a2130;--panel2:#242c3d;--line:#344056;--light:#f1f5ff;--mute:#9eacc2;--accent:#b5f576;--orange:#f4ab7d;--pink:#f28cba;--blue:#83bdff;--purple:#c0a1ff;--teal:#71d9c2}
+html{scroll-behavior:smooth}body{background:radial-gradient(circle at 50% -20%,#28354b 0%,#121824 37%,#0e131d 66%);-webkit-font-smoothing:antialiased}#app{max-width:760px;padding-bottom:calc(88px + env(safe-area-inset-bottom));min-height:100dvh}
+button{-webkit-tap-highlight-color:transparent;transition:background-color .12s,border-color .12s,transform .09s;user-select:none;-webkit-user-select:none}button:active{transform:scale(.974);filter:brightness(1.13)}
+.topbar{height:75px;padding:0 18px;border-bottom:1px solid #29334a;background:#101724e8}.identity{gap:11px}.logo{height:44px;width:44px;border-radius:14px;font-size:27px;background:linear-gradient(140deg,#c8ff91,#94de55);box-shadow:0 8px 20px #9ef36c1e}.identity strong{font-size:17px;font-weight:900;letter-spacing:1.2px}.identity small{font-size:9px;letter-spacing:1.35px;color:#a7b8d1}.identity small b{font-weight:800;color:var(--accent)}.header-actions{gap:7px}.icon-btn{width:40px;height:40px;border-radius:12px;background:#252f40;border:1px solid #3a455d;display:grid;place-items:center;box-shadow:inset 0 1px #ffffff0c}.icon-btn svg{width:19px;height:19px;fill:none;stroke:#eaf1ff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.startup-notice{margin:15px 17px 0;border-radius:12px;border:1px solid #f0bf6c;background:#3e3425;padding:13px 14px;display:flex;flex-direction:column;gap:6px;color:#ffe3b0;line-height:1.45;font-size:12px}.startup-notice strong{font-size:13px}.startup-notice span{color:#f4ddba}
+.song-info{margin:21px 18px 16px}.song-info>div{flex:1;min-width:0}.song-info input{margin-top:8px;font-size:21px;font-weight:850;letter-spacing:-.5px;text-overflow:ellipsis}.eyebrow{font-size:10px;font-weight:850;letter-spacing:1.4px;color:#98a9c3}.online-dot{color:#ffcd80;font-size:9px;font-weight:800}.online-dot.ready{color:#bcf49a}.online-dot i{background:#ffcd80}.online-dot.ready i{background:#acf178}
+.transport{margin:0 16px;min-height:83px;padding:12px;gap:8px;background:linear-gradient(115deg,#212a3a,#1b2331);border:1px solid #3b4960;border-radius:17px;box-shadow:0 12px 24px #05081124}.primary-play{width:55px;height:55px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(140deg,#cbff92,#9ce55b);box-shadow:0 7px 19px #b4fa6420}.primary-play svg{fill:#1b2817;stroke:none;width:27px;height:27px}.primary-play.playing{background:#ffbf77}.stop-btn{height:55px;width:48px;border-radius:12px;border:1px solid #505c75;background:#323c50;display:grid;place-items:center}.stop-btn svg{width:22px;height:22px;fill:#f2e6eb;stroke:none}.tempo>span{font-size:10px;font-weight:850;color:#adb9ce}.bpm-input{gap:3px;margin-top:4px}.bpm-input input{min-width:38px;max-width:56px;font-size:21px;font-weight:900;font-variant-numeric:tabular-nums}.bpm-input button{width:34px;height:34px;border-radius:9px;background:#354158;color:#f2f5fa;font-size:20px}.loop{height:55px;width:48px;border-radius:12px;font-size:22px;background:#253a2a;border:1px solid #5e7c55;font-weight:750}.loop small{font-size:9px}.loop:not(.active){background:#283143}
+.measure{padding:14px 21px 9px}.measure span:first-child{color:#a6b4c9;font-size:10px;font-weight:650}.measure span:last-child{font-size:12px;color:var(--accent)}
+main{padding:4px 15px}.workspace,.chord-panel{background:linear-gradient(145deg,#1c2434,#171e2c);border:1px solid #344057;border-radius:17px;padding:16px 13px;margin-bottom:14px;box-shadow:0 9px 20px #0000001a}.section-head,.panel-heading{margin-bottom:15px}.section-head h2,.panel-heading h2{font-size:19px;line-height:1.2;margin-top:5px}.hint{font-size:10px;color:#a7b4ca;text-align:right;line-height:1.4}
+.arrangement{min-height:0;border:1px solid #3a465c;background:#111827;border-radius:11px}.track-labels{flex-basis:96px;background:#1c2736}.track-label,.ruler-empty{height:48px;border-bottom:1px solid #303e50;font-size:10px;padding:0 8px;gap:7px}.track-label .track-icon{height:25px;width:25px;font-size:15px;border-radius:8px}.ruler-empty{height:31px;font-size:10px;letter-spacing:.9px;color:#8797b2}.ruler{height:31px;background:#252e40;grid-template-columns:repeat(16,56px)}.ruler div{font-size:10px;color:#a6b7cf;border-right:1px solid #39465a}.ruler div.playing-bar{color:#0c180d;background:var(--accent);font-weight:900}.track-grid-row{height:48px}.bar-cell{background:linear-gradient(90deg,#1c2636,#202b3d);border-right-color:#354459;padding:6px 4px;touch-action:pan-x}.bar-cell .clip{border-radius:6px;box-shadow:inset 0 1px #ffffff55}.bar-cell .clip span{font-size:10px}.bar-cell.selected-cell{outline:3px solid #b5f576;outline-offset:-3px;background:#2e4141}.bar-cell .plus-placeholder{color:#8493a7}.touch-help{margin-top:11px;background:#253246;border:1px solid #354760;border-radius:10px;padding:11px 12px;font-size:11px;line-height:1.5;color:#b6c7da}.selected-strip{margin-top:14px;gap:8px;font-size:12px}.selected-strip button,.back-btn{min-height:43px;padding:10px 14px;border-radius:10px;background:#334c35;color:#c9ff9a;border:1px solid #526b4a;font-size:11px}.tools-row{gap:8px;margin-top:12px}.tools-row button{background:#293446;color:#d0dbef;border:1px solid #42506b;border-radius:10px;font-size:11px;min-height:43px;font-weight:700}
+.chord-panel{padding:16px 14px}.pill{font-size:10px;border-color:#5b734c;background:#2c432d}.chord-settings{gap:10px;margin-bottom:12px}.chord-settings label{font-size:10px;gap:8px;color:#b3bfd3}.chord-settings select,.roll-select select,.roll-controls select,.drum-tools select{background:#2b3549;border-color:#485772;color:#f7f9fe;border-radius:10px;min-height:45px;padding:8px 11px;font-size:13px}.chord-preview{margin:16px 0;border:1px solid #6d8b5e;background:linear-gradient(110deg,#304a32,#26382f);border-radius:12px;gap:8px}.chord-preview span:last-child{font-size:11px;line-height:1.4;text-align:right}.chord-buttons button,.wide-button{min-height:50px;border-radius:11px;font-size:13px}.chord-buttons button{border:1px solid #536079;background:#344156}.chord-buttons .accent-button,.wide-button{background:linear-gradient(120deg,#d1ffa1,#a7ee66);color:#182815;border:0}.drum-tools{gap:7px;flex-wrap:wrap}.drum-tools span{flex:1;min-width:97px;color:#aab8ca;font-size:10px}.drum-tools select{min-height:38px;width:100px}.drum-tools button{min-height:40px;border-radius:10px}
+.export{margin-bottom:16px;background:linear-gradient(120deg,#2e4b33,#1e3e31);border-color:#638b58;border-radius:15px;padding:17px;box-shadow:0 8px 20px #050b0525}.export>span{border-radius:12px;height:46px;width:46px}.export b{font-size:14px}.export small{font-size:11px;line-height:1.35}.export strong{font-size:23px}
+.bottom-nav{height:calc(70px + env(safe-area-inset-bottom));background:#192334f5;backdrop-filter:blur(12px);border-top:1px solid #3a4a60;padding:7px 10px env(safe-area-inset-bottom);box-shadow:0 -8px 20px #080b115c}.nav-btn{min-height:53px;border-radius:11px;gap:3px;font-size:10px}.nav-btn span{font-size:22px;line-height:22px}.nav-btn b{font-weight:800}.nav-btn.selected{background:#314831;color:#bfff87}.roll-wrap{height:340px;border-radius:10px}.roll-cell,.bar-cell{touch-action:pan-x}.roll-select .bar-stepper{flex:none}.bar-stepper button{min-width:39px;min-height:43px}.live-keyboard{margin-top:22px}.key-white,.key-black{touch-action:none}
+@media(max-width:390px){.topbar{padding:0 13px}.header-actions{gap:5px}.icon-btn{width:37px;height:39px}.song-info input{font-size:19px}.tempo{min-width:101px}.bpm-input input{font-size:19px;max-width:46px}.bpm-input button{width:30px;height:33px}.transport{padding:10px;gap:6px}.primary-play{width:50px}.stop-btn{width:44px}.loop{width:44px}.track-labels{flex-basis:87px}.track-label,.ruler-empty{padding:0 6px;gap:5px}.track-label .track-icon{width:21px;height:21px}.workspace{padding:13px 10px}.chord-panel{padding:14px 11px}.selected-strip button{padding:9px 10px}}
+@media(min-width:650px){.track-label,.track-grid-row{height:52px}.ruler{grid-template-columns:repeat(16,64px)}.track-grid-row{grid-template-columns:repeat(16,64px)}}
+
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="identity"><span class="logo">♫</span><span><strong>MINI FL</strong><small>STUDIO WEB <b>V0.3</b></small></span></div>
+    <div class="header-actions"><button id="newBtn" class="icon-btn" aria-label="Tạo bản nhạc mới" title="Tạo mới"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button id="saveBtn" class="icon-btn" aria-label="Lưu dự án" title="Lưu dự án"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h12l4 4v14H3V3h2zm2 0v7h10V3M7 21v-8h10v8"/></svg></button><button id="loadBtn" class="icon-btn" aria-label="Mở dự án" title="Mở dự án"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8h16v-8M12 3v12m-5-5 5 5 5-5"/></svg></button></div>
+  </header>
+
+  <section class="song-info">
+    <div><span class="eyebrow">DỰ ÁN HIỆN TẠI</span><input id="songTitle" maxlength="80" value="Những hợp âm đầu tiên" aria-label="Tên bản nhạc" /></div>
+    <span class="online-dot" id="readyStatus"><i></i> CHƯA KHỞI ĐỘNG</span>
+  </section>
+
+  <section class="transport">
+    <button id="playBtn" class="primary-play" aria-label="Phát"><svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5.5 19 12 9 18.5z"/></svg></button><button id="stopBtn" class="stop-btn" aria-label="Dừng"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="1"/></svg></button>
+    <div class="tempo"><span>BPM</span><div class="bpm-input"><button id="bpmDown" aria-label="Giảm BPM">−</button><input id="bpm" type="number" min="40" max="240" value="105" inputmode="numeric" /><button id="bpmUp" aria-label="Tăng BPM">+</button></div></div>
+    <button id="loopBtn" class="loop active" aria-label="Lặp lại">⟳<small>LOOP</small></button>
+  </section>
+
+  <div class="measure"><span>4/4  ·  16 bước / ô nhạc</span><span id="clockDisplay">01:01</span></div>
+
+  <main>
+    <section id="arrangeTab" class="workspace">
+      <div class="section-head"><div><span class="eyebrow">01 / ARRANGEMENT</span><h2>Bản phối</h2></div><span class="hint" id="arrangeHint">Chạm ô nhạc để chọn</span></div>
+      <div class="arrangement" id="arrangement"><div id="trackLabels" class="track-labels"></div><div class="arrange-viewport" id="arrangeViewport"><div id="ruler" class="ruler"></div><div id="arrangeGrid"></div></div></div>
+      <div class="touch-help">Chạm để chọn đoạn · Vuốt ngang để chuyển ô · Chọn <b>Sửa nốt</b> để chỉnh giai điệu</div>
+      <div class="selected-strip"><span id="selectedLabel">PIANO · Ô 01</span><button id="editSelectedBtn">✎ Sửa nốt  →</button></div>
+      <div class="tools-row"><button id="copyBtn">⧉ Sao chép</button><button id="pasteBtn">↧ Dán ô</button><button id="clearBtn">✕ Xóa ô</button></div>
+    </section>
+
+    <section id="pianoTab" class="workspace hidden">
+      <div class="section-head"><div><span class="eyebrow">02 / PIANO ROLL</span><h2>Chỉnh từng nốt</h2></div><button class="back-btn" id="backToArrange">← Bản phối</button></div>
+      <div class="roll-select"><select id="rollTrack" aria-label="Chọn nhạc cụ"></select><div class="bar-stepper"><button id="prevBar" aria-label="Ô trước">‹</button><span id="barLabel">Ô 01</span><button id="nextBar" aria-label="Ô sau">›</button></div></div>
+      <div class="roll-controls"><label>Độ dài <select id="noteLength"><option value="1">1 step</option><option value="2">2 steps</option><option value="4" selected>4 steps</option><option value="8">8 steps</option><option value="16">16 steps</option></select></label><label>Lực nhấn <select id="velocity"><option value="0.5">50%</option><option value="0.75" selected>75%</option><option value="1">100%</option></select></label></div>
+      <div class="roll-wrap"><div class="roll-top"><div>♪</div><div id="rollRuler" class="roll-ruler"></div></div><div id="pianoRows" class="piano-rows"></div></div>
+      <p class="help">Chạm để thêm hoặc xóa nốt. Vuốt ngang để đổi nhịp, vuốt dọc để tìm nốt cao/thấp. Muốn nghe nốt, bật âm lượng điện thoại.</p>
+      <button id="previewBarBtn" class="wide-button">▶ NGHE RIÊNG Ô NÀY</button>
+    </section>
+
+    <section id="keysTab" class="workspace hidden">
+      <div class="section-head"><div><span class="eyebrow">03 / LIVE KEYS</span><h2>Đàn thử âm</h2></div><span class="hint">Chạm để nghe</span></div>
+      <div class="roll-select"><select id="liveTrack" aria-label="Nhạc cụ để nghe thử"></select><select id="liveOctave" aria-label="Quãng tám"><option value="3">Octave 3</option><option value="4" selected>Octave 4</option><option value="5">Octave 5</option></select></div>
+      <div id="liveKeyboard" class="live-keyboard"></div>
+      <p class="help">Âm thanh được tổng hợp trực tiếp, không cần Internet. Dùng tai nghe hoặc loa điện thoại.</p>
+    </section>
+
+    <section class="chord-panel">
+      <div class="panel-heading"><div><span class="eyebrow">CHORD BUILDER</span><h2>Thư viện hợp âm</h2></div><span class="pill">8 KIỂU</span></div>
+      <div class="chord-settings"><label>NỐT GỐC<select id="chordRoot"></select></label><label>KIỂU HỢP ÂM<select id="chordType"></select></label></div>
+      <div class="chord-settings"><label>QUÃNG<select id="chordOctave"><option value="3">Octave 3</option><option value="4" selected>Octave 4</option><option value="5">Octave 5</option></select></label><label>VỊ TRÍ<select id="chordStep"><option value="0">Đầu ô (1)</option><option value="4">Nhịp 2 (5)</option><option value="8">Nhịp 3 (9)</option><option value="12">Nhịp 4 (13)</option></select></label></div>
+      <div class="chord-preview"><span id="chordName">C trưởng</span><span id="chordNotes">C4 · E4 · G4</span></div>
+      <div class="chord-buttons"><button id="previewChordBtn">♫ Nghe thử</button><button id="addChordBtn" class="accent-button">+ Chèn hợp âm</button></div>
+      <div class="drum-tools"><span>TRỐNG TỰ ĐỘNG</span><select id="drumStyle"><option>Pop</option><option>Dance</option><option>Hip-hop</option></select><button id="addDrumsBtn">+ TRỐNG</button></div>
+    </section>
+
+    <button class="export" id="exportBtn"><span>↧</span><div><b>XUẤT NHẠC WAV</b><small>Âm thanh PCM · Phát được trên điện thoại</small></div><strong>→</strong></button>
+    <div class="footer">MINI FL STUDIO  V0.3 · OFFLINE · PHÁT ÂM THANH THẬT</div>
+  </main>
+  <nav class="bottom-nav" aria-label="Điều hướng"><button class="nav-btn selected" data-tab="arrange"><span>▦</span><b>Bản phối</b></button><button class="nav-btn" data-tab="piano"><span>♫</span><b>Piano Roll</b></button><button class="nav-btn" data-tab="keys"><span>♩</span><b>Phím đàn</b></button></nav>
+  <input type="file" id="fileInput" accept=".minifl,.json,application/json" class="hidden" />
+  <div id="toast" class="toast" role="status"></div>
+  <div id="busy" class="busy hidden"><div>◌</div><strong>Đang xuất file WAV…</strong><small>Xin đợi trong giây lát</small></div>
+</div>
+<script>/* Mini FL Studio Mobile v0.3 — offline sequencer and Web Audio synthesizer.
+   Compatible .minifl song structure with Mini FL Studio Windows v0.1. */
+'use strict';
+const TRACKS = [
+  {name:'TRỐNG',kind:'drums',color:'#f5a665',symbol:'♟'},
+  {name:'BASS',kind:'bass',color:'#6fb6ff',symbol:'♬'},
+  {name:'PIANO',kind:'piano',color:'#b393f7',symbol:'♩'},
+  {name:'SYNTH',kind:'lead',color:'#ef79ba',symbol:'♫'},
+  {name:'PAD',kind:'pad',color:'#62d1b8',symbol:'≋'}
+];
+const ROOTS=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+const CHORDS={'Trưởng':[0,4,7],'Thứ':[0,3,7],'Sus2':[0,2,7],'Sus4':[0,5,7],'7':[0,4,7,10],'Maj7':[0,4,7,11],'m7':[0,3,7,10],'Dim':[0,3,6]};
+const CHORD_ORDER=['Trưởng','Thứ','Sus2','Sus4','7','Maj7','m7','Dim'];
+const DRUMS={36:'KICK',38:'SNARE',42:'HI-HAT',46:'OPEN HAT'};
+const $=id=>document.getElementById(id);
+const blank=()=>({version:1,title:'Bản nhạc mới',bpm:120,clips:Object.fromEntries(TRACKS.map((_,i)=>[String(i),{}]))});
+const note=(step,pitch,length=1,velocity=.8)=>({step,pitch,length,velocity});
+const clone=v=>JSON.parse(JSON.stringify(v));
+let song=blank(),track=2,bar=0,clipboard=null,activeTab='arrange',audio=null,playing=false,loop=true,interval=null,clockInterval=null,playIdx=0,nextStepTime=0,playBars=8,transportGain=null,scheduledNodes=[];
+let savingToastTimer=null;
+const PLAY_ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5.5 19 12 9 18.5z"/></svg>';
+const PAUSE_ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>';
+
+
+function clip(t=track,b=bar,create=false){const clips=song.clips[String(t)];const key=String(b);if(create&&!clips[key])clips[key]=[];return clips[key]||[];}
+function lastBar(){let end=1;for(const c of Object.values(song.clips)){for(const [k,v] of Object.entries(c))if(v.length)end=Math.max(end,Number(k)+1);}return Math.min(16,end);}
+function validate(raw){
+  if(!raw||typeof raw!=='object'||!raw.clips||typeof raw.clips!=='object')throw Error('Dự án không hợp lệ');
+  const out=blank();out.title=String(raw.title||'Bản nhạc mới').slice(0,80);
+  out.bpm=Number(raw.bpm);if(!Number.isInteger(out.bpm)||out.bpm<40||out.bpm>240)throw Error('BPM phải trong khoảng 40–240');
+  let total=0;
+  for(let t=0;t<5;t++){
+    const tr=raw.clips[String(t)]||{};
+    if(typeof tr!=='object'||Array.isArray(tr))throw Error('Dữ liệu track không hợp lệ');
+    for(const [b,ns] of Object.entries(tr)){
+      if(!/^\d+$/.test(b)||Number(b)>15||!Array.isArray(ns)||ns.length>512)throw Error('Ô nhạc không hợp lệ');
+      const cleaned=ns.map(n=>{
+        const s=Number(n.step),p=Number(n.pitch),l=Number(n.length),v=Number(n.velocity);
+        if(!Number.isInteger(s)||s<0||s>15||!Number.isInteger(p)||p<0||p>127||!Number.isInteger(l)||l<1||s+l>16||!Number.isFinite(v)||v<0||v>1)throw Error('Nốt nhạc không hợp lệ');
+        return note(s,p,l,v);
+      });
+      total+=cleaned.length;if(total>12000)throw Error('Dự án quá lớn');
+      out.clips[String(t)][String(b)]=cleaned;
+    }
+  }
+  return out;
+}
+function autoSave(){try{localStorage.setItem('minifl.song.v1',JSON.stringify(song));}catch(e){/* Native save still available */}}
+function changed(what='Đã cập nhật'){autoSave();renderArrangement();if(activeTab==='piano')renderRoll();toast(what);}
+function toast(message){const el=$('toast');el.textContent=message;el.classList.add('show');clearTimeout(savingToastTimer);savingToastTimer=setTimeout(()=>el.classList.remove('show'),2200);}
+function pitchName(p){return ROOTS[p%12]+(Math.floor(p/12)-1);}
+function addChord(t,b,root,type,oct=4,step=0,len=8){
+  const base=(Number(oct)+1)*12+ROOTS.indexOf(root);
+  const ns=clip(t,b,true);const validlen=Math.min(len,16-step);
+  song.clips[String(t)][String(b)]=ns.filter(n=>n.step!==step).concat(CHORDS[type].map(i=>note(step,base+i,validlen,.72))).sort((a,b)=>a.step-b.step||a.pitch-b.pitch);
+}
+function setDrums(b,style){
+  const patterns={Pop:[[0,8],[4,12],[0,2,4,6,8,10,12,14]],Dance:[[0,4,8,12],[4,12],[0,2,4,6,8,10,12,14]],'Hip-hop':[[0,7,10],[4,12],[0,2,4,6,8,10,12,14]]};
+  const [k,s,h]=patterns[style]||patterns.Pop;
+  song.clips['0'][String(b)]=[...k.map(x=>note(x,36,1,.9)),...s.map(x=>note(x,38,1,.72)),...h.map(x=>note(x,42,1,.42))].sort((a,b)=>a.step-b.step||a.pitch-b.pitch);
+}
+function demoSong(){
+  song=blank();song.title='Demo – Những hợp âm đầu tiên';song.bpm=105;
+  const changes=[['C','Trưởng',48],['A','Thứ',45],['F','Trưởng',41],['G','Trưởng',43]];
+  for(let b=0;b<8;b++){
+    const [r,q,bass]=changes[b%4];setDrums(b,b<4?'Pop':'Dance');
+    addChord(2,b,r,q,4,0,8);addChord(2,b,r,q,4,8,8);addChord(4,b,r,q,3,0,16);
+    song.clips['1'][String(b)]=[0,4,8,12].map(s=>note(s,s===0||s===8?bass:bass+7,3,.78));
+    const melody=[[72,74,76,74],[69,72,76,72],[69,72,69,65],[71,74,79,74]][b%4];
+    song.clips['3'][String(b)]=[0,4,8,12].map((s,i)=>note(s,melody[i],2,.52));
+  }
+  track=2;bar=0;
+}
+function updateMeta(){$('songTitle').value=song.title;$('bpm').value=song.bpm;updateSelected();updateClock(0);}
+function updateSelected(){$('selectedLabel').textContent=`${TRACKS[track].name} · Ô ${String(bar+1).padStart(2,'0')}`;$('barLabel').textContent=`Ô ${String(bar+1).padStart(2,'0')}`;$('rollTrack').value=String(track);}
+function renderArrangement(){
+  const labels=$('trackLabels'),grid=$('arrangeGrid'),savedScroll=$('arrangeViewport').scrollLeft;
+  labels.innerHTML='<div class="ruler-empty">TRACK</div>';
+  for(const tr of TRACKS){const d=document.createElement('div');d.className='track-label';d.innerHTML=`<span class="track-icon" style="background:${tr.color}">${tr.symbol}</span><span>${tr.name}</span>`;labels.appendChild(d);}
+  $('ruler').innerHTML=Array.from({length:16},(_,i)=>`<div>${String(i+1).padStart(2,'0')}</div>`).join('');
+  grid.innerHTML='';
+  TRACKS.forEach((tr,t)=>{
+    const row=document.createElement('div');row.className='track-grid-row';
+    for(let b=0;b<16;b++){
+      const c=document.createElement('button');const ns=clip(t,b);
+      c.className='bar-cell'+(track===t&&bar===b?' selected-cell':'');c.setAttribute('aria-label',`${tr.name}, ô ${b+1}, ${ns.length} nốt`);
+      if(ns.length){const inner=document.createElement('div');inner.className='clip';inner.style.background=tr.color;inner.innerHTML=`<div class="clip-stripes"></div><span>${ns.length>2?'▮ ▮ ▮':ns.length+' ♪'}</span>`;c.appendChild(inner);}
+      else c.innerHTML='<span class="plus-placeholder">·</span>';
+      c.addEventListener('click',()=>{const old=document.querySelector('.bar-cell.selected-cell');if(old)old.classList.remove('selected-cell');track=t;bar=b;c.classList.add('selected-cell');updateSelected();if(activeTab==='piano')renderRoll();});
+      row.appendChild(c);
+    }grid.appendChild(row);
+  });
+  $('arrangeViewport').scrollLeft=savedScroll;
+}
+function renderRoll(){
+  updateSelected();const drum=track===0;
+  const pitches=drum?[46,42,38,36]:Array.from({length:37},(_,i)=>(track===1?72:track===3?96:84)-i);
+  $('rollRuler').innerHTML=Array.from({length:16},(_,i)=>`<span>${i%4===0?i/4+1:''}</span>`).join('');
+  const container=$('pianoRows'),wrap=document.querySelector('.roll-wrap'),oldScroll=wrap.scrollTop,oldScrollLeft=wrap.scrollLeft;container.innerHTML='';const ns=clip();
+  pitches.forEach(p=>{
+    const line=document.createElement('div');line.dataset.pitch=String(p);line.className='roll-line'+(!drum&&[1,3,6,8,10].includes(p%12)?' black':'');
+    const label=document.createElement('div');label.className='roll-pitch';label.textContent=drum?DRUMS[p]:pitchName(p);line.appendChild(label);
+    const cells=document.createElement('div');cells.className='roll-cells';
+    for(let s=0;s<16;s++){
+      const c=document.createElement('button');c.className='roll-cell'+(s%4===0?' beat':'');c.setAttribute('aria-label',`${pitchName(p)} nhịp ${s+1}`);
+      c.addEventListener('click',()=>{
+        const selected=clip(track,bar,true);const existing=selected.findIndex(n=>n.pitch===p&&n.step<=s&&s<n.step+n.length);
+        if(existing>=0)selected.splice(existing,1);
+        else {const len=Math.min(Number($('noteLength').value),16-s);selected.push(note(s,p,len,Number($('velocity').value)));void audition(track,[note(0,p,len,Number($('velocity').value))]);}
+        autoSave();updateRollPitch(p);renderArrangement();
+      });cells.appendChild(c);
+    }
+    for(const n of ns.filter(n=>n.pitch===p)){
+      const over=document.createElement('div');over.className='roll-note'+(drum?' drum':'');
+      over.style.left=`${n.step*32+2}px`;over.style.width=`${Math.max(6,n.length*32-3)}px`;cells.appendChild(over);
+    }
+    line.appendChild(cells);container.appendChild(line);
+  });
+  if(!drum&&oldScroll===0){const start=pitches.indexOf(track===1?48:track===3?72:60);wrap.scrollTop=Math.max(0,start*25-100);}else wrap.scrollTop=oldScroll;wrap.scrollLeft=oldScrollLeft;
+}
+function updateRollPitch(p){
+  const all=$('pianoRows');const row=Array.from(all.children).find(e=>Number(e.dataset.pitch)===p);if(!row)return renderRoll();
+  const cells=row.querySelector('.roll-cells');cells.querySelectorAll('.roll-note').forEach(el=>el.remove());
+  for(const n of clip().filter(n=>n.pitch===p)){
+    const el=document.createElement('div');el.className='roll-note'+(track===0?' drum':'');
+    el.style.left=`${n.step*32+2}px`;el.style.width=`${Math.max(6,n.length*32-3)}px`;cells.appendChild(el);
+  }
+}
+function renderKeyboard(){
+  const el=$('liveKeyboard');el.innerHTML='';const oct=Number($('liveOctave').value),base=(oct+1)*12;
+  const white=[0,2,4,5,7,9,11,12,14,16,17,19,21,23];
+  for(const [i,offset] of white.entries()){
+    const key=document.createElement('button');key.className='key-white';key.textContent=[0,12].includes(offset)?pitchName(base+offset):'';
+    wirePianoKey(key,base+offset);el.appendChild(key);
+    const next=white[i+1];if(next!==undefined&&next-offset===2){const sharp=document.createElement('button');sharp.className='key-black';sharp.style.left=`calc(${(i+1)/14*100}% - 2.3%)`;sharp.setAttribute('aria-label',pitchName(base+offset+1));wirePianoKey(sharp,base+offset+1);el.appendChild(sharp);}
+  }
+}
+function wirePianoKey(key,pitch){
+  const play=()=>{key.classList.add('on');void audition(Number($('liveTrack').value),[note(0,pitch,2,.8)]);setTimeout(()=>key.classList.remove('on'),160);};
+  if(window.PointerEvent){key.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button===0){e.preventDefault();play();}});key.addEventListener('click',e=>{if(e.detail===0)play();});}
+  else key.addEventListener('click',play);
+}
+function selectTab(name){activeTab=name;for(const t of ['arrange','piano','keys']){$(t==='arrange'?'arrangeTab':t==='piano'?'pianoTab':'keysTab').classList.toggle('hidden',t!==name);}
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('selected',b.dataset.tab===name));if(name==='piano')renderRoll();if(name==='keys')renderKeyboard();window.scrollTo({top:0,behavior:'smooth'});
+}
+function renderChordPreview(){
+  const r=$('chordRoot').value,ty=$('chordType').value,o=Number($('chordOctave').value);
+  $('chordName').textContent=`${r} ${ty.toLowerCase()}`;
+  $('chordNotes').textContent=CHORDS[ty].map(i=>pitchName((o+1)*12+ROOTS.indexOf(r)+i)).join(' · ');
+}
+/* Live synth: audio really generated by the Web Audio API, not a visual mock. */
+const noiseCache=new WeakMap();
+function getNoise(ctx){if(noiseCache.has(ctx))return noiseCache.get(ctx);const arr=ctx.createBuffer(1,Math.round(ctx.sampleRate),ctx.sampleRate),data=arr.getChannelData(0);let state=31772;for(let i=0;i<data.length;i++){state=(Math.imul(1664525,state)+1013904223)|0;data[i]=state/2147483648;}noiseCache.set(ctx,arr);return arr;}
+function envelope(ctx,dest,when,attack,sustain,release,level){
+ const v=ctx.createGain(),g=v.gain,end=when+sustain;
+ g.setValueAtTime(0,when);g.linearRampToValueAtTime(Math.max(.00001,level),when+attack);
+ g.setValueAtTime(Math.max(.00001,level),Math.max(when+attack,end));g.linearRampToValueAtTime(.00001,end+release);v.connect(dest);return v;
+}
+function musicNote(ctx,t,n,when,stepDuration,dest){
+ const kind=TRACKS[t].kind;const dur=Math.max(.03,n.length*stepDuration);
+ if(kind==='drums')return drumSound(ctx,n.pitch,when,n.velocity,dest);
+ const gainBase={bass:.24,piano:.19,lead:.115,pad:.10}[kind];
+ const attack={bass:.008,piano:.007,lead:.015,pad:.16}[kind];const release={bass:.13,piano:.23,lead:.15,pad:.42}[kind];
+ const amp=envelope(ctx,dest,when,attack,dur,release,n.velocity*gainBase);
+ const filt=ctx.createBiquadFilter();filt.type='lowpass';filt.frequency.value={bass:1000,piano:4400,lead:3300,pad:1600}[kind];filt.Q.value=.35;filt.connect(amp);
+ const f=440*Math.pow(2,(n.pitch-69)/12),stop=when+dur+release+.05;
+ const flavors={bass:[["sawtooth",.36],["sine",.64]],piano:[["triangle",.64],["sine",.36]],lead:[["sawtooth",.43],["triangle",.57]],pad:[["sawtooth",.25],["sine",.75]]}[kind];
+ for(const [index,[wave,weight]] of flavors.entries()){
+   const osc=ctx.createOscillator(),mix=ctx.createGain();osc.type=wave;osc.frequency.setValueAtTime(f,when);if(kind==='pad'&&index===1)osc.detune.value=4;
+   mix.gain.value=weight;osc.connect(mix);mix.connect(filt);osc.start(when);osc.stop(stop);
+ }
+ if(kind==='piano'){amp.gain.setTargetAtTime(.00001,when+.10,Math.max(.15,dur*.35));}
+}
+function drumSound(ctx,pitch,when,velocity,dest){
+  if(pitch===36){const osc=ctx.createOscillator();osc.type='sine';osc.frequency.setValueAtTime(150,when);osc.frequency.exponentialRampToValueAtTime(43,when+.22);const env=ctx.createGain();env.gain.setValueAtTime(.65*velocity,when);env.gain.exponentialRampToValueAtTime(.0001,when+.38);osc.connect(env);env.connect(dest);osc.start(when);osc.stop(when+.4);return;}
+  const src=ctx.createBufferSource();src.buffer=getNoise(ctx);
+  const filt=ctx.createBiquadFilter();filt.type=pitch===38?'highpass':'highpass';filt.frequency.value=pitch===38?1000:6000;
+  const env=ctx.createGain(),len=pitch===38?.20:pitch===46?.33:.10;
+  env.gain.setValueAtTime((pitch===38?.27:.14)*velocity,when);env.gain.exponentialRampToValueAtTime(.0001,when+len);
+  src.connect(filt);filt.connect(env);env.connect(dest);src.start(when);src.stop(when+len+.01);
+  if(pitch===38){const body=ctx.createOscillator(),bodyEnv=ctx.createGain();body.type='triangle';body.frequency.value=190;bodyEnv.gain.setValueAtTime(.12*velocity,when);bodyEnv.gain.exponentialRampToValueAtTime(.0001,when+.15);body.connect(bodyEnv);bodyEnv.connect(dest);body.start(when);body.stop(when+.16);}
+}
+async function ensureAudio(){const C=window.AudioContext||window.webkitAudioContext;if(!C)throw Error('Thiết bị không hỗ trợ phát âm thanh Web Audio');if(!audio)audio=new C();if(audio.state==='suspended')await audio.resume();return audio;}
+function audioStep(){return 60/song.bpm/4;}
+async function audition(t,ns){try{const ctx=await ensureAudio(),time=ctx.currentTime+.015,dest=ctx.createGain();dest.gain.value=.75;dest.connect(ctx.destination);ns.forEach(n=>musicNote(ctx,t,n,time,audioStep(),dest));}catch(e){toast(e.message);}}
+function createMaster(ctx,output){const compressor=ctx.createDynamicsCompressor();compressor.threshold.value=-16;compressor.knee.value=20;compressor.ratio.value=5;compressor.attack.value=.004;compressor.release.value=.17;compressor.connect(output);return compressor;}
+function updateClock(index){
+  $('clockDisplay').textContent=`${String(Math.floor(index/16)+1).padStart(2,'0')}:${String((index%16)+1).padStart(2,'0')}`;
+  document.querySelectorAll('#ruler .playing-bar').forEach(el=>el.classList.remove('playing-bar'));
+  if(playing){const x=$('ruler').children[Math.floor(index/16)];if(x)x.classList.add('playing-bar');}
+}
+function scheduleStep(ctx,idx,time){const b=Math.floor(idx/16),s=idx%16;for(let t=0;t<5;t++){for(const n of clip(t,b)){if(n.step===s)musicNote(ctx,t,n,time,audioStep(),transportGain);}}}
+function stopPlaying(){if(interval){clearInterval(interval);interval=null;}if(clockInterval){clearInterval(clockInterval);clockInterval=null;}playing=false;$('playBtn').classList.remove('playing');$('playBtn').innerHTML=PLAY_ICON;if(transportGain&&audio){const t=audio.currentTime;transportGain.gain.cancelScheduledValues(t);transportGain.gain.setValueAtTime(transportGain.gain.value,t);transportGain.gain.linearRampToValueAtTime(.00001,t+.025);transportGain=null;}updateClock(0);}
+async function startPlaying(){try{const ctx=await ensureAudio();stopPlaying();transportGain=ctx.createGain();transportGain.gain.value=.85;transportGain.connect(createMaster(ctx,ctx.destination));playing=true;$('playBtn').classList.add('playing');$('playBtn').innerHTML=PAUSE_ICON;playIdx=0;playBars=lastBar();nextStepTime=ctx.currentTime+.08;
+  const start=nextStepTime,stepDuration=audioStep();let latestIdx=0;
+  const tick=()=>{if(!playing)return;let cycles=0;while(nextStepTime<ctx.currentTime+.18&&cycles++<32){if(playIdx>=playBars*16){if(loop)playIdx=0;else{stopPlaying();return;}}scheduleStep(ctx,playIdx,nextStepTime);playIdx++;nextStepTime+=stepDuration;}};
+  tick();interval=setInterval(tick,35);clockInterval=setInterval(()=>{if(!playing)return;const elapsed=Math.max(0,ctx.currentTime-start);const idx=Math.floor(elapsed/stepDuration)%(playBars*16);if(idx!==latestIdx){latestIdx=idx;updateClock(idx);}},75);
+ }catch(e){stopPlaying();toast(e.message);}}
+async function previewBar(){try{const ctx=await ensureAudio(),dest=ctx.createGain();dest.gain.value=.8;dest.connect(createMaster(ctx,ctx.destination));let time=ctx.currentTime+.025;for(const n of clip()){musicNote(ctx,track,n,time+n.step*audioStep(),audioStep(),dest);}toast('Đang nghe riêng ô nhạc');}catch(e){toast(e.message);}}
+function safeName(s){return String(s||'MiniFL').replace(/[\\/:*?"<>|\u0000-\u001f]/g,'_').trim().slice(0,70)||'MiniFL';}
+function downloadBlob(blob,filename){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),30000);}
+function fileSave(){song.title=$('songTitle').value.slice(0,80)||'Bản nhạc mới';autoSave();const json=JSON.stringify(song,null,2),filename=safeName(song.title)+'.minifl';
+  if(window.AndroidBridge){window.AndroidBridge.saveProject(json,filename);}else{downloadBlob(new Blob([json],{type:'application/json'}),filename);toast('Đã tải file .minifl');}}
+function openFile(){if(window.AndroidBridge)window.AndroidBridge.openProject();else $('fileInput').click();}
+function receiveImportedProject(content){try{const next=validate(JSON.parse(content));stopPlaying();song=next;track=2;bar=0;autoSave();updateMeta();renderArrangement();if(activeTab==='piano')renderRoll();toast('Đã mở dự án thành công');}catch(e){toast('Không mở được: '+e.message);}}
+window.receiveImportedProject=receiveImportedProject;
+window.nativeMessage=msg=>toast(msg);
+window.miniGoBack=()=>{if(activeTab!=='arrange'){selectTab('arrange');return true;}return false;};
+function wavFile(buffer){const count=buffer.length,data=buffer.getChannelData(0),out=new ArrayBuffer(44+count*2),view=new DataView(out);const str=(o,s)=>{for(let i=0;i<s.length;i++)view.setUint8(o+i,s.charCodeAt(i));};str(0,'RIFF');view.setUint32(4,36+count*2,true);str(8,'WAVE');str(12,'fmt ');view.setUint32(16,16,true);view.setUint16(20,1,true);view.setUint16(22,1,true);view.setUint32(24,buffer.sampleRate,true);view.setUint32(28,buffer.sampleRate*2,true);view.setUint16(32,2,true);view.setUint16(34,16,true);str(36,'data');view.setUint32(40,count*2,true);
+  for(let i=0;i<count;i++){let s=Math.max(-1,Math.min(1,data[i]));view.setInt16(44+i*2,s<0?s*0x8000:s*0x7fff,true);}return new Uint8Array(out);
+}
+function toBase64(u8){let binary='';const size=0x8000;for(let i=0;i<u8.length;i+=size)binary+=String.fromCharCode(...u8.subarray(i,i+size));return btoa(binary);}
+async function exportWav(){if(playing)stopPlaying();$('busy').classList.remove('hidden');await new Promise(r=>setTimeout(r,90));try{
+  const sr=22050,bars=lastBar(),duration=bars*16*audioStep()+.9;
+  const C=window.OfflineAudioContext||window.webkitOfflineAudioContext;if(!C)throw Error('Máy không hỗ trợ xuất WAV');const ctx=new C(1,Math.ceil(sr*duration),sr);const dest=createMaster(ctx,ctx.destination);
+  for(let t=0;t<5;t++)for(let b=0;b<bars;b++)for(const n of clip(t,b))musicNote(ctx,t,n,(b*16+n.step)*audioStep(),audioStep(),dest);
+  const rendered=await ctx.startRendering(),bytes=wavFile(rendered),filename=safeName(song.title)+'.wav';
+  if(window.AndroidBridge){window.AndroidBridge.exportWav(toBase64(bytes),filename);}else{downloadBlob(new Blob([bytes],{type:'audio/wav'}),filename);toast('Đã tải WAV thành công');}
+ }catch(e){toast('Lỗi xuất WAV: '+e.message);}finally{$('busy').classList.add('hidden');}}
+function init(){
+  try{const saved=localStorage.getItem('minifl.song.v1');if(saved)song=validate(JSON.parse(saved));else demoSong();}catch(_){demoSong();}
+  for(const sel of ['rollTrack','liveTrack']){$(sel).innerHTML=TRACKS.map((t,i)=>`<option value="${i}">${t.name}</option>`).join('');}
+  $('chordRoot').innerHTML=ROOTS.map(x=>`<option>${x}</option>`).join('');$('chordType').innerHTML=CHORD_ORDER.map(x=>`<option>${x}</option>`).join('');
+  $('rollTrack').value=String(track);$('liveTrack').value='2';
+  updateMeta();renderArrangement();renderChordPreview();
+  document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>selectTab(b.dataset.tab)));
+  $('editSelectedBtn').addEventListener('click',()=>selectTab('piano'));
+  $('backToArrange').addEventListener('click',()=>selectTab('arrange'));
+  $('rollTrack').addEventListener('change',e=>{track=Number(e.target.value);renderRoll();renderArrangement();updateSelected();});
+  $('prevBar').addEventListener('click',()=>{bar=(bar+15)%16;renderRoll();renderArrangement();});
+  $('nextBar').addEventListener('click',()=>{bar=(bar+1)%16;renderRoll();renderArrangement();});
+  $('liveTrack').addEventListener('change',renderKeyboard);$('liveOctave').addEventListener('change',renderKeyboard);
+  for(const id of ['chordRoot','chordType','chordOctave'])$(id).addEventListener('change',renderChordPreview);
+  $('previewChordBtn').addEventListener('click',()=>{const r=$('chordRoot').value,o=Number($('chordOctave').value),type=$('chordType').value,tt=track===0?2:track;audition(tt,CHORDS[type].map(i=>note(0,(o+1)*12+ROOTS.indexOf(r)+i,8,.72)));});
+  $('addChordBtn').addEventListener('click',()=>{if(track===0){track=2;toast('Đã chuyển sang track PIANO');}addChord(track,bar,$('chordRoot').value,$('chordType').value,Number($('chordOctave').value),Number($('chordStep').value),8);changed('Đã chèn hợp âm vào ô '+(bar+1));});
+  $('addDrumsBtn').addEventListener('click',()=>{setDrums(bar,$('drumStyle').value);changed('Đã thêm trống vào ô '+(bar+1));});
+  $('copyBtn').addEventListener('click',()=>{clipboard=clone(clip());toast('Đã sao chép ô nhạc');});
+  $('pasteBtn').addEventListener('click',()=>{if(!clipboard){toast('Hãy sao chép một ô trước');return;}song.clips[String(track)][String(bar)]=clone(clipboard);changed('Đã dán ô nhạc');});
+  $('clearBtn').addEventListener('click',()=>{if(clip().length&&!confirm(`Xóa các nốt trong ${TRACKS[track].name}, ô ${bar+1}?`))return;delete song.clips[String(track)][String(bar)];changed('Đã xóa ô nhạc');});
+  $('playBtn').addEventListener('click',()=>playing?stopPlaying():startPlaying());$('stopBtn').addEventListener('click',stopPlaying);
+  $('loopBtn').addEventListener('click',()=>{loop=!loop;$('loopBtn').classList.toggle('active',loop);toast(loop?'Đã bật phát lặp':'Đã tắt phát lặp');});
+  const changeBpm=v=>{const n=Math.min(240,Math.max(40,Math.round(Number(v)||120)));song.bpm=n;$('bpm').value=n;autoSave();if(playing)startPlaying();};
+  $('bpmDown').addEventListener('click',()=>changeBpm(song.bpm-5));$('bpmUp').addEventListener('click',()=>changeBpm(song.bpm+5));$('bpm').addEventListener('change',e=>changeBpm(e.target.value));
+  $('songTitle').addEventListener('change',e=>{song.title=e.target.value.trim().slice(0,80)||'Bản nhạc mới';autoSave();});
+  $('saveBtn').addEventListener('click',fileSave);$('loadBtn').addEventListener('click',openFile);
+  $('newBtn').addEventListener('click',()=>{if(!confirm('Tạo bài mới? Bài hiện tại đã được tự lưu trong ứng dụng; nên xuất file .minifl nếu muốn giữ lại.'))return;stopPlaying();song=blank();track=2;bar=0;autoSave();updateMeta();renderArrangement();if(activeTab==='piano')renderRoll();toast('Đã tạo bản nhạc mới');});
+  $('fileInput').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;if(f.size>3*1024*1024){toast('File dự án vượt quá 3 MB');return;}receiveImportedProject(await f.text());e.target.value='';});
+  $('previewBarBtn').addEventListener('click',previewBar);$('exportBtn').addEventListener('click',exportWav);
+  $('startupNotice').classList.add('hidden');$('readyStatus').classList.add('ready');$('readyStatus').innerHTML='<i></i> SẴN SÀNG';
+  $('arrangeHint').textContent='5 track · 16 ô nhạc';
+}
+
+window.addEventListener('DOMContentLoaded',()=>{try{init();}catch(e){const notice=$('startupNotice');notice.querySelector('strong').textContent='Không thể khởi động bản nhạc';notice.querySelector('span').textContent='Trình duyệt báo lỗi: '+e.message+' — Hãy dùng Chrome/Safari bản mới nhất.';console.error(e);}});
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>
