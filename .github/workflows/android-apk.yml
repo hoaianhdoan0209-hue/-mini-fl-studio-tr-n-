@@ -1,0 +1,60 @@
+name: Build Mini FL Studio Android APK
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/android-apk.yml'
+      - 'android/**'
+      - 'index.html'
+      - 'manifest.webmanifest'
+      - 'sw.js'
+      - '*.js'
+      - '*.css'
+      - '*.png'
+
+permissions:
+  contents: read
+
+jobs:
+  build-debug-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Install Android 35
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+      - name: Gradle 8.10.2
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.10.2'
+      - name: Bundle the offline website
+        run: |
+          set -euo pipefail
+          mkdir -p android/app/src/main/assets/web android/app/src/main/res/drawable
+          cp index.html sw.js manifest.webmanifest *.js *.css *.png android/app/src/main/assets/web/
+          cp icon-192.png android/app/src/main/res/drawable/minifl_icon.png
+          test -s android/app/src/main/assets/web/audio-tracks-v15.js
+          test -s android/app/src/main/assets/web/sample-player-v13.js
+      - name: Build installable APK
+        run: gradle -p android --no-daemon --stacktrace assembleDebug
+      - name: Copy named APK
+        run: |
+          mkdir -p build-output
+          cp android/app/build/outputs/apk/debug/app-debug.apk build-output/MiniFL-Studio-V1.5-Android.apk
+          test -s build-output/MiniFL-Studio-V1.5-Android.apk
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MiniFL-Studio-V1.5-Android-APK
+          path: build-output/MiniFL-Studio-V1.5-Android.apk
+          retention-days: 30
+          if-no-files-found: error
