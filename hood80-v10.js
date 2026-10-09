@@ -66,6 +66,26 @@ function makeBeatText(){
     if(q===7)piano+=',16:F4(1)';
   }
   result.push('PIANO '+number+' '+piano);
+  // Additional melodic layers and transitions; keep verses sparse for vocals.
+  if(sec==='intro'&&b>=2&&b%2===0)result.push('PAD '+number+' 1:'+CHORDS[i]+'(16)');
+  if(sec==='verse'||sec==='verse2'){
+    if(q===0||q===4)result.push('PAD '+number+' 1:'+CHORDS[i]+'(16)');
+    if(q%4===2)result.push('BELL '+number+' 3:'+MELODY[i]+'(2),11:'+TAIL[i]+'(2)');
+    if(q===7)result.push('PLUCK '+number+' 9:'+MELODY[i]+'(2),13:'+TAIL[i]+'(2)');
+  }
+  if(sec==='build'){
+    result.push('PAD '+number+' 1:'+CHORDS[i]+'(16)');
+    result.push('PLUCK '+number+' 1:'+MELODY[i]+'(2),5:'+TAIL[i]+'(2),9:'+MELODY[i]+'(2),13:'+TAIL[i]+'(2)');
+    if(q>=4)result.push('RISER '+number+' 1:C4(16)');
+    if(q===7)result.push('FX '+number+' 15:C4(2)');
+  }
+  if(sec==='hook'||sec==='final'){
+    result.push('PAD '+number+' 1:'+CHORDS[i]+'(16)');
+    result.push('BELL '+number+' 1:'+MELODY[i]+'(2),7:'+TAIL[i]+'(2),13:'+MELODY[i]+'(2)');
+    if(q%2===0)result.push('PLUCK '+number+' 3:'+TAIL[i]+'(2),11:'+MELODY[i]+'(2)');
+    if(q===0||q===4)result.push('FX '+number+' 1:C4(2)');
+    if(q===7)result.push('RISER '+number+' 9:C4(8)');
+  }
  }
  return result.join('\n');
 }
