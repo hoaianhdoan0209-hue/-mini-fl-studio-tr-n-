@@ -66,7 +66,7 @@ function replaceSong(next){
  const current=countNotes(song);
  if(current&&!confirm('Bài hiện tại có '+current+' nốt. Nạp beat sẽ thay bản phối và BPM. Hãy lưu .minifl trước nếu cần.\n\nBạn muốn thay bài?'))return false;
  if(current&&!backup()&&!confirm('Không lưu được bản dự phòng, vẫn thay bài?'))return false;
- stopPlaying();song=validate(next);const romantic=/Lâu Đài Trên Mây|Lau Dai Tren May/i.test(song.title);track=romantic?6:2;trackBank=romantic?1:0;bar=0;autoSave();updateMeta();renderArrangement();renderChordPreview();window.miniSoundsV11?.refresh?.();selectTab('arrange');return true;
+ stopPlaying();song=validate(next);window.miniAudioV15?.projectChanged();const romantic=/Lâu Đài Trên Mây|Lau Dai Tren May/i.test(song.title);track=romantic?6:2;trackBank=romantic?1:0;bar=0;autoSave();updateMeta();renderArrangement();renderChordPreview();window.miniSoundsV11?.refresh?.();selectTab('arrange');return true;
 }
 function copyBars(){
  const start=+$('rangeStart').value-1,end=+$('rangeEnd').value-1,to=+$('rangeTarget').value-1;
@@ -109,7 +109,7 @@ function setup(){
  $('readBeatClipboard').addEventListener('click',async()=>{try{if(!navigator.clipboard?.readText)throw Error('No clipboard');$('beatText').value=await navigator.clipboard.readText();toast('Đã dán clipboard');}catch(e){$('beatText').focus();toast('Giữ tay trong ô nhập và chọn Dán');}});
  $('copyBeatExample').addEventListener('click',async()=>{const txt=sampleText();try{await navigator.clipboard.writeText(txt);toast('Đã sao chép beat mẫu');}catch(e){$('beatText').value=txt;$('beatText').focus();$('beatText').select();toast('Nhấn Sao chép trong ô văn bản');}});
  $('copyRangeBtn').addEventListener('click',copyBars);
- $('restoreBeatBtn').addEventListener('click',()=>{try{const old=localStorage.getItem(BACKUP);if(!old){toast('Chưa có bản dự phòng');return;}const next=validate(JSON.parse(old));if(!confirm('Khôi phục bài trước khi nạp? Bài đang mở sẽ bị thay thế.'))return;stopPlaying();song=next;track=2;bar=0;autoSave();updateMeta();renderArrangement();selectTab('arrange');toast('Đã khôi phục');}catch(e){toast('Lỗi khôi phục: '+e.message);}});
+ $('restoreBeatBtn').addEventListener('click',()=>{try{const old=localStorage.getItem(BACKUP);if(!old){toast('Chưa có bản dự phòng');return;}const next=validate(JSON.parse(old));if(!confirm('Khôi phục bài trước khi nạp? Bài đang mở sẽ bị thay thế.'))return;stopPlaying();song=next;window.miniAudioV15?.projectChanged();track=2;bar=0;autoSave();updateMeta();renderArrangement();selectTab('arrange');toast('Đã khôi phục');}catch(e){toast('Lỗi khôi phục: '+e.message);}});
 }
 window.miniFlV09={sampleText,parseBeatText,countNotes};
 document.addEventListener('DOMContentLoaded',()=>{try{setup();}catch(e){console.error('Mini FL V0.9 import',e);}});
