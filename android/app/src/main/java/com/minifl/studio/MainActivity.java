@@ -97,7 +97,7 @@ public class MainActivity extends Activity {
                         if (PermissionRequest.RESOURCE_AUDIO_CAPTURE.equals(resource)) wantsAudio = true;
                     }
                     Uri origin = request.getOrigin();
-                    if (!wantsAudio || origin == null || !appOrigin.equals(origin.toString())) {
+                    if (!wantsAudio || origin == null || !"https".equals(origin.getScheme()) || !"appassets.androidplatform.net".equals(origin.getHost())) {
                         request.deny();
                         return;
                     }
