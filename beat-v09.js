@@ -19,6 +19,7 @@ function parseBeatText(txt){
  const str=String(txt||'').trim();
  if(!str)throw Error('Bạn chưa dán mã beat');
  if(str.length>220000)throw Error('Mã beat quá dài');
+ if(/^LAUDAI-MAY-64-V1$/i.test(str)){if(typeof window.castleCloudBeatText!=='function')throw Error('Chưa tải được preset Lâu Đài Trên Mây');return parseBeatText(window.castleCloudBeatText());}
  if(/^HOODTRAP-80-V2$/i.test(str))return parseBeatText(sampleText());
  if(/^HOODTRAP-80-V1$/i.test(str))return parseBeatText(window.hood80BeatText());
  if(str[0]==='{')return validate(JSON.parse(str));
@@ -65,7 +66,7 @@ function replaceSong(next){
  const current=countNotes(song);
  if(current&&!confirm('Bài hiện tại có '+current+' nốt. Nạp beat sẽ thay bản phối và BPM. Hãy lưu .minifl trước nếu cần.\n\nBạn muốn thay bài?'))return false;
  if(current&&!backup()&&!confirm('Không lưu được bản dự phòng, vẫn thay bài?'))return false;
- stopPlaying();song=validate(next);track=2;bar=0;autoSave();updateMeta();renderArrangement();renderChordPreview();selectTab('arrange');return true;
+ stopPlaying();song=validate(next);track=2;bar=0;autoSave();updateMeta();renderArrangement();renderChordPreview();window.miniSoundsV11?.refresh?.();selectTab('arrange');return true;
 }
 function copyBars(){
  const start=+$('rangeStart').value-1,end=+$('rangeEnd').value-1,to=+$('rangeTarget').value-1;
@@ -82,13 +83,14 @@ function copyBars(){
 function setup(){
  const tab=$('toolsTab');if(!tab)return;
  const html=[
- '<div class="beat-caption">BEAT IMPORT · V1.1</div><h2>Dán beat từ ChatGPT</h2>',
- '<p>80 ô · khoảng 2:15 · Trống, 808, Piano, Dark Bell, Pluck, Ambient Pad, FX và Riser. Hỏi trước khi thay bài.</p>',
- '<div class="beat-buttons"><button id="hoodDemoBtn" class="primary">▶ Hood Trap Deluxe 2:15</button><button id="showBeatImportBtn">⎘ Dán mã beat</button></div>',
+ '<div class="beat-caption">BEAT IMPORT · V1.2</div><h2>Dán beat từ ChatGPT</h2>',
+ '<p>Chọn beat mẫu dưới đây hoặc dán mã nhạc. Mỗi lần nạp đều hỏi xác nhận và lưu bản dự phòng.</p>',
+ '<div class="beat-buttons"><button id="castlePresetBtn" class="primary">♡ Lâu Đài Trên Mây · 2:17</button><button id="hoodDemoBtn">▶ Hood Trap Deluxe · 2:15</button></div>',
+ '<div class="beat-buttons" style="margin-top:8px"><button id="showBeatImportBtn">⎘ Dán mã beat</button><button id="copyCastleCode">⧉ Mã Lâu Đài</button></div>',
  '<div id="beatPasteArea" class="beat-hidden"><textarea id="beatText" rows="7" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="MINIFL BEAT V1&#10;TEN: Beat của tôi&#10;BPM: 142&#10;DRUM 1 KICK 1,7,11,15&#10;BASS 1 1:F2(4)&#10;PIANO 1 1:F3+Ab3+C4(8)"></textarea>',
  '<div class="beat-buttons"><button id="readBeatClipboard">📋 Đọc clipboard</button><button id="importBeatBtn" class="primary">✓ Nạp mã beat</button></div>',
  '<p class="beat-note">Nếu Safari không cho đọc clipboard, giữ tay trong ô trên → chọn Dán → Nạp mã beat.</p>',
- '<button id="copyBeatExample" class="beat-link beat-wide">Sao chép toàn bộ mã Deluxe</button><p class="beat-note">Mã ngắn để dán: <b>HOODTRAP-80-V2</b> · V1 cũ vẫn hỗ trợ</p></div>',
+ '<button id="copyBeatExample" class="beat-link beat-wide">Sao chép toàn bộ mã Hood Trap Deluxe</button><p class="beat-note">Mã Lâu Đài: <b>LAUDAI-MAY-64-V1</b> · Hood Trap: <b>HOODTRAP-80-V2</b></p></div>',
  '<details><summary>⧉ Sao chép nhiều ô</summary><div class="beat-selects"><label>Từ ô<select id="rangeStart"></select></label><label>Đến ô<select id="rangeEnd"></select></label>',
  '<label>Dán từ ô<select id="rangeTarget"></select></label><label>Track<select id="rangeTrack"><option value="all">Cả 9 track</option></select></label></div>',
  '<button id="copyRangeBtn" class="primary beat-wide">⧉ Sao chép đoạn</button></details>',
@@ -100,6 +102,8 @@ function setup(){
  $('rangeStart').value='1';$('rangeEnd').value='8';$('rangeTarget').value='9';
  TRACKS.forEach((x,i)=>$('rangeTrack').add(new Option(x.name,String(i))));
  $('hoodDemoBtn').addEventListener('click',()=>{try{if(replaceSong(parseBeatText(sampleText())))toast('Đã nạp Hood Trap Deluxe · 9 track · 2:15');}catch(e){toast('Lỗi: '+e.message);}});
+ $('castlePresetBtn').addEventListener('click',()=>{try{if(replaceSong(parseBeatText('LAUDAI-MAY-64-V1')))toast('Đã nạp Lâu Đài Trên Mây · 112 BPM · 2:17');}catch(e){toast('Lỗi: '+e.message);}});
+ $('copyCastleCode').addEventListener('click',async()=>{const code='LAUDAI-MAY-64-V1';try{await navigator.clipboard.writeText(code);toast('Đã sao chép mã Lâu Đài');}catch(e){$('beatPasteArea').classList.remove('beat-hidden');$('beatText').value=code;$('beatText').focus();$('beatText').select();toast('Giữ tay để sao chép mã');}});
  $('showBeatImportBtn').addEventListener('click',()=>{const x=$('beatPasteArea');x.classList.toggle('beat-hidden');if(!x.classList.contains('beat-hidden'))$('beatText').focus();});
  $('importBeatBtn').addEventListener('click',()=>{try{if(replaceSong(parseBeatText($('beatText').value)))toast('Đã nạp beat từ ChatGPT');}catch(e){toast('Mã beat lỗi: '+e.message);$('beatText').setCustomValidity(e.message);$('beatText').reportValidity();setTimeout(()=>$('beatText').setCustomValidity(''),5500);}});
  $('readBeatClipboard').addEventListener('click',async()=>{try{if(!navigator.clipboard?.readText)throw Error('No clipboard');$('beatText').value=await navigator.clipboard.readText();toast('Đã dán clipboard');}catch(e){$('beatText').focus();toast('Giữ tay trong ô nhập và chọn Dán');}});
