@@ -1,0 +1,13 @@
+/* Sound library V1.1 - compact phone controls */
+.sound-lib{background:#1b2837;border:1px solid #3e576a;border-radius:14px;padding:13px;margin:12px 0 14px}
+.sound-eyebrow{font-size:10px;font-weight:850;letter-spacing:1.1px;color:#a9e78f}
+.sound-lib h2{font-size:18px;margin:4px 0 8px}
+.sound-lib p{color:#b8c8d8;font-size:12px;line-height:1.5;margin:8px 0}
+.sound-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sound-controls label{display:block;font-size:10px;font-weight:800;color:#bacbde;letter-spacing:.5px}
+.sound-controls select{display:block;width:100%;min-width:0;min-height:44px;margin-top:6px;padding:7px;border-radius:9px;background:#29364a;border:1px solid #567087;color:#f6fbff;font-size:14px;font-weight:750}
+.sound-action-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.sound-action-row button{min-height:45px;border-radius:9px;border:1px solid #557089;background:#2c4053;color:#ecf8ff;font-size:13px;font-weight:800}
+.sound-action-row .sound-apply{border:0;background:#b8ef7e;color:#162819}
+.sound-lib .sound-help{margin-bottom:0;color:#91b8d3}
+@media(max-width:340px){.sound-controls{grid-template-columns:1fr}.sound-lib h2{font-size:17px}}
