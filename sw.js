@@ -1,5 +1,5 @@
-const NAME='mini-fl-studio-web-v12-20261009';
-const FILES=['./','./index.html','./manifest.webmanifest','./beat-v09.js','./hood80-v10.js','./hood80-v11.js','./castle-cloud-v12.js','./sounds-v11.js','./sounds-v11.css','./beat-v09.css','./icon-192.png','./icon-512.png','./icon-180.png'];
+const NAME='mini-fl-studio-web-v13-20261009';
+const FILES=['./','./index.html','./manifest.webmanifest','./beat-v09.js','./hood80-v10.js','./hood80-v11.js','./castle-cloud-v12.js','./samples-electric-v13.js','./samples-acoustic-v13.js','./samples-nylon-v13.js','./samples-piano-v13.js','./sample-player-v13.js','./sounds-v11.js','./sounds-v11.css','./beat-v09.css','./icon-192.png','./icon-512.png','./icon-180.png'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(NAME).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('mini-fl-studio-web-')&&k!==NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
 self.addEventListener('fetch',event=>{const req=event.request;if(req.method!=='GET'||new URL(req.url).origin!==self.location.origin)return;event.respondWith(fetch(req).then(response=>{if(response.ok){const copy=response.clone();caches.open(NAME).then(cache=>cache.put(req,copy)).catch(()=>{});}return response;}).catch(()=>caches.match(req)));});
