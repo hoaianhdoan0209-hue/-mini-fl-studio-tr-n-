@@ -13,7 +13,7 @@
  ];
  function toText(){
   const out=[
-   'MINIFL BEAT V1','TEN: Lau Dai Tren May - Romantic Melodic Trap','BPM: 112',
+   'MINIFL BEAT V1','TEN: Lâu Đài Trên Mây - Romantic Melodic Trap','BPM: 112',
    '# SANG TAC RIENG - 64 o - 2 phut 17 giay',
    'SOUND 1 soft808','SOUND 2 softPiano','SOUND 3 thinLead','SOUND 4 ambientWide',
    'SOUND 5 crystalBell','SOUND 6 nylonGuitar','SOUND 7 vinylFX','SOUND 8 reverseRiser'
