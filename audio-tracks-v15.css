@@ -1,0 +1,32 @@
+/* Mini FL V1.5: compact audio/voice track, recorder and waveform */
+.audio-panel{margin:9px 0 11px;background:#18263a;border:1px solid #3b566e;border-radius:12px;padding:0;overflow:hidden}
+.audio-panel details summary{cursor:pointer;padding:12px 14px;color:#b0f3d8;font-size:14px;font-weight:850;display:flex;align-items:center;justify-content:space-between;gap:8px;list-style:none}
+.audio-panel details summary::-webkit-details-marker{display:none}
+.audio-panel details summary span{font-size:10px;color:#a8bfd0;font-weight:650}
+.audio-panel details>div,.audio-panel details>p{margin-left:12px;margin-right:12px}
+.audio-buttons{display:flex;align-items:center;gap:8px;margin:2px 12px 8px}
+.audio-buttons button{flex:1;min-height:44px;border:1px solid #527f89;color:#e4fff0;background:#274b58;border-radius:9px;font-size:12px;font-weight:820}
+.audio-buttons button:nth-child(2){background:#4e2f40;border-color:#9a657f}
+.audio-buttons button.recording{background:#a02038;border-color:#e86c8c;color:white;animation:recblink 1s infinite alternate}
+@keyframes recblink{from{opacity:.7}to{opacity:1}}
+.audio-help{font-size:11px;color:#a8bfd0;line-height:1.5;margin-top:4px;margin-bottom:10px}
+.audio-empty{font-size:12px;color:#a2b5c4;padding:6px 10px 14px}
+.audio-clip{margin:8px 10px 10px;background:#223149;border:1px solid #426479;border-radius:10px;padding:9px;min-width:0}
+.audio-clip-title{display:flex;justify-content:space-between;align-items:center;gap:6px;color:#e2f7fa;font-size:12px;margin-bottom:7px;min-width:0}
+.audio-clip-title b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.audio-clip-title small{font-size:10px;color:#9cbfcd;white-space:nowrap}
+.audio-clip canvas{display:block;width:100%;height:46px;background:#192739;border-radius:7px;margin-bottom:8px}
+.audio-clip-inputs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+.audio-clip-inputs label{min-width:0;color:#a8c3d4;font-size:10px;font-weight:750}
+.audio-clip-inputs input{display:block;width:100%;box-sizing:border-box;min-height:37px;font-size:13px;margin-top:3px;padding:4px 4px;border:1px solid #4a6780;border-radius:6px;background:#131d2d;color:#f0f7ff;text-align:center}
+.audio-clip-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:7px}
+.audio-clip-actions button{border:1px solid #4a7380;color:#d9f5f6;background:#263e4f;border-radius:7px;min-height:34px;padding:5px 12px;font-size:11px;font-weight:800}
+.audio-clip-actions [data-action=delete]{color:#ffb4ba;border-color:#86545d;background:#432c37}
+@media(max-width:355px){.audio-panel details summary{font-size:12px;padding:10px}.audio-panel details summary span{font-size:9px}.audio-clip-inputs{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}}
+/* Note overlays can now be dragged, resized by edge handle and tapped to delete. */
+.roll-note{pointer-events:auto!important;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;z-index:6;border-radius:6px}
+.roll-note.dragging{opacity:.83;filter:brightness(1.35);z-index:10;cursor:grabbing}
+.roll-note .note-handle{position:absolute;right:0;top:0;bottom:0;width:13px;border-left:1px solid #cde6ff88;cursor:ew-resize;background:#ffffff12;border-radius:0 5px 5px 0;touch-action:none}
+.roll-note .note-handle::after{content:'⋮';display:grid;place-items:center;height:100%;font-size:11px;color:#edffff}
+.roll-note:focus-visible{outline:2px solid #f0e5a8;outline-offset:2px}
+#pianoTab .help{line-height:1.5}
