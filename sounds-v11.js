@@ -148,7 +148,7 @@ function play(ctx,kind,id,n,when,stepDuration,dest){
 function setupUI(){
  const tab=document.getElementById('toolsTab');if(!tab)return;
  const panel=document.createElement('section');panel.className='sound-lib';
- panel.innerHTML='<div class="sound-eyebrow">SOUND LIBRARY · V1.3</div><h2>Thư viện âm thanh</h2><p>Guitar điện Clean/Drive, Acoustic, Nylon và Piano có <b>mẫu tiếng thu thật</b>; trống Punch + 808 Sub vẫn tổng hợp. Có thể nghe và xuất WAV offline.</p><div class="sound-controls"><label>NHẠC CỤ<select id="soundTrackSelect"></select></label><label>CHỌN TIẾNG<select id="soundPresetSelect"></select></label></div><div class="sound-action-row"><button id="soundAuditionBtn">▶ Nghe thử</button><button id="soundSaveBtn" class="sound-apply">✓ Áp dụng tiếng</button></div><p id="soundLoadHint" class="sound-help">Nhấn Nghe thử để tải tiếng thực vào bộ phát. Các mẫu đã được đóng gói trong ứng dụng.</p><p class="sound-help">Track SYNTH có Guitar điện. Track PLUCK có Guitar Acoustic/Nylon. Dùng ⋯ → Đổi tiếng ở Bản phối để chọn nhanh.</p><p class="sound-help"><a href="https://github.com/nbrosowsky/tonejs-instruments" target="_blank" rel="noopener noreferrer">Nguồn mẫu âm CC BY 3.0 · ghi công</a></p>';
+ panel.innerHTML='<div class="sound-eyebrow">SOUND LIBRARY · V1.3</div><h2>Thư viện âm thanh</h2><p>Guitar điện Clean/Drive, Acoustic, Nylon và Piano có <b>mẫu tiếng thu thật</b>; trống Punch + 808 Sub vẫn tổng hợp. Có thể nghe và xuất WAV offline.</p><div class="sound-controls"><label>NHẠC CỤ<select id="soundTrackSelect"></select></label><label>CHỌN TIẾNG<select id="soundPresetSelect"></select></label></div><div class="sound-action-row"><button id="soundAuditionBtn">▶ Nghe thử</button><button id="soundSaveBtn" class="sound-apply">✓ Áp dụng tiếng</button></div><p id="soundLoadHint" class="sound-help">Nhấn Nghe thử để tải tiếng thực vào bộ phát. Các mẫu đã được đóng gói trong ứng dụng.</p><p class="sound-help">Track SYNTH có Guitar điện. Track PLUCK có Guitar Acoustic/Nylon. Dùng ⋯ → Đổi tiếng ở Bản phối để chọn nhanh.</p><p class="sound-help">Nguồn thu: Karoryfer Samples, University of Iowa, Freesound / quartertone, Versilian Studios. <a href="https://github.com/hoaianhdoan0209-hue/-mini-fl-studio-tr-n-/blob/main/SAMPLE-CREDITS.md" target="_blank" rel="noopener noreferrer">Ghi công · CC BY 3.0</a></p>';
  const beatImport=tab.querySelector('.beat-import');
  if(beatImport)beatImport.insertAdjacentElement('afterend',panel);
  else tab.querySelector('.section-head').insertAdjacentElement('afterend',panel);
@@ -166,7 +166,7 @@ function setupUI(){
  try{
    song.sounds[String(t)]=id;
    await audition(t,[note(0,pitch,t===8||t===4?16:4,.85)]);
-   document.getElementById('soundLoadHint').textContent=window.miniSamplesV13?.canUse(id)?'Đã phát tiếng thu thật · Có thể dùng offline.':'Đã phát tiếng tổng hợp.';
+   document.getElementById('soundLoadHint').textContent=window.miniSamplesV13?.canUse(id)?(window.miniSamplesV13.ready(null,id)?'Đã phát tiếng thu thật · Có thể dùng offline.':'Không giải mã được mẫu, đang dùng tiếng tổng hợp dự phòng.'):'Đã phát tiếng tổng hợp.';
  }catch(e){toast('Không nghe được: '+e.message);}
  finally{song.sounds[String(t)]=prev||DEFAULTS[t];button.disabled=false;button.textContent='▶ Nghe thử';}
  });
