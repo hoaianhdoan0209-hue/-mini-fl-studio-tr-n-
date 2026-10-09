@@ -8,7 +8,7 @@ const IDS=Object.freeze({
  acousticGuitar:'acousticGuitar',nylonGuitar:'nylonGuitar',
  studioPiano:'studioPiano'
 });
-const decoded=new Map(),loading=new Map(),noises=new WeakMap();
+const decoded=new Map(),loading=new Map(),noises=new WeakMap(),guitarRooms=new WeakMap();
 const curve=(()=>{const v=new Float32Array(1024);for(let i=0;i<v.length;i++){const x=(2*i)/(v.length-1)-1;v[i]=Math.tanh(4.2*x)/Math.tanh(4.2);}return v;})();
 function fromBase64(str){
  const a=new Uint8Array(Math.floor(str.length*3/4));
@@ -56,6 +56,23 @@ function nearest(notes,midi){
  for(const pitch of notes.keys()){const d=Math.abs(pitch-midi);if(d<dist){dist=d;closest=pitch;}}
  return closest;
 }
+function guitarRoom(ctx,dest){
+ let rooms=guitarRooms.get(ctx);
+ if(!rooms){rooms=new WeakMap();guitarRooms.set(ctx,rooms);}
+ let room=rooms.get(dest);
+ if(room)return room;
+ const input=ctx.createGain();
+ const delay=ctx.createDelay(.85),tone=ctx.createBiquadFilter(),feedback=ctx.createGain(),wet=ctx.createGain();
+ delay.delayTime.value=.185;
+ tone.type='lowpass';tone.frequency.value=2450;
+ feedback.gain.value=.16;
+ wet.gain.value=.19;
+ input.connect(delay);delay.connect(tone);
+ tone.connect(wet);wet.connect(dest);
+ tone.connect(feedback);feedback.connect(delay);
+ room=input;rooms.set(dest,room);
+ return room;
+}
 function play(ctx,id,n,when,stepDuration,dest){
  if(!canUse(id))return false;
  const data=decoded.get(idKind(id));
@@ -72,28 +89,39 @@ function play(ctx,id,n,when,stepDuration,dest){
   src.playbackRate.exponentialRampToValueAtTime(Math.max(.15,target),when+Math.max(.04,n.length*stepDuration*.92));
  }
  const isElec=id==='electricGuitar'||id==='electricDrive';
- const isPiano=id==='studioPiano';
- const decayTime=Math.max(.15,n.length*stepDuration),tail=isPiano?.28:.18;
+ const isPiano=id==='studioPiano',isGuitar=!isPiano;
+ const noteLength=Math.max(.12,n.length*stepDuration);
+ // Original hard stop (.18s release) made plucked strings sound like a synthetic zither.
+ // Let the recorded guitar's naturally decaying string sustain continue beyond note-off.
+ const tail=isPiano?.27:isElec?.74:.62;
  const amp=ctx.createGain(),velocity=Math.min(1,Math.max(.03,n.velocity||.7));
- const power=(isElec?.42:isPiano?.38:.54)*velocity;
+ const power=(isElec?.38:isPiano?.36:.37)*velocity;
+ const attack=isElec?.012:.009;
  amp.gain.setValueAtTime(.0001,when);
- amp.gain.linearRampToValueAtTime(power,when+.008);
- amp.gain.setValueAtTime(power*.82,when+Math.min(.09,decayTime*.35));
- const end=when+decayTime+tail;
+ amp.gain.linearRampToValueAtTime(power,when+attack);
+ amp.gain.exponentialRampToValueAtTime(power*(isElec?.82:.67),when+Math.min(noteLength*.6,.17));
+ const releaseStart=when+noteLength;
+ const end=releaseStart+tail;
+ amp.gain.setValueAtTime(power*(isElec?.82:.67),releaseStart);
  amp.gain.exponentialRampToValueAtTime(.0001,end);
  let output=amp;
  if(id==='electricDrive'){
   const drive=ctx.createWaveShaper();drive.curve=curve;drive.oversample='2x';
-  const filt=ctx.createBiquadFilter();filt.type='lowpass';filt.frequency.value=4800;
+  const filt=ctx.createBiquadFilter();filt.type='lowpass';filt.frequency.value=4300;
   amp.connect(drive);drive.connect(filt);output=filt;
- }else if(isElec){
-  const filt=ctx.createBiquadFilter();filt.type='lowpass';filt.frequency.value=6200;
+ }else if(isGuitar){
+  const filt=ctx.createBiquadFilter();filt.type='lowpass';
+  // Remove brittle upper partials without losing the wooden string attack.
+  filt.frequency.value=isElec?5500:4550;filt.Q.value=.38;
   amp.connect(filt);output=filt;
  }
  output.connect(dest);
+ if(isGuitar)output.connect(guitarRoom(ctx,dest));
  src.connect(amp);
  src.start(when);
- try{src.stop(end+.05);}catch(_){}
+ // An MP3 naturally ends at its recorded length; only stop the source after
+ // the audible release when the sample has enough duration.
+ try{src.stop(end+.09);}catch(_){}
  return true;
 }
 function makeNoise(ctx){
