@@ -8,7 +8,7 @@ const OPTIONS={
  lead:[['neonLead','Neon Lead'],['thinLead','Air Lead']],
  pad:[['ambientDark','Ambient Pad'],['ambientWide','Wide Pad']],
  bell:[['darkBell','Dark Bell'],['crystalBell','Crystal Bell']],
- pluck:[['glassPluck','Glass Pluck'],['woodPluck','Wood Pluck']],
+ pluck:[['glassPluck','Glass Pluck'],['woodPluck','Wood Pluck'],['nylonGuitar','Nylon Guitar · Mộc']],
  fx:[['impactFX','Impact Hit'],['vinylFX','Vinyl Crackle']],
  riser:[['noiseRiser','Noise Riser'],['reverseRiser','Reverse Sweep']]
 };
@@ -84,6 +84,20 @@ function play(ctx,kind,id,n,when,stepDuration,dest){
    return;
  }
  if(kind==='pluck'){
+   if(id==='nylonGuitar'){
+     // Nylon-string-inspired pluck: softened harmonics and short finger transient.
+     const low=ctx.createBiquadFilter();low.type='lowpass';low.Q.value=.48;
+     low.frequency.setValueAtTime(3000,when);
+     low.frequency.exponentialRampToValueAtTime(730,when+Math.min(.8,length+.20));
+     low.connect(post);
+     const decay=Math.min(1.58,Math.max(.42,length*1.12));
+     const tone=env(ctx,low,when,.003,.018,decay,vel*.205);
+     osc(ctx,'triangle',hz,when,when+decay+.07,tone,.78);
+     osc(ctx,'sine',hz,when,when+decay+.07,tone,.55,-1.3);
+     osc(ctx,'sine',hz*2,when,when+Math.min(.7,decay+.05),tone,.14);
+     burst(ctx,low,when,.035,vel*.023,2100,5200);
+     return;
+   }
    const wood=id==='woodPluck',filter=ctx.createBiquadFilter();
    filter.type='lowpass';filter.frequency.setValueAtTime(wood?2100:6200,when);
    filter.frequency.exponentialRampToValueAtTime(wood?520:1200,when+Math.min(.6,length));
