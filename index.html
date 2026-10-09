@@ -284,12 +284,27 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
 @media(max-width:390px){.section-jump{max-width:158px;font-size:11px}.ruler,.track-grid-row{grid-template-columns:repeat(80,56px);width:4480px}}
 @media(max-width:345px){.section-jump{max-width:132px;font-size:10px;padding-left:2px;padding-right:0}}
 
+
+/* V1.1 bank toggle: keep 5 visible track rows on iPhone */
+.arrange-head-actions{display:flex;align-items:center;gap:5px;min-width:0;flex-shrink:0}
+#trackBankBtn{min-height:38px;border:1px solid #59704e;background:#2a3c30;color:#bbf392;border-radius:8px;padding:6px 7px;font-size:11px;font-weight:800;white-space:nowrap}
+#arrangeTab .section-head{display:flex;align-items:center;justify-content:space-between}
+#arrangeTab .section-head .eyebrow{font-size:9px}
+#arrangeTab .section-head h2{font-size:18px}
+#arrangeTab .section-jump{max-width:133px;font-size:10px}
+@media(max-width:370px){
+ #trackBankBtn{padding:4px;font-size:10px}
+ #arrangeTab .section-jump{max-width:105px;font-size:9px}
+ #arrangeTab .section-head h2{font-size:16px}
+}
+
 </style>
+<link rel="stylesheet" href="./sounds-v11.css" />
 </head>
 <body>
 <div id="app">
   <header class="topbar">
-    <div class="identity"><span class="logo">♫</span><span><strong>MINI FL</strong><small>STUDIO WEB <b>V1.0</b></small></span></div>
+    <div class="identity"><span class="logo">♫</span><span><strong>MINI FL</strong><small>STUDIO WEB <b>V1.1</b></small></span></div>
     <div class="header-actions"><button id="newBtn" class="icon-btn" aria-label="Tạo bản nhạc mới" title="Tạo mới"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button id="saveBtn" class="icon-btn" aria-label="Lưu dự án" title="Lưu dự án"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h12l4 4v14H3V3h2zm2 0v7h10V3M7 21v-8h10v8"/></svg></button><button id="loadBtn" class="icon-btn" aria-label="Mở dự án" title="Mở dự án"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8h16v-8M12 3v12m-5-5 5 5 5-5"/></svg></button></div>
   </header>
   <div id="startupNotice" class="startup-notice hidden"><strong>Trình duyệt chưa khởi động được</strong><span>Vui lòng tải lại trang bằng Safari hoặc Chrome.</span></div>
@@ -309,7 +324,7 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
 
   <main>
     <section id="arrangeTab" class="workspace">
-      <div class="section-head"><div><span class="eyebrow">01 / ARRANGEMENT</span><h2>Bản phối</h2></div><select id="sectionJump" class="section-jump" aria-label="Chuyển tới đoạn nhạc"><option value="0">Intro · 01–08</option><option value="8">Verse 1 · 09–24</option><option value="24">Build · 25–32</option><option value="32">Hook 1 · 33–48</option><option value="48">Verse 2 · 49–64</option><option value="64">Hook cuối · 65–80</option></select></div>
+      <div class="section-head"><div><span class="eyebrow">01 / ARRANGEMENT</span><h2>Bản phối</h2></div><div class="arrange-head-actions"><button id="trackBankBtn" type="button" aria-label="Đổi nhóm track nhạc cụ">+4 tiếng ↓</button><select id="sectionJump" class="section-jump" aria-label="Chuyển tới đoạn nhạc"><option value="0">Intro · 01–08</option><option value="8">Verse 1 · 09–24</option><option value="24">Build · 25–32</option><option value="32">Hook 1 · 33–48</option><option value="48">Verse 2 · 49–64</option><option value="64">Hook cuối · 65–80</option></select></div></div>
       <div class="arrangement" id="arrangement"><div id="trackLabels" class="track-labels"></div><div class="arrange-viewport" id="arrangeViewport"><div id="ruler" class="ruler"></div><div id="arrangeGrid"></div></div></div>
       <div class="selected-strip">
         <span id="selectedLabel">PIANO · Ô 01</span>
@@ -347,7 +362,7 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
     </section>
 
     <button class="export" id="exportBtn"><span>↧</span><div><b>XUẤT NHẠC WAV</b><small>Âm thanh PCM · Phát được trên điện thoại</small></div><strong>→</strong></button>
-    <div class="footer">MINI FL STUDIO  V1.0 · OFFLINE · PHÁT ÂM THANH THẬT</div>
+    <div class="footer">MINI FL STUDIO  V1.1 · OFFLINE · PHÁT ÂM THANH THẬT</div>
     </section>
   </main>
   <nav class="bottom-nav" aria-label="Điều hướng"><button class="nav-btn selected" data-tab="arrange"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="1.8"/><path d="M3.5 9.3h17M3.5 14.7h17M9.2 4v16M14.8 4v16"/></svg><b>Bản phối</b></button><button class="nav-btn" data-tab="piano"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5.5l11-2V16"/><path d="M9 8.5l11-2"/><ellipse cx="6.2" cy="18.3" rx="3.3" ry="2.2" transform="rotate(-18 6.2 18.3)"/><ellipse cx="17.2" cy="16.2" rx="3.3" ry="2.2" transform="rotate(-18 17.2 16.2)"/></svg><b>Piano Roll</b></button><button class="nav-btn" data-tab="tools"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16M4 12h16"/><circle cx="9" cy="7" r="2.3"/><circle cx="16" cy="12" r="2.3"/><circle cx="10" cy="17" r="2.3"/></svg><b>Công cụ</b></button></nav>
@@ -364,17 +379,22 @@ const TRACKS = [
   {name:'BASS',kind:'bass',color:'#6fb6ff',symbol:'♬'},
   {name:'PIANO',kind:'piano',color:'#b393f7',symbol:'♩'},
   {name:'SYNTH',kind:'lead',color:'#ef79ba',symbol:'♫'},
-  {name:'PAD',kind:'pad',color:'#62d1b8',symbol:'≋'}
+  {name:'PAD',kind:'pad',color:'#62d1b8',symbol:'≋'},
+  {name:'BELL',kind:'bell',color:'#fed88e',symbol:'♢'},
+  {name:'PLUCK',kind:'pluck',color:'#80aafa',symbol:'⟡'},
+  {name:'FX',kind:'fx',color:'#fa9489',symbol:'✦'},
+  {name:'RISER',kind:'riser',color:'#90f0d0',symbol:'↗'}
 ];
+const DEFAULT_SOUNDS=['trapKit','heavy808','darkPiano','neonLead','ambientDark','darkBell','glassPluck','impactFX','noiseRiser'];
 const ROOTS=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 const CHORDS={'Trưởng':[0,4,7],'Thứ':[0,3,7],'Sus2':[0,2,7],'Sus4':[0,5,7],'7':[0,4,7,10],'Maj7':[0,4,7,11],'m7':[0,3,7,10],'Dim':[0,3,6]};
 const CHORD_ORDER=['Trưởng','Thứ','Sus2','Sus4','7','Maj7','m7','Dim'];
 const DRUMS={36:'KICK',38:'SNARE',42:'HI-HAT',46:'OPEN HAT'};
 const $=id=>document.getElementById(id);
-const blank=()=>({version:1,title:'Bản nhạc mới',bpm:120,clips:Object.fromEntries(TRACKS.map((_,i)=>[String(i),{}]))});
+const blank=()=>({version:2,title:'Bản nhạc mới',bpm:120,clips:Object.fromEntries(TRACKS.map((_,i)=>[String(i),{}])),sounds:Object.fromEntries(TRACKS.map((_,i)=>[String(i),DEFAULT_SOUNDS[i]]))});
 const note=(step,pitch,length=1,velocity=.8)=>({step,pitch,length,velocity});
 const clone=v=>JSON.parse(JSON.stringify(v));
-let song=blank(),track=2,bar=0,clipboard=null,activeTab='arrange',audio=null,playing=false,loop=true,interval=null,clockInterval=null,playIdx=0,nextStepTime=0,playBars=8,transportGain=null,scheduledNodes=[];
+let song=blank(),track=2,bar=0,trackBank=0,clipboard=null,activeTab='arrange',audio=null,playing=false,loop=true,interval=null,clockInterval=null,playIdx=0,nextStepTime=0,playBars=8,transportGain=null,scheduledNodes=[];
 let savingToastTimer=null;
 const PLAY_ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5.5 19 12 9 18.5z"/></svg>';
 const PAUSE_ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>';
@@ -386,8 +406,11 @@ function validate(raw){
   if(!raw||typeof raw!=='object'||!raw.clips||typeof raw.clips!=='object')throw Error('Dự án không hợp lệ');
   const out=blank();out.title=String(raw.title||'Bản nhạc mới').slice(0,80);
   out.bpm=Number(raw.bpm);if(!Number.isInteger(out.bpm)||out.bpm<40||out.bpm>240)throw Error('BPM phải trong khoảng 40–240');
+  if(raw.sounds&&typeof raw.sounds==='object'&&!Array.isArray(raw.sounds)){
+    for(let t=0;t<TRACKS.length;t++){const id=raw.sounds[String(t)];if(typeof id==='string'&&window.miniSoundsV11?.ID2KIND?.get(id)===TRACKS[t].kind)out.sounds[String(t)]=id;}
+  }
   let total=0;
-  for(let t=0;t<5;t++){
+  for(let t=0;t<TRACKS.length;t++){
     const tr=raw.clips[String(t)]||{};
     if(typeof tr!=='object'||Array.isArray(tr))throw Error('Dữ liệu track không hợp lệ');
     for(const [b,ns] of Object.entries(tr)){
@@ -434,11 +457,14 @@ function updateMeta(){$('songTitle').value=song.title;resizeSongTitle();$('bpm')
 function updateSelected(){$('selectedLabel').textContent=`${TRACKS[track].name} · Ô ${String(bar+1).padStart(2,'0')}`;$('barLabel').textContent=`Ô ${String(bar+1).padStart(2,'0')}`;$('rollTrack').value=String(track);}
 function renderArrangement(){
   const labels=$('trackLabels'),grid=$('arrangeGrid'),savedScroll=$('arrangeViewport').scrollLeft;
+  const offset=trackBank===0?0:5, visible=TRACKS.slice(offset,offset+5);
+  $('trackBankBtn').textContent=trackBank===0?'+4 tiếng ↓':'← 5 track';
   labels.innerHTML='<div class="ruler-empty">TRACK</div>';
-  for(const tr of TRACKS){const d=document.createElement('div');d.className='track-label';d.innerHTML=`<span class="track-icon" style="background:${tr.color}">${tr.symbol}</span><span>${tr.name}</span>`;labels.appendChild(d);}
+  for(const tr of visible){const d=document.createElement('div');d.className='track-label';d.innerHTML=`<span class="track-icon" style="background:${tr.color}">${tr.symbol}</span><span>${tr.name}</span>`;labels.appendChild(d);}
   $('ruler').innerHTML=Array.from({length:MAX_BARS},(_,i)=>`<div>${String(i+1).padStart(2,'0')}</div>`).join('');
   grid.innerHTML='';
-  TRACKS.forEach((tr,t)=>{
+  visible.forEach((tr,index)=>{
+    const t=offset+index;
     const row=document.createElement('div');row.className='track-grid-row';
     for(let b=0;b<MAX_BARS;b++){
       const c=document.createElement('button');const ns=clip(t,b);
@@ -453,7 +479,7 @@ function renderArrangement(){
 }
 function renderRoll(){
   updateSelected();const drum=track===0;
-  const pitches=drum?[46,42,38,36]:Array.from({length:37},(_,i)=>(track===1?72:track===3?96:84)-i);
+  const pitches=drum?[46,42,38,36]:Array.from({length:37},(_,i)=>(track===1?72:track===3?96:track===5?96:track===6?90:track===7||track===8?76:84)-i);
   $('rollRuler').innerHTML=Array.from({length:16},(_,i)=>`<span>${i%4===0?i/4+1:''}</span>`).join('');
   const container=$('pianoRows'),wrap=document.querySelector('.roll-wrap'),oldScroll=wrap.scrollTop,oldScrollLeft=wrap.scrollLeft;container.innerHTML='';const ns=clip();
   pitches.forEach(p=>{
@@ -485,7 +511,7 @@ function updateRollPitch(p){
     el.style.left=`${n.step*40+2}px`;el.style.width=`${Math.max(6,n.length*40-3)}px`;cells.appendChild(el);
   }
 }
-function selectTab(name){document.querySelector('.clip-more')?.removeAttribute('open');if(!['arrange','piano','tools'].includes(name))name='arrange';activeTab=name;document.body.dataset.activeTab=name;
+function selectTab(name){document.querySelector('.clip-more')?.removeAttribute('open');if(!['arrange','piano','tools'].includes(name))name='arrange';if(name==='arrange'&&activeTab==='piano')trackBank=track>=5?1:0;activeTab=name;document.body.dataset.activeTab=name;
   for(const t of ['arrange','piano','tools']){$(t==='arrange'?'arrangeTab':t==='piano'?'pianoTab':'toolsTab').classList.toggle('hidden',t!==name);}
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('selected',b.dataset.tab===name));if(name==='piano')renderRoll();window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -505,6 +531,7 @@ function envelope(ctx,dest,when,attack,sustain,release,level){
 function musicNote(ctx,t,n,when,stepDuration,dest){
  const kind=TRACKS[t].kind;const dur=Math.max(.03,n.length*stepDuration);
  if(kind==='drums')return drumSound(ctx,n.pitch,when,n.velocity,dest);
+ if(window.miniSoundsV11)return window.miniSoundsV11.play(ctx,kind,song.sounds?.[String(t)]||DEFAULT_SOUNDS[t],n,when,stepDuration,dest);
  const gainBase={bass:.29,piano:.17,lead:.115,pad:.10}[kind];
  const attack={bass:.008,piano:.007,lead:.015,pad:.16}[kind];const release={bass:.13,piano:.23,lead:.15,pad:.42}[kind];
  const amp=envelope(ctx,dest,when,attack,dur,release,n.velocity*gainBase);
@@ -541,7 +568,7 @@ function updateClock(index){
   document.querySelectorAll('#ruler .playing-bar').forEach(el=>el.classList.remove('playing-bar'));
   if(playing){const x=$('ruler').children[Math.floor(index/16)];if(x)x.classList.add('playing-bar');}
 }
-function scheduleStep(ctx,idx,time){const b=Math.floor(idx/16),s=idx%16;for(let t=0;t<5;t++){for(const n of clip(t,b)){if(n.step===s)musicNote(ctx,t,n,time,audioStep(),transportGain);}}}
+function scheduleStep(ctx,idx,time){const b=Math.floor(idx/16),s=idx%16;for(let t=0;t<TRACKS.length;t++){for(const n of clip(t,b)){if(n.step===s)musicNote(ctx,t,n,time,audioStep(),transportGain);}}}
 function stopPlaying(){if(interval){clearInterval(interval);interval=null;}if(clockInterval){clearInterval(clockInterval);clockInterval=null;}playing=false;$('playBtn').classList.remove('playing');$('playBtn').innerHTML=PLAY_ICON;if(transportGain&&audio){const t=audio.currentTime;transportGain.gain.cancelScheduledValues(t);transportGain.gain.setValueAtTime(transportGain.gain.value,t);transportGain.gain.linearRampToValueAtTime(.00001,t+.025);transportGain=null;}updateClock(0);}
 async function startPlaying(){try{const ctx=await ensureAudio();stopPlaying();transportGain=ctx.createGain();transportGain.gain.value=.85;transportGain.connect(createMaster(ctx,ctx.destination));playing=true;$('playBtn').classList.add('playing');$('playBtn').innerHTML=PAUSE_ICON;playIdx=0;playBars=lastBar();nextStepTime=ctx.currentTime+.08;
   const start=nextStepTime,stepDuration=audioStep();let latestIdx=0;
@@ -563,9 +590,9 @@ function wavFile(buffer){const count=buffer.length,data=buffer.getChannelData(0)
 }
 function toBase64(u8){let binary='';const size=0x8000;for(let i=0;i<u8.length;i+=size)binary+=String.fromCharCode(...u8.subarray(i,i+size));return btoa(binary);}
 async function exportWav(){if(playing)stopPlaying();$('busy').classList.remove('hidden');await new Promise(r=>setTimeout(r,90));try{
-  const sr=22050,bars=lastBar(),duration=bars*16*audioStep()+.9;
+  const sr=22050,bars=lastBar(),duration=bars*16*audioStep()+2.3;
   const C=window.OfflineAudioContext||window.webkitOfflineAudioContext;if(!C)throw Error('Máy không hỗ trợ xuất WAV');const ctx=new C(1,Math.ceil(sr*duration),sr);const dest=createMaster(ctx,ctx.destination);
-  for(let t=0;t<5;t++)for(let b=0;b<bars;b++)for(const n of clip(t,b))musicNote(ctx,t,n,(b*16+n.step)*audioStep(),audioStep(),dest);
+  for(let t=0;t<TRACKS.length;t++)for(let b=0;b<bars;b++)for(const n of clip(t,b))musicNote(ctx,t,n,(b*16+n.step)*audioStep(),audioStep(),dest);
   const rendered=await ctx.startRendering(),bytes=wavFile(rendered),filename=safeName(song.title)+'.wav';
   if(window.AndroidBridge){window.AndroidBridge.exportWav(toBase64(bytes),filename);}else{downloadBlob(new Blob([bytes],{type:'audio/wav'}),filename);toast('Đã tải WAV thành công');}
  }catch(e){toast('Lỗi xuất WAV: '+e.message);}finally{$('busy').classList.add('hidden');}}
@@ -579,7 +606,8 @@ function init(){
   $('editSelectedBtn').addEventListener('click',()=>selectTab('piano'));
   document.addEventListener('pointerdown',e=>{const menu=document.querySelector('.clip-more');if(menu?.open&&!menu.contains(e.target))menu.open=false;});
   $('backToArrange').addEventListener('click',()=>selectTab('arrange'));
-  $('rollTrack').addEventListener('change',e=>{track=Number(e.target.value);renderRoll();renderArrangement();updateSelected();});
+  $('rollTrack').addEventListener('change',e=>{track=Number(e.target.value);trackBank=track>=5?1:0;renderRoll();renderArrangement();updateSelected();});
+  $('trackBankBtn').addEventListener('click',()=>{trackBank=trackBank?0:1;track=trackBank?5:2;renderArrangement();updateSelected();});
   $('prevBar').addEventListener('click',()=>{bar=(bar+MAX_BARS-1)%MAX_BARS;renderRoll();renderArrangement();});
   $('nextBar').addEventListener('click',()=>{bar=(bar+1)%MAX_BARS;renderRoll();renderArrangement();});
   for(const id of ['chordRoot','chordType','chordOctave'])$(id).addEventListener('change',renderChordPreview);
@@ -649,7 +677,9 @@ window.addEventListener('DOMContentLoaded',()=>{try{init();}catch(e){const notic
     });
   }
 </script>
+<script src="./sounds-v11.js"></script>
 <script src="./hood80-v10.js"></script>
+<script src="./hood80-v11.js"></script>
 <script src="./beat-v09.js"></script>
 </body>
 </html>
