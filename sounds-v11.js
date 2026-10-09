@@ -2,13 +2,13 @@
 'use strict';
 (function(){
 const OPTIONS={
- drums:[['trapKit','Trap Kit']],
- bass:[['heavy808','808 Heavy'],['soft808','808 Round']],
- piano:[['darkPiano','Dark Piano'],['softPiano','Soft Keys']],
- lead:[['neonLead','Neon Lead'],['thinLead','Air Lead']],
+ drums:[['trapKit','Trap Kit'],['punchKit','Punch Trap Kit · Lực hơn']],
+ bass:[['heavy808','808 Heavy'],['soft808','808 Round'],['sub808','808 Deep Sub · Trầm']],
+ piano:[['darkPiano','Dark Piano'],['softPiano','Soft Keys'],['studioPiano','Piano thu thật · Studio']],
+ lead:[['neonLead','Neon Lead'],['thinLead','Air Lead'],['electricGuitar','Guitar điện Clean · Âm thật'],['electricDrive','Guitar điện Drive · Âm thật']],
  pad:[['ambientDark','Ambient Pad'],['ambientWide','Wide Pad']],
  bell:[['darkBell','Dark Bell'],['crystalBell','Crystal Bell']],
- pluck:[['glassPluck','Glass Pluck'],['woodPluck','Wood Pluck'],['nylonGuitar','Nylon Guitar · Mộc']],
+ pluck:[['glassPluck','Glass Pluck'],['woodPluck','Wood Pluck'],['nylonGuitar','Guitar Nylon · Thu thật'],['acousticGuitar','Acoustic Guitar · Thu thật']],
  fx:[['impactFX','Impact Hit'],['vinylFX','Vinyl Crackle']],
  riser:[['noiseRiser','Noise Riser'],['reverseRiser','Reverse Sweep']]
 };
@@ -119,13 +119,13 @@ function play(ctx,kind,id,n,when,stepDuration,dest){
    return;
  }
  if(kind==='bass'){
-   const smooth=id==='soft808',rel=smooth?.23:.17,amp=vel*(smooth?.31:.36);
+   const deep=id==='sub808',smooth=id==='soft808'||deep,rel=deep?.29:smooth?.23:.17,amp=vel*(deep?.37:smooth?.31:.36);
    const g=env(ctx,post,when,.004,Math.max(.035,length-.013),rel,amp);
    const end=when+length+rel+.09;
    const slide=Number.isInteger(n.slideTo)?freq(n.slideTo):null;
    osc(ctx,'sine',hz,when,end,g,.88,0,slide);
-   osc(ctx,'sawtooth',hz,when,end,g,smooth?.08:.18,0,slide);
-   if(!smooth)osc(ctx,'sine',hz*.5,when,end,g,.35,0,slide?slide*.5:null);
+   osc(ctx,'sawtooth',hz,when,end,g,deep?.055:smooth?.08:.18,0,slide);
+   if(!smooth||deep)osc(ctx,'sine',hz*.5,when,end,g,deep?.47:.35,0,slide?slide*.5:null);
    return;
  }
  if(kind==='piano'){
@@ -148,7 +148,7 @@ function play(ctx,kind,id,n,when,stepDuration,dest){
 function setupUI(){
  const tab=document.getElementById('toolsTab');if(!tab)return;
  const panel=document.createElement('section');panel.className='sound-lib';
- panel.innerHTML='<div class="sound-eyebrow">SOUND LIBRARY · V1.1</div><h2>Thư viện âm thanh</h2><p>9 track · 8 nhóm tiếng tổng hợp trực tiếp, nghe thử được cả khi offline.</p><div class="sound-controls"><label>NHẠC CỤ<select id="soundTrackSelect"></select></label><label>CHỌN TIẾNG<select id="soundPresetSelect"></select></label></div><div class="sound-action-row"><button id="soundAuditionBtn">▶ Nghe thử</button><button id="soundSaveBtn" class="sound-apply">✓ Áp dụng tiếng</button></div><p class="sound-help">Vào Bản phối, nhấn “5 track chính / 4 tiếng mới” để chuyển giữa các nhóm.</p>';
+ panel.innerHTML='<div class="sound-eyebrow">SOUND LIBRARY · V1.3</div><h2>Thư viện âm thanh</h2><p>Guitar điện Clean/Drive, Acoustic, Nylon và Piano có <b>mẫu tiếng thu thật</b>; trống Punch + 808 Sub vẫn tổng hợp. Có thể nghe và xuất WAV offline.</p><div class="sound-controls"><label>NHẠC CỤ<select id="soundTrackSelect"></select></label><label>CHỌN TIẾNG<select id="soundPresetSelect"></select></label></div><div class="sound-action-row"><button id="soundAuditionBtn">▶ Nghe thử</button><button id="soundSaveBtn" class="sound-apply">✓ Áp dụng tiếng</button></div><p id="soundLoadHint" class="sound-help">Nhấn Nghe thử để tải tiếng thực vào bộ phát. Các mẫu đã được đóng gói trong ứng dụng.</p><p class="sound-help">Track SYNTH có Guitar điện. Track PLUCK có Guitar Acoustic/Nylon. Dùng ⋯ → Đổi tiếng ở Bản phối để chọn nhanh.</p><p class="sound-help"><a href="https://github.com/nbrosowsky/tonejs-instruments" target="_blank" rel="noopener noreferrer">Nguồn mẫu âm CC BY 3.0 · ghi công</a></p>';
  const beatImport=tab.querySelector('.beat-import');
  if(beatImport)beatImport.insertAdjacentElement('afterend',panel);
  else tab.querySelector('.section-head').insertAdjacentElement('afterend',panel);
@@ -156,13 +156,21 @@ function setupUI(){
  TRACKS.forEach((tr,i)=>sel.add(new Option(tr.name,String(i))));
  const populate=()=>{const t=+sel.value,kind=TRACKS[t].kind;pres.innerHTML='';for(const [id,label] of OPTIONS[kind]||[])pres.add(new Option(label,id));pres.value=song.sounds?.[String(t)]||DEFAULTS[t];};
  sel.value='5';populate();sel.addEventListener('change',populate);
- document.getElementById('soundAuditionBtn').addEventListener('click',()=>{const t=+sel.value;if(t===0)return toast('Hãy nhấn Play để nghe trống');
- const pitch=t===1?41:t===7?48: t===8?60:65;
- const prev=song.sounds?.[String(t)];song.sounds[String(t)]=pres.value;
- audition(t,[note(0,pitch,t===8||t===4?16:4,.85)]);
- song.sounds[String(t)]=prev||DEFAULTS[t];
+ document.getElementById('soundAuditionBtn').addEventListener('click',async()=>{
+ const t=+sel.value, id=pres.value,button=document.getElementById('soundAuditionBtn');
+ if(t===0){toast('Dùng Play để nghe tiếng trống trên track TRỐNG');return;}
+ const pitch=t===1?41:t===7?48:t===8?60:t===3?69:t===6?65:60;
+ const prev=song.sounds?.[String(t)];
+ button.disabled=true;button.textContent='Đang chuẩn bị tiếng…';
+ document.getElementById('soundLoadHint').textContent=window.miniSamplesV13?.canUse(id)?'Đang giải mã mẫu tiếng thu thật trên thiết bị…':'Đang nghe tiếng tổng hợp…';
+ try{
+   song.sounds[String(t)]=id;
+   await audition(t,[note(0,pitch,t===8||t===4?16:4,.85)]);
+   document.getElementById('soundLoadHint').textContent=window.miniSamplesV13?.canUse(id)?'Đã phát tiếng thu thật · Có thể dùng offline.':'Đã phát tiếng tổng hợp.';
+ }catch(e){toast('Không nghe được: '+e.message);}
+ finally{song.sounds[String(t)]=prev||DEFAULTS[t];button.disabled=false;button.textContent='▶ Nghe thử';}
  });
- document.getElementById('soundSaveBtn').addEventListener('click',()=>{const t=+sel.value;const id=pres.value;if(!OPTIONS[TRACKS[t].kind].some(item=>item[0]===id))return;stopPlaying();song.sounds[String(t)]=id;autoSave();toast('Đã chọn '+pres.options[pres.selectedIndex].text+' cho '+TRACKS[t].name);});
+ document.getElementById('soundSaveBtn').addEventListener('click',()=>{const t=+sel.value;const id=pres.value;if(!OPTIONS[TRACKS[t].kind].some(item=>item[0]===id))return;stopPlaying();song.sounds[String(t)]=id;autoSave();updateSelected();renderArrangement();toast('Đã chọn '+pres.options[pres.selectedIndex].text+' cho '+TRACKS[t].name);});
  window.miniSoundsV11.refresh=populate;
 }
 window.miniSoundsV11={OPTIONS,DEFAULTS,ID2KIND,play,refresh:()=>{}};
