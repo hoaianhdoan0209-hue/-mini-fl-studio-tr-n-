@@ -306,11 +306,12 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
 
 </style>
 <link rel="stylesheet" href="./sounds-v11.css" />
+<link rel="stylesheet" href="./audio-tracks-v15.css" />
 </head>
 <body>
 <div id="app">
   <header class="topbar">
-    <div class="identity"><span class="logo">♫</span><span><strong>MINI FL</strong><small>STUDIO WEB <b>V1.4</b></small></span></div>
+    <div class="identity"><span class="logo">♫</span><span><strong>MINI FL</strong><small>STUDIO WEB <b>V1.5</b></small></span></div>
     <div class="header-actions"><button id="newBtn" class="icon-btn" aria-label="Tạo bản nhạc mới" title="Tạo mới"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button id="saveBtn" class="icon-btn" aria-label="Lưu dự án" title="Lưu dự án"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h12l4 4v14H3V3h2zm2 0v7h10V3M7 21v-8h10v8"/></svg></button><button id="loadBtn" class="icon-btn" aria-label="Mở dự án" title="Mở dự án"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8h16v-8M12 3v12m-5-5 5 5 5-5"/></svg></button></div>
   </header>
   <div id="startupNotice" class="startup-notice hidden"><strong>Trình duyệt chưa khởi động được</strong><span>Vui lòng tải lại trang bằng Safari hoặc Chrome.</span></div>
@@ -353,7 +354,7 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
       <div class="roll-select"><select id="rollTrack" aria-label="Chọn nhạc cụ"></select><div class="bar-stepper"><button id="prevBar" aria-label="Ô trước">‹</button><span id="barLabel">Ô 01</span><button id="nextBar" aria-label="Ô sau">›</button></div></div>
       <div class="roll-controls"><label>Độ dài <select id="noteLength"><option value="1">1 step</option><option value="2">2 steps</option><option value="4" selected>4 steps</option><option value="8">8 steps</option><option value="16">16 steps</option></select></label><label>Lực nhấn <select id="velocity"><option value="0.5">50%</option><option value="0.75" selected>75%</option><option value="1">100%</option></select></label></div>
       <div class="roll-wrap"><div class="roll-top"><div>♪</div><div id="rollRuler" class="roll-ruler"></div></div><div id="pianoRows" class="piano-rows"></div></div>
-      <p class="help">Chạm để thêm hoặc xóa nốt. Vuốt ngang để đổi nhịp, vuốt dọc để tìm nốt cao/thấp. Muốn nghe nốt, bật âm lượng điện thoại.</p>
+      <p class="help">Chạm ô trống để thêm nốt · Giữ và kéo thân nốt để đổi vị trí/cao độ · Kéo cạnh phải để kéo dài/rút ngắn · Chạm nốt để xóa.</p>
       <button id="previewBarBtn" class="wide-button">▶ NGHE RIÊNG Ô NÀY</button>
     </section>
 
@@ -369,7 +370,7 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
     </section>
 
     <button class="export" id="exportBtn"><span>↧</span><div><b>XUẤT NHẠC WAV</b><small>Âm thanh PCM · Phát được trên điện thoại</small></div><strong>→</strong></button>
-    <div class="footer">MINI FL STUDIO  V1.4 · OFFLINE · PHÁT ÂM THANH THẬT</div>
+    <div class="footer">MINI FL STUDIO  V1.5 · OFFLINE · PHÁT ÂM THANH THẬT</div>
     </section>
   </main>
   <nav class="bottom-nav" aria-label="Điều hướng"><button class="nav-btn selected" data-tab="arrange"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="1.8"/><path d="M3.5 9.3h17M3.5 14.7h17M9.2 4v16M14.8 4v16"/></svg><b>Bản phối</b></button><button class="nav-btn" data-tab="piano"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5.5l11-2V16"/><path d="M9 8.5l11-2"/><ellipse cx="6.2" cy="18.3" rx="3.3" ry="2.2" transform="rotate(-18 6.2 18.3)"/><ellipse cx="17.2" cy="16.2" rx="3.3" ry="2.2" transform="rotate(-18 17.2 16.2)"/></svg><b>Piano Roll</b></button><button class="nav-btn" data-tab="tools"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16M4 12h16"/><circle cx="9" cy="7" r="2.3"/><circle cx="16" cy="12" r="2.3"/><circle cx="10" cy="17" r="2.3"/></svg><b>Công cụ</b></button></nav>
@@ -398,7 +399,7 @@ const CHORDS={'Trưởng':[0,4,7],'Thứ':[0,3,7],'Sus2':[0,2,7],'Sus4':[0,5,7],
 const CHORD_ORDER=['Trưởng','Thứ','Sus2','Sus4','7','Maj7','m7','Dim'];
 const DRUMS={36:'KICK',38:'SNARE',42:'HI-HAT',46:'OPEN HAT'};
 const $=id=>document.getElementById(id);
-const blank=()=>({version:2,title:'Bản nhạc mới',bpm:120,clips:Object.fromEntries(TRACKS.map((_,i)=>[String(i),{}])),sounds:Object.fromEntries(TRACKS.map((_,i)=>[String(i),DEFAULT_SOUNDS[i]]))});
+const blank=()=>({version:2,title:'Bản nhạc mới',bpm:120,clips:Object.fromEntries(TRACKS.map((_,i)=>[String(i),{}])),sounds:Object.fromEntries(TRACKS.map((_,i)=>[String(i),DEFAULT_SOUNDS[i]])),audioClips:[]});
 const note=(step,pitch,length=1,velocity=.8)=>({step,pitch,length,velocity});
 const clone=v=>JSON.parse(JSON.stringify(v));
 let song=blank(),track=2,bar=0,trackBank=0,clipboard=null,activeTab='arrange',audio=null,playing=false,loop=true,interval=null,clockInterval=null,playIdx=0,nextStepTime=0,playBars=8,transportGain=null,scheduledNodes=[];
@@ -408,7 +409,7 @@ const PAUSE_ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" 
 
 
 function clip(t=track,b=bar,create=false){const clips=song.clips[String(t)];const key=String(b);if(create&&!clips[key])clips[key]=[];return clips[key]||[];}
-function lastBar(){let end=1;for(const c of Object.values(song.clips)){for(const [k,v] of Object.entries(c))if(v.length)end=Math.max(end,Number(k)+1);}return Math.min(MAX_BARS,end);}
+function lastBar(){let end=1;for(const c of Object.values(song.clips)){for(const [k,v] of Object.entries(c))if(v.length)end=Math.max(end,Number(k)+1);}if(window.miniAudioV15)end=Math.max(end,window.miniAudioV15.lastBar(audioStep()));return Math.min(MAX_BARS,end);}
 function validate(raw){
   if(!raw||typeof raw!=='object'||!raw.clips||typeof raw.clips!=='object')throw Error('Dự án không hợp lệ');
   const out=blank();out.title=String(raw.title||'Bản nhạc mới').slice(0,80);
@@ -430,6 +431,20 @@ function validate(raw){
       total+=cleaned.length;if(total>12000)throw Error('Dự án quá lớn');
       out.clips[String(t)][String(b)]=cleaned;
     }
+  }
+  if(Array.isArray(raw.audioClips)){
+   if(raw.audioClips.length>16)throw Error('Chỉ tối đa 16 clip âm thanh');
+   const seen=new Set();
+   out.audioClips=raw.audioClips.map(c=>{
+    if(!c||typeof c!=='object'||typeof c.id!=='string'||!/^a[a-z0-9-]{8,100}$/i.test(c.id)||seen.has(c.id))throw Error('Mã clip audio không hợp lệ');
+    seen.add(c.id);
+    const b=Number(c.bar),step=Number(c.step),duration=Number(c.duration),trim=Number(c.trim),gain=Number(c.gain);
+    if(!Number.isInteger(b)||b<0||b>=80||!Number.isInteger(step)||step<0||step>15||
+       !Number.isFinite(duration)||duration<=0||duration>2400||
+       !Number.isFinite(trim)||trim<0||trim>=duration||
+       !Number.isFinite(gain)||gain<0||gain>1.5)throw Error('Clip audio không hợp lệ');
+    return{id:c.id,name:String(c.name||'Audio').slice(0,80),bar:b,step,duration,trim,gain};
+   });
   }
   return out;
 }
@@ -615,7 +630,7 @@ function updateClock(index){
   document.querySelectorAll('#ruler .playing-bar').forEach(el=>el.classList.remove('playing-bar'));
   if(playing){const x=$('ruler').children[Math.floor(index/16)];if(x)x.classList.add('playing-bar');}
 }
-function scheduleStep(ctx,idx,time){const b=Math.floor(idx/16),s=idx%16;for(let t=0;t<TRACKS.length;t++){for(const n of clip(t,b)){if(n.step===s)musicNote(ctx,t,n,time,audioStep(),transportGain);}}}
+function scheduleStep(ctx,idx,time){const b=Math.floor(idx/16),s=idx%16;for(let t=0;t<TRACKS.length;t++){for(const n of clip(t,b)){if(n.step===s)musicNote(ctx,t,n,time,audioStep(),transportGain);}}window.miniAudioV15?.onStep(ctx,idx,time,transportGain);}
 function stopPlaying(){if(interval){clearInterval(interval);interval=null;}if(clockInterval){clearInterval(clockInterval);clockInterval=null;}playing=false;$('playBtn').classList.remove('playing');$('playBtn').innerHTML=PLAY_ICON;if(transportGain&&audio){const t=audio.currentTime;transportGain.gain.cancelScheduledValues(t);transportGain.gain.setValueAtTime(transportGain.gain.value,t);transportGain.gain.linearRampToValueAtTime(.00001,t+.025);transportGain=null;}updateClock(0);}
 let sampleLoading=false;
 async function startPlaying(){
@@ -627,6 +642,7 @@ async function startPlaying(){
   if(tracksToPrepare.some(i=>window.miniSamplesV13?.canUse(song.sounds?.[String(i)]||DEFAULT_SOUNDS[i])))
      toast('Đang chuẩn bị tiếng guitar / piano thu thật…');
   await prepareSamples(ctx,tracksToPrepare);
+  if(window.miniAudioV15&&!await window.miniAudioV15.prepare(ctx))return;
   stopPlaying();transportGain=ctx.createGain();transportGain.gain.value=.85;transportGain.connect(createMaster(ctx,ctx.destination));playing=true;$('playBtn').classList.add('playing');$('playBtn').innerHTML=PAUSE_ICON;playIdx=0;playBars=lastBar();nextStepTime=ctx.currentTime+.08;
   const start=nextStepTime,stepDuration=audioStep();let latestIdx=0;
   const tick=()=>{if(!playing)return;let cycles=0;while(nextStepTime<ctx.currentTime+.18&&cycles++<32){if(playIdx>=playBars*16){if(loop)playIdx=0;else{stopPlaying();return;}}scheduleStep(ctx,playIdx,nextStepTime);playIdx++;nextStepTime+=stepDuration;}};
@@ -641,10 +657,27 @@ async function previewBar(){
   const dest=ctx.createGain();dest.gain.value=.8;dest.connect(createMaster(ctx,ctx.destination));let time=ctx.currentTime+.025;for(const n of clip()){musicNote(ctx,track,n,time+n.step*audioStep(),audioStep(),dest);}toast('Đang nghe riêng ô nhạc');}catch(e){toast(e.message);}}
 function safeName(s){return String(s||'MiniFL').replace(/[\\/:*?"<>|\u0000-\u001f]/g,'_').trim().slice(0,70)||'MiniFL';}
 function downloadBlob(blob,filename){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),30000);}
-function fileSave(){song.title=$('songTitle').value.slice(0,80)||'Bản nhạc mới';autoSave();const json=JSON.stringify(song,null,2),filename=safeName(song.title)+'.minifl';
-  if(window.AndroidBridge){window.AndroidBridge.saveProject(json,filename);}else{downloadBlob(new Blob([json],{type:'application/json'}),filename);toast('Đã tải file .minifl');}}
+async function fileSave(){
+ try{
+  song.title=$('songTitle').value.slice(0,80)||'Bản nhạc mới';
+  autoSave();
+  const project=window.miniAudioV15?await window.miniAudioV15.exportProject(song):song;
+  const json=JSON.stringify(project,null,2),filename=safeName(song.title)+'.minifl';
+  if(window.AndroidBridge)window.AndroidBridge.saveProject(json,filename);
+  else{downloadBlob(new Blob([json],{type:'application/json'}),filename);toast('Đã tải dự án kèm audio nếu có');}
+ }catch(e){toast('Không lưu được: '+e.message);}
+}
 function openFile(){if(window.AndroidBridge)window.AndroidBridge.openProject();else $('fileInput').click();}
-function receiveImportedProject(content){try{const next=validate(JSON.parse(content));stopPlaying();song=next;track=2;bar=0;autoSave();updateMeta();renderArrangement();if(activeTab==='piano')renderRoll();toast('Đã mở dự án thành công');}catch(e){toast('Không mở được: '+e.message);}}
+async function receiveImportedProject(content){
+ try{
+  const raw=JSON.parse(content),next=validate(raw);
+  if(window.miniAudioV15)await window.miniAudioV15.restoreProject(raw);
+  stopPlaying();song=next;track=2;bar=0;autoSave();updateMeta();renderArrangement();
+  if(activeTab==='piano')renderRoll();
+  window.miniAudioV15?.projectChanged();
+  toast('Đã mở dự án'+(song.audioClips.length?' kèm '+song.audioClips.length+' audio':'')+' thành công');
+ }catch(e){toast('Không mở được: '+e.message);}
+}
 window.receiveImportedProject=receiveImportedProject;
 window.nativeMessage=msg=>toast(msg);
 window.miniGoBack=()=>{if(activeTab!=='arrange'){selectTab('arrange');return true;}return false;};
@@ -668,6 +701,7 @@ async function exportWav(){
    const amount=Math.min(chunkBars,bars-first);
    const ctx=new C(1,Math.ceil(sr*(amount*barSeconds+tail)),sr);
    const dest=createMaster(ctx,ctx.destination);
+   if(window.miniAudioV15&&!await window.miniAudioV15.prepare(ctx))throw Error('Thiếu dữ liệu audio dùng trong bài');
    const need=TRACKS.map((_,i)=>i).filter(t=>Array.from({length:amount},(_,k)=>clip(t,first+k)).some(ns=>ns.length));
    if(need.some(i=>window.miniSamplesV13?.canUse(song.sounds?.[String(i)]||DEFAULT_SOUNDS[i])))
      busySmall.textContent='Đang chuẩn bị guitar / piano thu thật…';
@@ -675,6 +709,7 @@ async function exportWav(){
    for(let t=0;t<TRACKS.length;t++)for(let b=first;b<first+amount;b++){
      for(const n of clip(t,b))musicNote(ctx,t,n,((b-first)*16+n.step)*step,step,dest);
    }
+   window.miniAudioV15?.renderChunk(ctx,first,amount,step,dest);
    const rendered=await ctx.startRendering(),data=rendered.getChannelData(0);
    const offset=Math.round(first*barSeconds*sr);
    for(let i=0;i<data.length&&offset+i<mix.length;i++)mix[offset+i]+=data[i];
@@ -696,6 +731,10 @@ function init(){
   $('rollTrack').innerHTML=TRACKS.map((t,i)=>`<option value="${i}">${t.name}</option>`).join('');
   $('chordRoot').innerHTML=ROOTS.map(x=>`<option>${x}</option>`).join('');$('chordType').innerHTML=CHORD_ORDER.map(x=>`<option>${x}</option>`).join('');
   $('rollTrack').value=String(track);
+  if(window.miniAudioV15)window.miniAudioV15.init({
+    getSong:()=>song,save:autoSave,ensureAudio,step:audioStep,
+    currentBar:()=>bar,stop:stopPlaying,toast
+  });
   document.body.dataset.activeTab='arrange';updateMeta();renderArrangement();renderChordPreview();
   document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>selectTab(b.dataset.tab)));
   $('editSelectedBtn').addEventListener('click',()=>selectTab('piano'));
@@ -766,8 +805,8 @@ function init(){
   $('jumpChordBtn').addEventListener('click',()=>selectTab('tools'));
   $('toolsBackBtn').addEventListener('click',()=>selectTab('arrange'));
   $('saveBtn').addEventListener('click',fileSave);$('loadBtn').addEventListener('click',openFile);
-  $('newBtn').addEventListener('click',()=>{if(!confirm('Tạo bài mới? Bài hiện tại đã được tự lưu trong ứng dụng; nên xuất file .minifl nếu muốn giữ lại.'))return;stopPlaying();song=blank();track=2;bar=0;autoSave();updateMeta();renderArrangement();if(activeTab==='piano')renderRoll();toast('Đã tạo bản nhạc mới');});
-  $('fileInput').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;if(f.size>3*1024*1024){toast('File dự án vượt quá 3 MB');return;}receiveImportedProject(await f.text());e.target.value='';});
+  $('newBtn').addEventListener('click',()=>{if(!confirm('Tạo bài mới? Bài hiện tại đã được tự lưu trong ứng dụng; nên xuất file .minifl nếu muốn giữ lại.'))return;stopPlaying();song=blank();track=2;bar=0;autoSave();window.miniAudioV15?.projectChanged();updateMeta();renderArrangement();if(activeTab==='piano')renderRoll();toast('Đã tạo bản nhạc mới');});
+  $('fileInput').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;if(f.size>45*1024*1024){toast('Dự án tối đa 45 MB (kể cả audio)');return;}await receiveImportedProject(await f.text());e.target.value='';});
   $('previewBarBtn').addEventListener('click',previewBar);$('exportBtn').addEventListener('click',exportWav);
   $('startupNotice')?.classList.add('hidden');$('readyStatus').classList.add('ready');$('readyStatus').innerHTML='<i></i> SẴN SÀNG';
   $('sectionJump').addEventListener('change',e=>{const b=Number(e.target.value);bar=b;updateSelected();renderArrangement();$('arrangeViewport').scrollLeft=b*($('ruler').scrollWidth/MAX_BARS);});
@@ -791,6 +830,7 @@ window.addEventListener('DOMContentLoaded',()=>{try{init();}catch(e){const notic
 <script src="./samples-piano-v13.js"></script>
 <script src="./sample-player-v13.js"></script>
 <script src="./sounds-v11.js"></script>
+<script src="./audio-tracks-v15.js"></script>
 <script src="./hood80-v10.js"></script>
 <script src="./hood80-v11.js"></script>
 <script src="./castle-cloud-v12.js"></script>
