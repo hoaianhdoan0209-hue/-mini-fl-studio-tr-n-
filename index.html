@@ -304,7 +304,7 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
 <body>
 <div id="app">
   <header class="topbar">
-    <div class="identity"><span class="logo">♫</span><span><strong>MINI FL</strong><small>STUDIO WEB <b>V1.1</b></small></span></div>
+    <div class="identity"><span class="logo">♫</span><span><strong>MINI FL</strong><small>STUDIO WEB <b>V1.2</b></small></span></div>
     <div class="header-actions"><button id="newBtn" class="icon-btn" aria-label="Tạo bản nhạc mới" title="Tạo mới"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button id="saveBtn" class="icon-btn" aria-label="Lưu dự án" title="Lưu dự án"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h12l4 4v14H3V3h2zm2 0v7h10V3M7 21v-8h10v8"/></svg></button><button id="loadBtn" class="icon-btn" aria-label="Mở dự án" title="Mở dự án"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8h16v-8M12 3v12m-5-5 5 5 5-5"/></svg></button></div>
   </header>
   <div id="startupNotice" class="startup-notice hidden"><strong>Trình duyệt chưa khởi động được</strong><span>Vui lòng tải lại trang bằng Safari hoặc Chrome.</span></div>
@@ -362,7 +362,7 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
     </section>
 
     <button class="export" id="exportBtn"><span>↧</span><div><b>XUẤT NHẠC WAV</b><small>Âm thanh PCM · Phát được trên điện thoại</small></div><strong>→</strong></button>
-    <div class="footer">MINI FL STUDIO  V1.1 · OFFLINE · PHÁT ÂM THANH THẬT</div>
+    <div class="footer">MINI FL STUDIO  V1.2 · OFFLINE · PHÁT ÂM THANH THẬT</div>
     </section>
   </main>
   <nav class="bottom-nav" aria-label="Điều hướng"><button class="nav-btn selected" data-tab="arrange"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="1.8"/><path d="M3.5 9.3h17M3.5 14.7h17M9.2 4v16M14.8 4v16"/></svg><b>Bản phối</b></button><button class="nav-btn" data-tab="piano"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5.5l11-2V16"/><path d="M9 8.5l11-2"/><ellipse cx="6.2" cy="18.3" rx="3.3" ry="2.2" transform="rotate(-18 6.2 18.3)"/><ellipse cx="17.2" cy="16.2" rx="3.3" ry="2.2" transform="rotate(-18 17.2 16.2)"/></svg><b>Piano Roll</b></button><button class="nav-btn" data-tab="tools"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16M4 12h16"/><circle cx="9" cy="7" r="2.3"/><circle cx="16" cy="12" r="2.3"/><circle cx="10" cy="17" r="2.3"/></svg><b>Công cụ</b></button></nav>
@@ -453,7 +453,19 @@ function demoSong(){
   track=2;bar=0;
 }
 function resizeSongTitle(){const e=$('songTitle');e.style.height='auto';e.style.height=Math.max(38,e.scrollHeight)+'px';}
-function updateMeta(){$('songTitle').value=song.title;resizeSongTitle();$('bpm').value=song.bpm;updateSelected();updateClock(0);}
+function syncSections(){
+ const sel=$('sectionJump');if(!sel)return;
+ const romantic=/Lâu Đài Trên Mây|Lau Dai Tren May/i.test(song.title),kind=romantic?'romantic':'hood';
+ if(sel.dataset.beatKind===kind)return;
+ sel.dataset.beatKind=kind;
+ const areas=romantic?[
+ [0,'Intro · 01–08'],[8,'Verse 1 · 09–24'],[24,'Build · 25–32'],[32,'Hook 1 · 33–48'],[48,'Verse 2 · 49–56'],[56,'Hook cuối · 57–64']
+ ]:[
+ [0,'Intro · 01–08'],[8,'Verse 1 · 09–24'],[24,'Build · 25–32'],[32,'Hook 1 · 33–48'],[48,'Verse 2 · 49–64'],[64,'Hook cuối · 65–80']
+ ];
+ sel.innerHTML='';for(const [value,label] of areas)sel.add(new Option(label,String(value)));
+}
+function updateMeta(){$('songTitle').value=song.title;resizeSongTitle();$('bpm').value=song.bpm;syncSections();updateSelected();updateClock(0);}
 function updateSelected(){$('selectedLabel').textContent=`${TRACKS[track].name} · Ô ${String(bar+1).padStart(2,'0')}`;$('barLabel').textContent=`Ô ${String(bar+1).padStart(2,'0')}`;$('rollTrack').value=String(track);}
 function renderArrangement(){
   const labels=$('trackLabels'),grid=$('arrangeGrid'),savedScroll=$('arrangeViewport').scrollLeft;
@@ -708,6 +720,7 @@ window.addEventListener('DOMContentLoaded',()=>{try{init();}catch(e){const notic
 <script src="./sounds-v11.js"></script>
 <script src="./hood80-v10.js"></script>
 <script src="./hood80-v11.js"></script>
+<script src="./castle-cloud-v12.js"></script>
 <script src="./beat-v09.js"></script>
 </body>
 </html>
