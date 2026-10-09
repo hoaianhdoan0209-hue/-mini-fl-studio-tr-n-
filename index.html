@@ -298,13 +298,19 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
  #arrangeTab .section-head h2{font-size:16px}
 }
 
+/* V1.3 quick sound label, compact bank selector */
+.selected-strip #selectedLabel{min-width:0;max-width:45%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:4px}
+#quickSoundBtn{background:#2a3c36;border-color:#5f9b72;color:#c1f7ba;text-align:center}
+#quickSoundBtn span{color:#a9c6b5}
+.sound-lib a{color:#8fceff;text-decoration:underline}
+
 </style>
 <link rel="stylesheet" href="./sounds-v11.css" />
 </head>
 <body>
 <div id="app">
   <header class="topbar">
-    <div class="identity"><span class="logo">♫</span><span><strong>MINI FL</strong><small>STUDIO WEB <b>V1.2</b></small></span></div>
+    <div class="identity"><span class="logo">♫</span><span><strong>MINI FL</strong><small>STUDIO WEB <b>V1.3</b></small></span></div>
     <div class="header-actions"><button id="newBtn" class="icon-btn" aria-label="Tạo bản nhạc mới" title="Tạo mới"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button id="saveBtn" class="icon-btn" aria-label="Lưu dự án" title="Lưu dự án"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h12l4 4v14H3V3h2zm2 0v7h10V3M7 21v-8h10v8"/></svg></button><button id="loadBtn" class="icon-btn" aria-label="Mở dự án" title="Mở dự án"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8h16v-8M12 3v12m-5-5 5 5 5-5"/></svg></button></div>
   </header>
   <div id="startupNotice" class="startup-notice hidden"><strong>Trình duyệt chưa khởi động được</strong><span>Vui lòng tải lại trang bằng Safari hoặc Chrome.</span></div>
@@ -334,7 +340,8 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
           <details class="clip-more"><summary aria-label="Mở công cụ sửa, xóa ô và xóa toàn bộ" title="Sửa / Xóa" role="button">⋯</summary>
             <div class="clip-actions">
               <div class="tools-row"><button id="copyBtn">⧉ Sao chép</button><button id="pasteBtn">↧ Dán ô</button><button id="clearBtn">✕ Xóa ô</button></div>
-              <button id="clearAllBtn" class="clear-all-btn" type="button" aria-label="Xóa toàn bộ nốt nhạc trên cả 5 track">✕ Xóa toàn bộ 5 track <span>Giữ tên bài và BPM</span></button>
+              <button id="quickSoundBtn" class="clear-all-btn" type="button" aria-label="Đổi âm thanh track hiện tại">🎸 Đổi tiếng nhạc cụ <span>Guitar điện · Acoustic · Piano thật · 808</span></button>
+              <button id="clearAllBtn" class="clear-all-btn" type="button" aria-label="Xóa toàn bộ nốt nhạc trên cả 9 track">✕ Xóa toàn bộ 9 track <span>Giữ tên bài và BPM</span></button>
             </div>
           </details>
         </div>
@@ -362,7 +369,7 @@ body[data-active-tab="tools"] .song-info,body[data-active-tab="tools"] .transpor
     </section>
 
     <button class="export" id="exportBtn"><span>↧</span><div><b>XUẤT NHẠC WAV</b><small>Âm thanh PCM · Phát được trên điện thoại</small></div><strong>→</strong></button>
-    <div class="footer">MINI FL STUDIO  V1.2 · OFFLINE · PHÁT ÂM THANH THẬT</div>
+    <div class="footer">MINI FL STUDIO  V1.3 · OFFLINE · PHÁT ÂM THANH THẬT</div>
     </section>
   </main>
   <nav class="bottom-nav" aria-label="Điều hướng"><button class="nav-btn selected" data-tab="arrange"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="1.8"/><path d="M3.5 9.3h17M3.5 14.7h17M9.2 4v16M14.8 4v16"/></svg><b>Bản phối</b></button><button class="nav-btn" data-tab="piano"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5.5l11-2V16"/><path d="M9 8.5l11-2"/><ellipse cx="6.2" cy="18.3" rx="3.3" ry="2.2" transform="rotate(-18 6.2 18.3)"/><ellipse cx="17.2" cy="16.2" rx="3.3" ry="2.2" transform="rotate(-18 17.2 16.2)"/></svg><b>Piano Roll</b></button><button class="nav-btn" data-tab="tools"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16M4 12h16"/><circle cx="9" cy="7" r="2.3"/><circle cx="16" cy="12" r="2.3"/><circle cx="10" cy="17" r="2.3"/></svg><b>Công cụ</b></button></nav>
@@ -466,7 +473,14 @@ function syncSections(){
  sel.innerHTML='';for(const [value,label] of areas)sel.add(new Option(label,String(value)));
 }
 function updateMeta(){$('songTitle').value=song.title;resizeSongTitle();$('bpm').value=song.bpm;syncSections();updateSelected();updateClock(0);}
-function updateSelected(){$('selectedLabel').textContent=`${TRACKS[track].name} · Ô ${String(bar+1).padStart(2,'0')}`;$('barLabel').textContent=`Ô ${String(bar+1).padStart(2,'0')}`;$('rollTrack').value=String(track);}
+function updateSelected(){
+ const id=song.sounds?.[String(track)]||DEFAULT_SOUNDS[track];
+ const preset=window.miniSoundsV11?.OPTIONS?.[TRACKS[track].kind]?.find(x=>x[0]===id)?.[1]||id;
+ $('selectedLabel').textContent=`${TRACKS[track].name} · ${String(bar+1).padStart(2,'0')} · ${preset}`;
+ $('selectedLabel').title=TRACKS[track].name+' · '+preset;
+ $('barLabel').textContent=`Ô ${String(bar+1).padStart(2,'0')}`;
+ $('rollTrack').value=String(track);
+}
 function renderArrangement(){
   const labels=$('trackLabels'),grid=$('arrangeGrid'),savedScroll=$('arrangeViewport').scrollLeft;
   const offset=trackBank===0?0:5, visible=TRACKS.slice(offset,offset+5);
@@ -542,8 +556,13 @@ function envelope(ctx,dest,when,attack,sustain,release,level){
 }
 function musicNote(ctx,t,n,when,stepDuration,dest){
  const kind=TRACKS[t].kind;const dur=Math.max(.03,n.length*stepDuration);
- if(kind==='drums')return drumSound(ctx,n.pitch,when,n.velocity,dest);
- if(window.miniSoundsV11)return window.miniSoundsV11.play(ctx,kind,song.sounds?.[String(t)]||DEFAULT_SOUNDS[t],n,when,stepDuration,dest);
+ const soundId=song.sounds?.[String(t)]||DEFAULT_SOUNDS[t];
+ if(kind==='drums'){
+   if(soundId==='punchKit'&&window.miniSamplesV13)return window.miniSamplesV13.drum(ctx,n.pitch,when,n.velocity,dest);
+   return drumSound(ctx,n.pitch,when,n.velocity,dest);
+ }
+ if(window.miniSamplesV13?.canUse(soundId)&&window.miniSamplesV13.play(ctx,soundId,n,when,stepDuration,dest))return;
+ if(window.miniSoundsV11)return window.miniSoundsV11.play(ctx,kind,soundId,n,when,stepDuration,dest);
  const gainBase={bass:.29,piano:.17,lead:.115,pad:.10}[kind];
  const attack={bass:.008,piano:.007,lead:.015,pad:.16}[kind];const release={bass:.13,piano:.23,lead:.15,pad:.42}[kind];
  const amp=envelope(ctx,dest,when,attack,dur,release,n.velocity*gainBase);
@@ -573,7 +592,23 @@ function drumSound(ctx,pitch,when,velocity,dest){
 }
 async function ensureAudio(){const C=window.AudioContext||window.webkitAudioContext;if(!C)throw Error('Thiết bị không hỗ trợ phát âm thanh Web Audio');if(!audio)audio=new C();if(audio.state==='suspended')await audio.resume();return audio;}
 function audioStep(){return 60/song.bpm/4;}
-async function audition(t,ns){try{const ctx=await ensureAudio(),time=ctx.currentTime+.015,dest=ctx.createGain();dest.gain.value=.75;dest.connect(ctx.destination);ns.forEach(n=>musicNote(ctx,t,n,time,audioStep(),dest));}catch(e){toast(e.message);}}
+async function prepareSamples(ctx,trackIds){
+ if(!window.miniSamplesV13)return{loaded:0,failed:[]};
+ const chosen=[...new Set(trackIds.map(t=>song.sounds?.[String(t)]||DEFAULT_SOUNDS[t]).filter(id=>window.miniSamplesV13.canUse(id)))];
+ if(!chosen.length)return{loaded:0,failed:[]};
+ const result=await window.miniSamplesV13.prepare(ctx,chosen);
+ if(result.failed.length)toast('Một số mẫu âm lỗi, đã dùng tiếng dự phòng.');
+ return result;
+}
+async function audition(t,ns){
+ try{
+  const ctx=await ensureAudio();
+  await prepareSamples(ctx,[t]);
+  const time=ctx.currentTime+.04,dest=ctx.createGain();
+  dest.gain.value=.75;dest.connect(createMaster(ctx,ctx.destination));
+  ns.forEach(n=>musicNote(ctx,t,n,time,audioStep(),dest));
+ }catch(e){toast('Không thể nghe thử: '+e.message);}
+}
 function createMaster(ctx,output){const compressor=ctx.createDynamicsCompressor();compressor.threshold.value=-16;compressor.knee.value=20;compressor.ratio.value=5;compressor.attack.value=.004;compressor.release.value=.17;compressor.connect(output);return compressor;}
 function updateClock(index){
   $('clockDisplay').textContent=`${String(Math.floor(index/16)+1).padStart(2,'0')}:${String((index%16)+1).padStart(2,'0')}`;
@@ -582,12 +617,28 @@ function updateClock(index){
 }
 function scheduleStep(ctx,idx,time){const b=Math.floor(idx/16),s=idx%16;for(let t=0;t<TRACKS.length;t++){for(const n of clip(t,b)){if(n.step===s)musicNote(ctx,t,n,time,audioStep(),transportGain);}}}
 function stopPlaying(){if(interval){clearInterval(interval);interval=null;}if(clockInterval){clearInterval(clockInterval);clockInterval=null;}playing=false;$('playBtn').classList.remove('playing');$('playBtn').innerHTML=PLAY_ICON;if(transportGain&&audio){const t=audio.currentTime;transportGain.gain.cancelScheduledValues(t);transportGain.gain.setValueAtTime(transportGain.gain.value,t);transportGain.gain.linearRampToValueAtTime(.00001,t+.025);transportGain=null;}updateClock(0);}
-async function startPlaying(){try{const ctx=await ensureAudio();stopPlaying();transportGain=ctx.createGain();transportGain.gain.value=.85;transportGain.connect(createMaster(ctx,ctx.destination));playing=true;$('playBtn').classList.add('playing');$('playBtn').innerHTML=PAUSE_ICON;playIdx=0;playBars=lastBar();nextStepTime=ctx.currentTime+.08;
+let sampleLoading=false;
+async function startPlaying(){
+ if(sampleLoading)return;
+ sampleLoading=true;
+ try{
+  const ctx=await ensureAudio();
+  const tracksToPrepare=TRACKS.map((_,i)=>i).filter(i=>Object.values(song.clips[String(i)]||{}).some(ns=>ns.length));
+  if(tracksToPrepare.some(i=>window.miniSamplesV13?.canUse(song.sounds?.[String(i)]||DEFAULT_SOUNDS[i])))
+     toast('Đang chuẩn bị tiếng guitar / piano thu thật…');
+  await prepareSamples(ctx,tracksToPrepare);
+  stopPlaying();transportGain=ctx.createGain();transportGain.gain.value=.85;transportGain.connect(createMaster(ctx,ctx.destination));playing=true;$('playBtn').classList.add('playing');$('playBtn').innerHTML=PAUSE_ICON;playIdx=0;playBars=lastBar();nextStepTime=ctx.currentTime+.08;
   const start=nextStepTime,stepDuration=audioStep();let latestIdx=0;
   const tick=()=>{if(!playing)return;let cycles=0;while(nextStepTime<ctx.currentTime+.18&&cycles++<32){if(playIdx>=playBars*16){if(loop)playIdx=0;else{stopPlaying();return;}}scheduleStep(ctx,playIdx,nextStepTime);playIdx++;nextStepTime+=stepDuration;}};
   tick();interval=setInterval(tick,35);clockInterval=setInterval(()=>{if(!playing)return;const elapsed=Math.max(0,ctx.currentTime-start);const idx=Math.floor(elapsed/stepDuration)%(playBars*16);if(idx!==latestIdx){latestIdx=idx;updateClock(idx);}},75);
- }catch(e){stopPlaying();toast(e.message);}}
-async function previewBar(){try{const ctx=await ensureAudio(),dest=ctx.createGain();dest.gain.value=.8;dest.connect(createMaster(ctx,ctx.destination));let time=ctx.currentTime+.025;for(const n of clip()){musicNote(ctx,track,n,time+n.step*audioStep(),audioStep(),dest);}toast('Đang nghe riêng ô nhạc');}catch(e){toast(e.message);}}
+ }catch(e){stopPlaying();toast(e.message);}
+ finally{sampleLoading=false;}
+}
+async function previewBar(){
+ try{
+  const ctx=await ensureAudio();
+  await prepareSamples(ctx,[track]);
+  const dest=ctx.createGain();dest.gain.value=.8;dest.connect(createMaster(ctx,ctx.destination));let time=ctx.currentTime+.025;for(const n of clip()){musicNote(ctx,track,n,time+n.step*audioStep(),audioStep(),dest);}toast('Đang nghe riêng ô nhạc');}catch(e){toast(e.message);}}
 function safeName(s){return String(s||'MiniFL').replace(/[\\/:*?"<>|\u0000-\u001f]/g,'_').trim().slice(0,70)||'MiniFL';}
 function downloadBlob(blob,filename){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),30000);}
 function fileSave(){song.title=$('songTitle').value.slice(0,80)||'Bản nhạc mới';autoSave();const json=JSON.stringify(song,null,2),filename=safeName(song.title)+'.minifl';
@@ -617,6 +668,10 @@ async function exportWav(){
    const amount=Math.min(chunkBars,bars-first);
    const ctx=new C(1,Math.ceil(sr*(amount*barSeconds+tail)),sr);
    const dest=createMaster(ctx,ctx.destination);
+   const need=TRACKS.map((_,i)=>i).filter(t=>Array.from({length:amount},(_,k)=>clip(t,first+k)).some(ns=>ns.length));
+   if(need.some(i=>window.miniSamplesV13?.canUse(song.sounds?.[String(i)]||DEFAULT_SOUNDS[i])))
+     busySmall.textContent='Đang chuẩn bị guitar / piano thu thật…';
+   await prepareSamples(ctx,need);
    for(let t=0;t<TRACKS.length;t++)for(let b=first;b<first+amount;b++){
      for(const n of clip(t,b))musicNote(ctx,t,n,((b-first)*16+n.step)*step,step,dest);
    }
@@ -644,6 +699,16 @@ function init(){
   document.body.dataset.activeTab='arrange';updateMeta();renderArrangement();renderChordPreview();
   document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>selectTab(b.dataset.tab)));
   $('editSelectedBtn').addEventListener('click',()=>selectTab('piano'));
+  $('quickSoundBtn').addEventListener('click',()=>{
+    document.querySelector('.clip-more').open=false;
+    selectTab('tools');
+    const sel=$('soundTrackSelect');
+    if(sel){
+      sel.value=String(track);
+      sel.dispatchEvent(new Event('change'));
+      setTimeout(()=>sel.scrollIntoView({behavior:'smooth',block:'center'}),180);
+    }
+  });
   document.addEventListener('pointerdown',e=>{const menu=document.querySelector('.clip-more');if(menu?.open&&!menu.contains(e.target))menu.open=false;});
   $('backToArrange').addEventListener('click',()=>selectTab('arrange'));
   $('rollTrack').addEventListener('change',e=>{track=Number(e.target.value);trackBank=track>=5?1:0;renderRoll();renderArrangement();updateSelected();});
@@ -717,6 +782,11 @@ window.addEventListener('DOMContentLoaded',()=>{try{init();}catch(e){const notic
     });
   }
 </script>
+<script src="./samples-electric-v13.js"></script>
+<script src="./samples-acoustic-v13.js"></script>
+<script src="./samples-nylon-v13.js"></script>
+<script src="./samples-piano-v13.js"></script>
+<script src="./sample-player-v13.js"></script>
 <script src="./sounds-v11.js"></script>
 <script src="./hood80-v10.js"></script>
 <script src="./hood80-v11.js"></script>
