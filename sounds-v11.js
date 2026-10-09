@@ -158,14 +158,14 @@ function setupUI(){
  sel.value='5';populate();sel.addEventListener('change',populate);
  document.getElementById('soundAuditionBtn').addEventListener('click',async()=>{
  const t=+sel.value, id=pres.value,button=document.getElementById('soundAuditionBtn');
- if(t===0){toast('Dùng Play để nghe tiếng trống trên track TRỐNG');return;}
+ const drumPreview=t===0;
  const pitch=t===1?41:t===7?48:t===8?60:t===3?69:t===6?65:60;
  const prev=song.sounds?.[String(t)];
  button.disabled=true;button.textContent='Đang chuẩn bị tiếng…';
  document.getElementById('soundLoadHint').textContent=window.miniSamplesV13?.canUse(id)?'Đang giải mã mẫu tiếng thu thật trên thiết bị…':'Đang nghe tiếng tổng hợp…';
  try{
    song.sounds[String(t)]=id;
-   await audition(t,[note(0,pitch,t===8||t===4?16:4,.85)]);
+   await audition(t,drumPreview?[note(0,36,1,.9),note(4,42,1,.48),note(8,38,1,.79),note(12,42,1,.48)]:[note(0,pitch,t===8||t===4?16:4,.85)]);
    document.getElementById('soundLoadHint').textContent=window.miniSamplesV13?.canUse(id)?(window.miniSamplesV13.ready(null,id)?'Đã phát tiếng thu thật · Có thể dùng offline.':'Không giải mã được mẫu, đang dùng tiếng tổng hợp dự phòng.'):'Đã phát tiếng tổng hợp.';
  }catch(e){toast('Không nghe được: '+e.message);}
  finally{song.sounds[String(t)]=prev||DEFAULTS[t];button.disabled=false;button.textContent='▶ Nghe thử';}
