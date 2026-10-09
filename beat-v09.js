@@ -66,7 +66,7 @@ function replaceSong(next){
  const current=countNotes(song);
  if(current&&!confirm('Bài hiện tại có '+current+' nốt. Nạp beat sẽ thay bản phối và BPM. Hãy lưu .minifl trước nếu cần.\n\nBạn muốn thay bài?'))return false;
  if(current&&!backup()&&!confirm('Không lưu được bản dự phòng, vẫn thay bài?'))return false;
- stopPlaying();song=validate(next);track=2;bar=0;autoSave();updateMeta();renderArrangement();renderChordPreview();window.miniSoundsV11?.refresh?.();selectTab('arrange');return true;
+ stopPlaying();song=validate(next);const romantic=/Lâu Đài Trên Mây|Lau Dai Tren May/i.test(song.title);track=romantic?6:2;trackBank=romantic?1:0;bar=0;autoSave();updateMeta();renderArrangement();renderChordPreview();window.miniSoundsV11?.refresh?.();selectTab('arrange');return true;
 }
 function copyBars(){
  const start=+$('rangeStart').value-1,end=+$('rangeEnd').value-1,to=+$('rangeTarget').value-1;
