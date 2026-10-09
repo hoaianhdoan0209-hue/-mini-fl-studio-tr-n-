@@ -8,9 +8,8 @@ const IDS=Object.freeze({
  acousticGuitar:'acousticGuitar',nylonGuitar:'nylonGuitar',
  studioPiano:'studioPiano'
 });
-const contexts=new WeakMap(),noises=new WeakMap(),progress=new WeakMap();
+const decoded=new Map(),loading=new Map(),noises=new WeakMap();
 const curve=(()=>{const v=new Float32Array(1024);for(let i=0;i<v.length;i++){const x=(2*i)/(v.length-1)-1;v[i]=Math.tanh(4.2*x)/Math.tanh(4.2);}return v;})();
-function getCache(ctx){let m=contexts.get(ctx);if(!m){m=new Map();contexts.set(ctx,m);}return m;}
 function fromBase64(str){
  const a=new Uint8Array(Math.floor(str.length*3/4));
  let len=0;
@@ -23,8 +22,8 @@ function fromBase64(str){
 function idKind(id){return IDS[id]||null;}
 function canUse(id){return !!(IDS[id]&&ROOT[IDS[id]]?.length);}
 async function loadOne(ctx,bank){
- const cache=getCache(ctx);
- if(cache.has(bank))return cache.get(bank);
+ if(decoded.has(bank))return decoded.get(bank);
+ if(loading.has(bank))return loading.get(bank);
  if(!Array.isArray(ROOT[bank])||!ROOT[bank].length)throw Error('Không thấy mẫu nhạc cụ '+bank);
  const task=(async()=>{
    const notes=new Map();
@@ -38,10 +37,11 @@ async function loadOne(ctx,bank){
      if(buffer.duration<.05)throw Error('Âm thanh quá ngắn');
      notes.set(Number(pitch),buffer);
    }
+   decoded.set(bank,notes);
    return notes;
  })();
- cache.set(bank,task);
- try{return await task;}catch(e){cache.delete(bank);throw e;}
+ loading.set(bank,task);
+ try{return await task;}finally{loading.delete(bank);}
 }
 async function ensure(ctx,ids){
  const keys=[...new Set((ids||[]).map(idKind).filter(Boolean))];
@@ -50,7 +50,7 @@ async function ensure(ctx,ids){
  await Promise.all(keys.map(async name=>{try{await loadOne(ctx,name);}catch(e){failures.push(name);console.warn('Sample fallback '+name,e);}}));
  return{loaded:keys.length-failures.length,failed:failures};
 }
-function ready(ctx,id){const bank=idKind(id),cache=contexts.get(ctx);return !!(bank&&cache?.has(bank));}
+function ready(ctx,id){const bank=idKind(id);return !!(bank&&decoded.has(bank));}
 function nearest(notes,midi){
  let closest=null,dist=Infinity;
  for(const pitch of notes.keys()){const d=Math.abs(pitch-midi);if(d<dist){dist=d;closest=pitch;}}
@@ -58,12 +58,9 @@ function nearest(notes,midi){
 }
 function play(ctx,id,n,when,stepDuration,dest){
  if(!canUse(id))return false;
- const data=contexts.get(ctx)?.get(idKind(id));
- if(!data)return false;
- // Promises resolve asynchronously; preloader makes a resolved sample-bank map available.
- const decoded=progress.get(ctx)?.get(idKind(id));
- if(!decoded||!decoded.size)return false;
- const pitch=nearest(decoded,n.pitch),buffer=decoded.get(pitch);
+ const data=decoded.get(idKind(id));
+ if(!data||!data.size)return false;
+ const pitch=nearest(data,n.pitch),buffer=data.get(pitch);
  if(!buffer)return false;
  const src=ctx.createBufferSource();
  src.buffer=buffer;
@@ -133,16 +130,6 @@ function drum(ctx,pitch,when,velocity,dest){
  else if(pitch===46){hiss(.32,.15,5600);}
  else hiss(.07,.12,6800);
 }
-async function prepare(ctx,ids){
- const result=await ensure(ctx,ids);
- let map=progress.get(ctx);if(!map){map=new Map();progress.set(ctx,map);}
- // loadOne cache contains promises which may already resolve: store fulfilled decoded maps.
- const keys=[...new Set((ids||[]).map(idKind).filter(Boolean))];
- await Promise.all(keys.map(async name=>{
-  const promise=contexts.get(ctx)?.get(name);
-  if(promise)try{map.set(name,await promise);}catch(_){}
- }));
- return result;
-}
+async function prepare(ctx,ids){return ensure(ctx,ids);}
 window.miniSamplesV13={IDS,canUse,prepare,play,drum,ready,stats:()=>Object.fromEntries(Object.entries(ROOT).map(([k,n])=>[k,n.length]))};
 })();
