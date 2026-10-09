@@ -7,7 +7,7 @@ const kicks=[[1,7,11,15],[1,6,11,14],[1,7,10,15],[1,6,12,15],[1,7,11,15],[1,6,11
 const sn=[[9],[9],[9],[9,16],[9],[9],[9],[9,16]],hA=[1,3,5,7,9,11,13,15],hB=[1,3,5,7,9,11,13,14,15,16];
 const bss=['1:F2(4),7:F2(2),11:C3(2),14:F2(2)','1:Db2(8),11:Db2(2),14:Ab2(2)','1:Ab2(4),7:Ab2(2),10:Eb3(2),14:Ab2(2)','1:Eb2(8),12:Bb2(2),15:E2(1),16:F2(1)','1:F2(4),6:F2(2),11:C3(2),15:F2(2)','1:Db2(8),11:Db2(2),14:Ab2(2)','1:Ab2(4),7:Ab2(2),10:Eb3(2),14:Ab2(2)','1:Eb2(8),12:Bb2(2),15:E2(1),16:F2(1)'];
 const pno=['1:F3+Ab3+C4(8),13:C4(2),15:Ab3(1)','1:Db3+F3+Ab3(8),13:Ab3(2),15:F3(1)','1:Ab3+C4+Eb4(8),13:Eb4(2),15:C4(1)','1:Eb3+G3+Bb3(8),13:Bb3(2),15:G3(1)','1:F3+Ab3+C4(8),13:C4(2),15:Ab3(1)','1:Db3+F3+Ab3(8),13:Ab3(2),15:F3(1)','1:Ab3+C4+Eb4(8),13:Eb4(2),15:C4(1)','1:Eb3+G3+Bb3(8),13:G3(2),15:F3(1)'];
-function sampleText(){if(typeof window.hood80BeatText!=='function')throw Error('Chưa tải được beat 80 ô. Hãy tải lại trang.');return window.hood80BeatText();}
+function sampleText(){if(typeof window.hood80BeatTextV11!=='function')throw Error('Chưa tải được beat Deluxe. Hãy tải lại trang.');return window.hood80BeatTextV11();}
 function midi(raw){
  const m=/^([A-Ga-g])([#b]?)(-?\d)$/.exec(raw);
  if(!m)throw Error('Sai nốt '+raw+'; ví dụ F2, Ab3, C4');
@@ -19,7 +19,8 @@ function parseBeatText(txt){
  const str=String(txt||'').trim();
  if(!str)throw Error('Bạn chưa dán mã beat');
  if(str.length>220000)throw Error('Mã beat quá dài');
- if(/^HOODTRAP-80-V1$/i.test(str))return parseBeatText(sampleText());
+ if(/^HOODTRAP-80-V2$/i.test(str))return parseBeatText(sampleText());
+ if(/^HOODTRAP-80-V1$/i.test(str))return parseBeatText(window.hood80BeatText());
  if(str[0]==='{')return validate(JSON.parse(str));
  const out=blank(),lines=str.split(/\r?\n/);out.title='Beat từ ChatGPT';let found=false,bpm=false;
  for(let i=0;i<lines.length;i++){
@@ -28,6 +29,8 @@ function parseBeatText(txt){
   if(m){out.title=m[1].slice(0,80);continue;}
   m=/^BPM\s*:\s*(\d{2,3})$/i.exec(line);
   if(m){out.bpm=+m[1];bpm=true;continue;}
+  m=/^SOUND\s+(\d{1,2})\s+([A-Za-z][A-Za-z0-9]*)$/i.exec(line);
+  if(m){const t=+m[1],id=m[2];if(!TRACKS[t]||window.miniSoundsV11?.ID2KIND?.get(id)!==TRACKS[t].kind)throw Error('Dòng '+(i+1)+': âm thanh không hợp lệ');out.sounds[String(t)]=id;continue;}
   m=/^(DRUM|TRONG|TRỐNG)\s+(\d{1,2})\s+([A-Z-]+)\s+(.+)$/i.exec(line);
   if(m){
    const b=+m[2],pitch=P[m[3].toUpperCase()];if(b<1||b>80||pitch===undefined)throw Error('Dòng '+(i+1)+': số ô hoặc tên trống sai');
@@ -37,9 +40,9 @@ function parseBeatText(txt){
    for(const x of steps){const st=+x;if(!/^\d+$/.test(x)||st<1||st>16)throw Error('Dòng '+(i+1)+': step phải 1-16');dest.push(note(st-1,pitch,1,pitch===36?.94:pitch===38?.79:.48));}
    found=true;continue;
   }
-  m=/^(BASS|PIANO|SYNTH|PAD)\s+(\d{1,2})\s+(.+)$/i.exec(line);
+  m=/^(BASS|PIANO|SYNTH|PAD|BELL|PLUCK|FX|RISER)\s+(\d{1,2})\s+(.+)$/i.exec(line);
   if(m){
-   const t={BASS:1,PIANO:2,SYNTH:3,PAD:4}[m[1].toUpperCase()],b=+m[2];if(b<1||b>80)throw Error('Dòng '+(i+1)+': số ô phải 1-80');
+   const t={BASS:1,PIANO:2,SYNTH:3,PAD:4,BELL:5,PLUCK:6,FX:7,RISER:8}[m[1].toUpperCase()],b=+m[2];if(b<1||b>80)throw Error('Dòng '+(i+1)+': số ô phải 1-80');
    const parts=m[3].split(/[\s,;]+/).filter(Boolean);
    if(!parts.length)throw Error('Dòng '+(i+1)+': chưa có nốt');
    const dest=out.clips[String(t)][String(b-1)]||(out.clips[String(t)][String(b-1)]=[]);
@@ -66,7 +69,7 @@ function replaceSong(next){
 }
 function copyBars(){
  const start=+$('rangeStart').value-1,end=+$('rangeEnd').value-1,to=+$('rangeTarget').value-1;
- const ids=$('rangeTrack').value==='all'?[0,1,2,3,4]:[+$('rangeTrack').value];
+ const ids=$('rangeTrack').value==='all'?TRACKS.map((_,i)=>i):[+$('rangeTrack').value];
  if(start>end){toast('Ô bắt đầu phải trước ô kết thúc');return;}
  if(to+end-start>79){toast('Đoạn dán vượt quá ô 80');return;}
  const snapshot=ids.map(t=>Array.from({length:end-start+1},(_,k)=>clone(clip(t,start+k))));
@@ -79,15 +82,15 @@ function copyBars(){
 function setup(){
  const tab=$('toolsTab');if(!tab)return;
  const html=[
- '<div class="beat-caption">BEAT IMPORT · V1.0</div><h2>Dán beat từ ChatGPT</h2>',
- '<p>80 ô · khoảng 2 phút 15 giây · Intro / Verse / Hook · trống, bass 808 slide và piano. Hỏi trước khi thay bài.</p>',
- '<div class="beat-buttons"><button id="hoodDemoBtn" class="primary">▶ Nạp Hood Trap 2:15</button><button id="showBeatImportBtn">⎘ Dán mã beat</button></div>',
+ '<div class="beat-caption">BEAT IMPORT · V1.1</div><h2>Dán beat từ ChatGPT</h2>',
+ '<p>80 ô · khoảng 2:15 · Trống, 808, Piano, Dark Bell, Pluck, Ambient Pad, FX và Riser. Hỏi trước khi thay bài.</p>',
+ '<div class="beat-buttons"><button id="hoodDemoBtn" class="primary">▶ Hood Trap Deluxe 2:15</button><button id="showBeatImportBtn">⎘ Dán mã beat</button></div>',
  '<div id="beatPasteArea" class="beat-hidden"><textarea id="beatText" rows="7" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="MINIFL BEAT V1&#10;TEN: Beat của tôi&#10;BPM: 142&#10;DRUM 1 KICK 1,7,11,15&#10;BASS 1 1:F2(4)&#10;PIANO 1 1:F3+Ab3+C4(8)"></textarea>',
  '<div class="beat-buttons"><button id="readBeatClipboard">📋 Đọc clipboard</button><button id="importBeatBtn" class="primary">✓ Nạp mã beat</button></div>',
  '<p class="beat-note">Nếu Safari không cho đọc clipboard, giữ tay trong ô trên → chọn Dán → Nạp mã beat.</p>',
- '<button id="copyBeatExample" class="beat-link beat-wide">Sao chép mã Hood Trap 80 ô</button><p class="beat-note">Mã nhanh để dán: HOODTRAP-80-V1</p></div>',
+ '<button id="copyBeatExample" class="beat-link beat-wide">Sao chép toàn bộ mã Deluxe</button><p class="beat-note">Mã ngắn để dán: <b>HOODTRAP-80-V2</b> · V1 cũ vẫn hỗ trợ</p></div>',
  '<details><summary>⧉ Sao chép nhiều ô</summary><div class="beat-selects"><label>Từ ô<select id="rangeStart"></select></label><label>Đến ô<select id="rangeEnd"></select></label>',
- '<label>Dán từ ô<select id="rangeTarget"></select></label><label>Track<select id="rangeTrack"><option value="all">Cả 5 track</option></select></label></div>',
+ '<label>Dán từ ô<select id="rangeTarget"></select></label><label>Track<select id="rangeTrack"><option value="all">Cả 9 track</option></select></label></div>',
  '<button id="copyRangeBtn" class="primary beat-wide">⧉ Sao chép đoạn</button></details>',
  '<button id="restoreBeatBtn" class="beat-link beat-wide">↶ Khôi phục bài trước lần nạp</button>'
  ].join('');
@@ -96,7 +99,7 @@ function setup(){
  ['rangeStart','rangeEnd','rangeTarget'].forEach(id=>{for(let i=1;i<=80;i++)$(id).add(new Option('Ô '+String(i).padStart(2,'0'),String(i)));});
  $('rangeStart').value='1';$('rangeEnd').value='8';$('rangeTarget').value='9';
  TRACKS.forEach((x,i)=>$('rangeTrack').add(new Option(x.name,String(i))));
- $('hoodDemoBtn').addEventListener('click',()=>{try{if(replaceSong(parseBeatText(sampleText())))toast('Đã nạp Hood Trap 142 BPM · 80 ô · 2:15');}catch(e){toast('Lỗi: '+e.message);}});
+ $('hoodDemoBtn').addEventListener('click',()=>{try{if(replaceSong(parseBeatText(sampleText())))toast('Đã nạp Hood Trap Deluxe · 9 track · 2:15');}catch(e){toast('Lỗi: '+e.message);}});
  $('showBeatImportBtn').addEventListener('click',()=>{const x=$('beatPasteArea');x.classList.toggle('beat-hidden');if(!x.classList.contains('beat-hidden'))$('beatText').focus();});
  $('importBeatBtn').addEventListener('click',()=>{try{if(replaceSong(parseBeatText($('beatText').value)))toast('Đã nạp beat từ ChatGPT');}catch(e){toast('Mã beat lỗi: '+e.message);$('beatText').setCustomValidity(e.message);$('beatText').reportValidity();setTimeout(()=>$('beatText').setCustomValidity(''),5500);}});
  $('readBeatClipboard').addEventListener('click',async()=>{try{if(!navigator.clipboard?.readText)throw Error('No clipboard');$('beatText').value=await navigator.clipboard.readText();toast('Đã dán clipboard');}catch(e){$('beatText').focus();toast('Giữ tay trong ô nhập và chọn Dán');}});
